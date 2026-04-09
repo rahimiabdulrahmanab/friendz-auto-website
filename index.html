@@ -3,235 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Friendz Auto Sales — Quality Cars, Friendly Service. Browse our inventory of inspected pre-owned vehicles in Richmond, BC.">
+<meta name="description" content="Friendz Auto Sales — Quality Cars, Friendly Service. Pre-owned vehicles in Richmond, BC. Honest prices, no pressure.">
+<meta name="theme-color" content="#1D5EBF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Friendz Auto">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="logo.png">
 <title>Friendz Auto Sales — Richmond, BC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F8FAFC;--bg2:#FFFFFF;--bg3:#F1F5F9;
-  --border:#E2E8F0;--border2:#CBD5E1;
-  --accent:#16A34A;--accent-d:#15803D;--accent-lt:#DCFCE7;--accent-text:#14532D;
-  --navy:#1D6FE8;--navy2:#1558C7;--navy3:#3B82F6;
-  --text:#1E293B;--text-2:#334155;--text-m:#64748B;--text-lt:#94A3B8;
-  --sale:#DC2626;--sale-lt:#FEE2E2;
-  --warn:#D97706;--warn-lt:#FEF3C7;
-  --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md:0 4px 16px rgba(0,0,0,0.1);
-  --shadow-lg:0 16px 48px rgba(0,0,0,0.14),0 4px 12px rgba(0,0,0,0.08);
-  --r:14px;
+  --bg:#F6F8FA;
+  --surface:#FFFFFF;
+  --surface2:#EEF2F8;
+  --border:#DDE3ED;
+  --border2:#C8D2E0;
+  --blue:#1D5EBF;
+  --blue-d:#1749A0;
+  --blue-lt:#E8F0FB;
+  --blue-mid:#2563EB;
+  --amber:#F59E0B;
+  --amber-d:#D97706;
+  --amber-lt:#FEF3C7;
+  --green:#16A34A;
+  --green-d:#15803D;
+  --green-lt:#DCFCE7;
+  --red:#DC2626;
+  --red-lt:#FEE2E2;
+  --purple:#7C3AED;
+  --purple-lt:#EDE9FE;
+  --text:#0F1C2E;
+  --text2:#2D3F55;
+  --textm:#5A6E87;
+  --textlt:#8FA3BC;
+  --shadow-sm:0 1px 3px rgba(15,28,46,0.07);
+  --shadow:0 2px 8px rgba(15,28,46,0.09),0 1px 3px rgba(15,28,46,0.06);
+  --shadow-md:0 6px 20px rgba(15,28,46,0.12);
+  --shadow-lg:0 16px 48px rgba(15,28,46,0.16);
+  --r:12px;--r-sm:8px;
 }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
-select,input{font-family:inherit}
+input,select,textarea{font-family:inherit}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:64px;background:#fff;border-bottom:1.5px solid var(--border);box-shadow:var(--shadow)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.logo-img{height:42px;width:auto;object-fit:contain}
-.logo-text{display:flex;flex-direction:column;line-height:1.15}
-.logo-name{font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-0.02em}
-.logo-name span{color:var(--accent)}
-.logo-slogan{font-size:9px;font-weight:600;color:var(--text-m);letter-spacing:0.06em;text-transform:uppercase}
-.nav-right{display:flex;align-items:center;gap:8px}
-.nav-phone{display:none;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--navy2);padding:8px 14px;border-radius:8px;border:1.5px solid var(--border2);transition:all 0.2s}
-.nav-phone:hover{border-color:var(--accent);color:var(--accent)}
-@media(min-width:600px){.nav-phone{display:flex}}
-.nav-cta{display:flex;align-items:center;gap:5px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:9px 16px;border-radius:8px;box-shadow:0 2px 8px rgba(22,163,74,0.3);transition:background 0.2s}
-.nav-cta:hover{background:var(--accent-d)}
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:60px;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);gap:8px}
+.nav-logo{display:flex;align-items:center;gap:9px;flex-shrink:0;min-width:0}
+.logo-img{height:38px;width:38px;object-fit:contain;border-radius:8px;flex-shrink:0}
+.logo-text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.logo-name{font-size:15px;font-weight:800;color:var(--blue);letter-spacing:-0.02em;white-space:nowrap}
+.logo-name span{color:var(--amber)}
+.logo-slogan{font-size:9px;font-weight:600;color:var(--textm);letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap}
+.nav-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.nav-phone{display:none;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--text2);padding:7px 12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--surface);transition:all .2s;white-space:nowrap}
+.nav-phone:hover{border-color:var(--blue);color:var(--blue)}
+@media(min-width:520px){.nav-phone{display:flex}}
+.nav-cta{display:flex;align-items:center;gap:4px;background:var(--amber);color:var(--text);font-size:12px;font-weight:800;padding:8px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(245,158,11,.3);transition:background .2s;white-space:nowrap}
+.nav-cta:hover{background:var(--amber-d)}
 
-/* HERO */
-.hero{background:#1D6FE8;color:#fff;padding:28px 16px 26px;text-align:center;position:relative;overflow:hidden}
-.hero-canvas{position:absolute;inset:0;pointer-events:none;z-index:0}
-.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 110%,rgba(22,163,74,0.18) 0%,transparent 65%),radial-gradient(ellipse 50% 40% at 90% 10%,rgba(255,255,255,0.06) 0%,transparent 60%);pointer-events:none;z-index:0}
-.hero-inner{position:relative;z-index:1;max-width:580px;margin:0 auto}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4ADE80;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);padding:5px 14px;border-radius:100px;margin-bottom:18px}
-.hero h1{font-size:clamp(28px,7vw,52px);font-weight:800;line-height:1.08;letter-spacing:-0.03em;color:#fff;margin-bottom:10px}
-.hero h1 span{color:#4ADE80}
-.hero-sub{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:10px}
-.hero-addr{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);margin-bottom:28px}
-.hero-stats{display:flex;justify-content:center;gap:0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;max-width:380px;margin:0 auto;overflow:hidden}
-.h-stat{flex:1;padding:14px 10px;text-align:center;border-right:1px solid rgba(255,255,255,0.08)}
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1749A0 0%,#1D5EBF 45%,#2575D0 100%);color:#fff;padding:32px 16px 28px}
+.hero-canvas{position:absolute;inset:0;pointer-events:none;opacity:.9}
+.hero-glow{position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);width:600px;height:200px;background:radial-gradient(ellipse,rgba(245,158,11,.18) 0%,transparent 70%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:600px;margin:0 auto;text-align:center}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:5px 13px;border-radius:100px;margin-bottom:14px;backdrop-filter:blur(6px)}
+.hero h1{font-size:clamp(24px,6.5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:#FCD34D}
+.hero-body{font-size:14px;color:rgba(255,255,255,.72);line-height:1.7;max-width:480px;margin:0 auto 20px}
+.hero-addr{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:22px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:12px;overflow:hidden;max-width:380px;margin:0 auto;backdrop-filter:blur(8px)}
+.h-stat{padding:13px 8px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
 .h-stat:last-child{border-right:none}
-.h-stat-n{font-size:22px;font-weight:800;color:#4ADE80;line-height:1}
-.h-stat-l{font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.04em;margin-top:2px}
+.h-stat-n{font-size:21px;font-weight:800;color:#FCD34D;line-height:1}
+.h-stat-l{font-size:10px;font-weight:600;color:rgba(255,255,255,.45);margin-top:2px;letter-spacing:.04em}
 
-/* DEMO BANNER */
-.demo-banner{background:#FEF9C3;border-bottom:1px solid #FDE047;color:#854D0E;font-size:12px;font-weight:600;text-align:center;padding:8px 16px;display:none}
+/* ── DEMO BANNER ── */
+.demo-banner{display:none;background:#FFFBEB;border-bottom:1px solid #FDE68A;color:#92400E;font-size:12px;font-weight:600;text-align:center;padding:8px 16px}
 .demo-banner.show{display:block}
 
-/* TOOLBAR */
-.toolbar{position:sticky;top:64px;z-index:90;background:#fff;border-bottom:1.5px solid var(--border);padding:10px 12px;box-shadow:var(--shadow)}
-.toolbar-inner{display:flex;align-items:center;gap:8px;max-width:1280px;margin:0 auto}
-.search-wrap{flex:1;position:relative}
-.search-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-lt);pointer-events:none}
-.search-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:9px 12px 9px 34px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
-.search-input:focus{border-color:var(--accent);background:#fff}
-.search-input::placeholder{color:var(--text-lt)}
-.filter-toggle{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:13px;font-weight:700;padding:9px 13px;border-radius:10px;white-space:nowrap;transition:all 0.2s;flex-shrink:0}
-.filter-toggle.active{border-color:var(--accent);color:var(--accent);background:var(--accent-lt)}
-.f-count{background:var(--accent);color:#fff;font-size:10px;font-weight:800;width:17px;height:17px;border-radius:50%;display:none;align-items:center;justify-content:center}
-.f-count.show{display:flex}
-.sort-sel{background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:13px;font-weight:600;padding:9px 30px 9px 10px;border-radius:10px;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;flex-shrink:0;max-width:130px;cursor:pointer;transition:border-color 0.2s}
-.sort-sel:focus{border-color:var(--accent)}
+/* ── TOOLBAR ── */
+.toolbar{position:sticky;top:60px;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);padding:8px 12px;box-shadow:var(--shadow-sm)}
+.toolbar-row{display:flex;align-items:center;gap:7px;max-width:1280px;margin:0 auto}
+.s-wrap{flex:1;position:relative;min-width:0}
+.s-ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--textlt);font-size:14px;pointer-events:none}
+.s-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:8px 10px 8px 32px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.s-input:focus{border-color:var(--blue);background:#fff}
+.s-input::placeholder{color:var(--textlt)}
+.btn-filter{display:flex;align-items:center;gap:4px;background:var(--bg);border:1.5px solid var(--border);color:var(--text2);font-size:12px;font-weight:700;padding:8px 11px;border-radius:9px;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.btn-filter.on{border-color:var(--blue);color:var(--blue);background:var(--blue-lt)}
+.fc{background:var(--blue);color:#fff;font-size:9px;font-weight:800;width:15px;height:15px;border-radius:50%;display:none;align-items:center;justify-content:center;flex-shrink:0}
+.fc.show{display:flex}
+.sort-sel{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);font-size:12px;font-weight:600;padding:8px 26px 8px 9px;border-radius:9px;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238FA3BC' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;flex-shrink:0;cursor:pointer;max-width:110px;-webkit-appearance:none}
+.sort-sel:focus{border-color:var(--blue)}
 .sort-sel option{background:#fff;color:var(--text)}
 
-/* CHIPS */
-.chips-row{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:6px 12px;max-width:1280px;margin:0 auto;scrollbar-width:none;background:#fff}
+/* ── CHIPS ── */
+.chips-bar{background:var(--surface);border-bottom:1px solid var(--border)}
+.chips-row{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;padding:6px 12px;max-width:1280px;margin:0 auto;scrollbar-width:none}
 .chips-row:empty{padding:0}
 .chips-row::-webkit-scrollbar{display:none}
-.chip{display:flex;align-items:center;gap:4px;background:var(--accent-lt);border:1px solid rgba(22,163,74,0.25);color:var(--accent-text);font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0}
-.chip-x{color:var(--accent);font-size:14px;opacity:0.6;padding:0;line-height:1;margin-left:1px}
+.chip{display:inline-flex;align-items:center;gap:3px;background:var(--blue-lt);border:1px solid rgba(29,94,191,.2);color:var(--blue-d);font-size:11px;font-weight:700;padding:4px 9px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+.chip-x{color:var(--blue);font-size:13px;opacity:.6;padding:0;line-height:1;margin-left:1px}
 .chip-x:hover{opacity:1}
 
-/* INVENTORY */
-.inventory{padding:14px 12px 48px;background:var(--bg)}
-.inv-header{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto 12px;padding:0 4px}
-.inv-count{font-size:13px;font-weight:600;color:var(--text-m)}
-.inv-count span{color:var(--text);font-weight:800}
-.cars-grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:1280px;margin:0 auto}
-@media(min-width:480px){.cars-grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:860px){.cars-grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1160px){.cars-grid{grid-template-columns:repeat(4,1fr)}}
+/* ── INVENTORY ── */
+.inventory{padding:12px 12px 80px;background:var(--bg)}
+.inv-hd{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto 10px;padding:0 2px}
+.inv-count{font-size:12px;font-weight:600;color:var(--textm)}
+.inv-count b{color:var(--text)}
+.cars-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:1280px;margin:0 auto}
+@media(min-width:640px){.cars-grid{grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(min-width:1024px){.cars-grid{grid-template-columns:repeat(4,1fr)}}
 
-/* CAR CARD */
-.car-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;-webkit-tap-highlight-color:transparent}
-.car-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow-lg)}
-.car-card:active{transform:scale(0.98)}
-.card-photo{position:relative;aspect-ratio:4/3;background:var(--bg3);overflow:hidden}
-.card-photo img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
-.car-card:hover .card-photo img{transform:scale(1.04)}
-.no-photo{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--text-lt);font-size:11px;font-weight:600;background:var(--bg3)}
-.no-photo-ic{font-size:36px;opacity:0.3}
-.badge-sale{position:absolute;top:10px;left:10px;background:var(--sale);color:#fff;font-size:10px;font-weight:800;letter-spacing:0.06em;padding:4px 10px;border-radius:6px;text-transform:uppercase;box-shadow:0 2px 6px rgba(220,38,38,0.35)}
-.badge-feat{position:absolute;top:10px;right:10px;background:var(--navy);color:#fff;font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px}
-.badge-photos{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px}
-.status-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45)}
-.sold-tag{background:#4F46E5;color:#fff;font-size:14px;font-weight:800;letter-spacing:0.1em;padding:8px 22px;border-radius:8px;transform:rotate(-8deg)}
-.pending-tag{background:#F59E0B;color:#000;font-size:14px;font-weight:800;padding:8px 18px;border-radius:8px;transform:rotate(-6deg)}
-.card-body{padding:13px 14px 14px}
-.card-ym{font-size:10px;font-weight:700;color:var(--text-m);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px}
-.card-model{font-size:17px;font-weight:800;color:var(--navy);line-height:1.15;margin-bottom:1px}
-.card-trim{font-size:11px;color:var(--text-lt);min-height:16px;margin-bottom:9px}
-.card-price-row{display:flex;align-items:baseline;gap:7px;margin-bottom:9px;flex-wrap:wrap}
-.card-price{font-size:20px;font-weight:800;color:var(--navy)}
-.card-price-sale{font-size:20px;font-weight:800;color:var(--accent)}
-.card-price-orig{font-size:12px;font-weight:600;color:var(--text-lt);text-decoration:line-through}
-.card-specs{display:flex;align-items:center;overflow:hidden}
-.cspec{font-size:11px;font-weight:600;color:var(--text-m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cspec+.cspec::before{content:'·';margin:0 5px;opacity:0.4}
-.card-carfax{display:flex;align-items:center;gap:4px;margin-top:9px;font-size:11px;font-weight:700;color:#1D4ED8;padding:5px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;width:fit-content}
+/* ── CAR CARD ── */
+.car-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .22s,border-color .22s,box-shadow .22s}
+.car-card:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:var(--shadow-lg)}
+.car-card:active{transform:scale(.97)}
+.c-photo{position:relative;aspect-ratio:4/3;background:var(--surface2);overflow:hidden}
+.c-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.car-card:hover .c-photo img{transform:scale(1.04)}
+.no-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--textlt);font-size:10px;font-weight:600}
+.no-ph-ic{font-size:28px;opacity:.25}
+.b-sale{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;letter-spacing:.06em;padding:3px 7px;border-radius:5px;text-transform:uppercase;box-shadow:0 2px 5px rgba(220,38,38,.35)}
+.b-feat{position:absolute;top:8px;right:8px;background:var(--amber);color:var(--text);font-size:9px;font-weight:800;padding:3px 7px;border-radius:5px}
+.b-photos{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.5);color:#fff;font-size:9px;font-weight:600;padding:2px 7px;border-radius:100px;backdrop-filter:blur(4px)}
+.b-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.b-sold{background:#4F46E5;color:#fff;font-size:12px;font-weight:800;letter-spacing:.08em;padding:7px 18px;border-radius:7px;transform:rotate(-8deg)}
+.b-pend{background:var(--amber);color:var(--text);font-size:12px;font-weight:800;padding:7px 16px;border-radius:7px;transform:rotate(-6deg)}
+.c-body{padding:10px 11px 12px}
+.c-ym{font-size:9px;font-weight:700;color:var(--textm);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1px}
+.c-name{font-size:14px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:1px}
+@media(min-width:640px){.c-name{font-size:16px}}
+.c-trim{font-size:10px;color:var(--textlt);min-height:14px;margin-bottom:7px}
+.c-pr{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.c-price{font-size:17px;font-weight:800;color:var(--text)}
+@media(min-width:640px){.c-price{font-size:19px}}
+.c-sale-pr{font-size:17px;font-weight:800;color:var(--green)}
+@media(min-width:640px){.c-sale-pr{font-size:19px}}
+.c-orig{font-size:11px;font-weight:600;color:var(--textlt);text-decoration:line-through}
+.c-specs{display:flex;flex-wrap:nowrap;overflow:hidden}
+.cs{font-size:10px;font-weight:600;color:var(--textm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs+.cs::before{content:'·';margin:0 4px;opacity:.4}
+.c-carfax{display:inline-flex;align-items:center;gap:3px;margin-top:7px;font-size:10px;font-weight:700;color:#1D4ED8;padding:3px 7px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px}
 
-/* SKELETON */
-.skel{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;animation:pulse 1.8s ease infinite}
-.skel-photo{aspect-ratio:4/3;background:var(--bg3)}
-.skel-body{padding:13px 14px}
-.skel-line{height:11px;background:var(--bg3);border-radius:4px;margin-bottom:9px}
-.skel-line.w70{width:70%}.skel-line.w50{width:50%}.skel-line.w85{width:85%}
+/* ── SKELETON ── */
+.skel{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;animation:pulse 1.8s ease infinite}
+.sk-ph{aspect-ratio:4/3;background:var(--surface2)}
+.sk-bd{padding:10px 11px}
+.sk-l{height:10px;background:var(--surface2);border-radius:4px;margin-bottom:7px}
+.sk-l.w7{width:70%}.sk-l.w5{width:50%}.sk-l.w8{width:85%}
 @keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
 
-/* EMPTY */
-.empty{text-align:center;padding:60px 20px;grid-column:1/-1;color:var(--text-m)}
-.empty-ic{font-size:44px;opacity:0.25;margin-bottom:14px}
-.empty-t{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:8px}
-.empty-s{font-size:13px;margin-bottom:16px}
-.empty-reset{color:var(--accent);font-size:13px;font-weight:700;padding:9px 20px;border:1.5px solid var(--accent);border-radius:8px;background:var(--accent-lt);display:inline-block}
+/* ── EMPTY ── */
+.empty{text-align:center;padding:50px 20px;grid-column:1/-1}
+.empty-ic{font-size:40px;opacity:.2;margin-bottom:12px}
+.empty-t{font-size:17px;font-weight:800;color:var(--text);margin-bottom:6px}
+.empty-s{font-size:13px;color:var(--textm);margin-bottom:14px}
+.empty-btn{display:inline-block;color:var(--blue);font-size:13px;font-weight:700;padding:9px 18px;border:1.5px solid var(--blue);border-radius:8px;background:var(--blue-lt)}
 
-/* CAR DETAIL MODAL */
-.modal-ov{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
-@media(min-width:768px){.modal-ov{align-items:center}}
+/* ── CAR MODAL ── */
+.modal-ov{position:fixed;inset:0;background:rgba(15,28,46,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+@media(min-width:768px){.modal-ov{align-items:center;padding:20px}}
 .modal-ov.open{opacity:1;pointer-events:all}
-.modal-box{background:#fff;border-radius:22px 22px 0 0;width:100%;max-height:94vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0,0.67,0);border:1.5px solid var(--border);border-bottom:none}
-@media(min-width:768px){.modal-box{border-radius:20px;max-width:860px;max-height:90vh;transform:translateY(24px) scale(0.97);border:1.5px solid var(--border)}}
+.modal-box{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,0,.67,0);border:1px solid var(--border)}
+@media(min-width:768px){.modal-box{border-radius:16px;max-width:880px;max-height:88vh;transform:translateY(16px) scale(.97)}}
 .modal-ov.open .modal-box{transform:translateY(0) scale(1)}
-.drag-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:10px auto 0}
-@media(min-width:768px){.drag-handle{display:none}}
-.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;display:flex;align-items:center;justify-content:center;z-index:10;transition:all 0.2s}
-.modal-close:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.drag-pip{width:34px;height:4px;background:var(--border2);border-radius:2px;margin:10px auto 0}
+@media(min-width:768px){.drag-pip{display:none}}
+.modal-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);color:var(--text2);font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.modal-x:hover{background:var(--text);color:#fff;border-color:var(--text)}
 
-/* GALLERY */
-.gallery{position:relative;aspect-ratio:16/9;background:var(--bg3);overflow:hidden;user-select:none;touch-action:pan-y}
+/* ── GALLERY ── */
+.gallery{position:relative;aspect-ratio:16/9;background:var(--surface2);overflow:hidden;touch-action:pan-y;user-select:none}
 .gallery img{width:100%;height:100%;object-fit:cover}
-.gallery-empty{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text-lt);font-size:13px;font-weight:600}
-.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1.5px solid var(--border);color:var(--navy);font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:2;box-shadow:var(--shadow-md)}
-.gal-btn:hover{background:var(--navy);color:#fff}
-.gal-prev{left:10px}.gal-next{right:10px}
-.gal-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
-.gal-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);transition:all 0.2s}
-.gal-dot.on{background:#fff;transform:scale(1.35)}
-.thumbs{display:none;gap:6px;padding:8px 14px;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--border)}
+.gal-empty{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--textlt);font-size:13px;font-weight:600}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--border);color:var(--text);font-size:18px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:var(--shadow);transition:all .2s}
+.gal-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.g-prev{left:8px}.g-next{right:8px}
+.g-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2}
+.g-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.45);transition:all .2s}
+.g-dot.on{background:#fff;transform:scale(1.4)}
+.thumbs{display:none;gap:5px;padding:7px 12px;overflow-x:auto;background:var(--surface);border-bottom:1px solid var(--border);scrollbar-width:none}
 .thumbs::-webkit-scrollbar{display:none}
-@media(min-width:640px){.thumbs{display:flex}}
-.thumb{width:66px;height:50px;flex-shrink:0;object-fit:cover;border-radius:7px;border:2px solid var(--border);cursor:pointer;transition:border-color 0.2s;opacity:0.65}
-.thumb.on{border-color:var(--accent);opacity:1}
+@media(min-width:600px){.thumbs{display:flex}}
+.thumb{width:60px;height:44px;flex-shrink:0;object-fit:cover;border-radius:6px;border:2px solid var(--border);cursor:pointer;opacity:.6;transition:all .2s}
+.thumb.on{border-color:var(--blue);opacity:1}
 
-/* MODAL BODY */
-.modal-body{padding:16px 18px 28px}
-.modal-car-name{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-0.02em;margin-bottom:2px}
-.modal-trim{font-size:13px;color:var(--text-m);margin-bottom:14px}
-.modal-price-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.modal-price{font-size:30px;font-weight:800;color:var(--accent)}
-.modal-price-norm{font-size:30px;font-weight:800;color:var(--navy)}
-.modal-orig{font-size:16px;font-weight:600;color:var(--text-lt);text-decoration:line-through}
-.modal-sale-chip{background:var(--sale-lt);border:1px solid rgba(220,38,38,0.2);color:var(--sale);font-size:10px;font-weight:800;padding:3px 9px;border-radius:6px;letter-spacing:0.06em;text-transform:uppercase}
-.specs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
-@media(min-width:480px){.specs-grid{grid-template-columns:repeat(3,1fr)}}
-.spec-item{background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px}
-.spec-label{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-lt);margin-bottom:3px}
-.spec-val{font-size:13px;font-weight:700;color:var(--navy)}
-.modal-desc{font-size:13px;color:var(--text-2);line-height:1.75;margin-bottom:16px;padding:14px;background:var(--bg3);border-radius:10px;border:1.5px solid var(--border)}
-.modal-actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn-call{flex:1;min-width:110px;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);color:#fff;font-size:14px;font-weight:700;padding:13px 14px;border-radius:10px;transition:background 0.2s;box-shadow:0 2px 8px rgba(22,163,74,0.25)}
-.btn-call:hover{background:var(--accent-d)}
-.btn-email{display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1.5px solid var(--border2);color:var(--text-2);font-size:14px;font-weight:600;padding:13px 14px;border-radius:10px;transition:all 0.2s}
-.btn-email:hover{border-color:var(--accent);color:var(--accent)}
-.btn-carfax{display:flex;align-items:center;justify-content:center;gap:6px;background:#1D4ED8;color:#fff;font-size:14px;font-weight:700;padding:13px 14px;border-radius:10px;transition:background 0.2s}
+/* ── MODAL BODY ── */
+.m-body{padding:14px 16px 24px}
+.m-name{font-size:21px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:2px}
+@media(min-width:480px){.m-name{font-size:24px}}
+.m-trim{font-size:12px;color:var(--textm);margin-bottom:12px}
+.m-pr-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.m-price{font-size:28px;font-weight:800;color:var(--green)}
+.m-price-n{font-size:28px;font-weight:800;color:var(--text)}
+.m-orig{font-size:14px;font-weight:600;color:var(--textlt);text-decoration:line-through}
+.m-sale-tag{background:var(--red-lt);border:1px solid rgba(220,38,38,.2);color:var(--red);font-size:9px;font-weight:800;padding:3px 7px;border-radius:5px;letter-spacing:.06em;text-transform:uppercase}
+.specs-g{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:12px}
+@media(min-width:480px){.specs-g{grid-template-columns:repeat(3,1fr)}}
+.sp-item{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:9px 11px}
+.sp-lbl{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--textlt);margin-bottom:2px}
+.sp-val{font-size:12px;font-weight:700;color:var(--text)}
+.m-desc{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:14px;padding:12px 14px;background:var(--bg);border-radius:9px;border:1px solid var(--border)}
+.m-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.m-actions.has-carfax{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:360px){.m-actions,.m-actions.has-carfax{grid-template-columns:1fr}}
+.btn-call{display:flex;align-items:center;justify-content:center;gap:5px;background:var(--green);color:#fff;font-size:13px;font-weight:700;padding:13px 10px;border-radius:10px;transition:background .2s;box-shadow:0 2px 8px rgba(22,163,74,.25)}
+.btn-call:hover{background:var(--green-d)}
+.btn-email{display:flex;align-items:center;justify-content:center;gap:5px;background:var(--surface);border:1.5px solid var(--border2);color:var(--text2);font-size:13px;font-weight:700;padding:13px 10px;border-radius:10px;transition:all .2s}
+.btn-email:hover{border-color:var(--blue);color:var(--blue)}
+.btn-carfax{display:flex;align-items:center;justify-content:center;gap:5px;background:#1D4ED8;color:#fff;font-size:13px;font-weight:700;padding:13px 10px;border-radius:10px;transition:background .2s}
 .btn-carfax:hover{background:#1E40AF}
 
-/* FILTER SHEET */
-.sheet-ov{position:fixed;inset:0;background:rgba(15,23,42,0.4);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.3s}
+/* ── FILTER SHEET ── */
+.sheet-ov{position:fixed;inset:0;background:rgba(15,28,46,.4);z-index:400;opacity:0;pointer-events:none;transition:opacity .3s}
 .sheet-ov.open{opacity:1;pointer-events:all}
-.filter-sheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:24px 24px 0 0;border:1.5px solid var(--border);border-bottom:none;z-index:301;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0,0.67,0);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,0.1)}
-.filter-sheet.open{transform:translateY(0)}
-@media(min-width:640px){.filter-sheet{left:50%;right:auto;width:480px;transform:translateX(-50%) translateY(100%)}
-.filter-sheet.open{transform:translateX(-50%) translateY(0)}}
-.sheet-drag{width:32px;height:3px;background:var(--border2);border-radius:2px;margin:8px auto 0;position:absolute;top:0;left:50%;transform:translateX(-50%)}
-.sheet-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
-.sheet-title{font-size:16px;font-weight:800;color:var(--navy)}
-.sheet-reset{font-size:13px;font-weight:700;color:var(--sale);padding:4px 8px}
-.sheet-bd{overflow-y:auto;flex:1;padding:14px 18px;-webkit-overflow-scrolling:touch}
-.filter-grp{margin-bottom:18px}
-.fgrp-title{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-m);margin-bottom:8px}
-.fsel{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-weight:500;padding:11px 36px 11px 13px;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;cursor:pointer;transition:border-color 0.2s}
-.fsel:focus{border-color:var(--accent)}
+.f-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-radius:22px 22px 0 0;border-top:1.5px solid var(--border);z-index:401;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,0,.67,0);max-height:86vh;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(15,28,46,.12)}
+.f-sheet.open{transform:translateY(0)}
+@media(min-width:600px){.f-sheet{left:50%;right:auto;width:460px;border-radius:22px;bottom:20px;transform:translateX(-50%) translateY(calc(100% + 20px))}
+.f-sheet.open{transform:translateX(-50%) translateY(0)}}
+.fs-pip{width:30px;height:3px;background:var(--border2);border-radius:2px;margin:8px auto 0;position:absolute;top:0;left:50%;transform:translateX(-50%)}
+.fs-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.fs-title{font-size:15px;font-weight:800;color:var(--text)}
+.fs-reset{font-size:12px;font-weight:700;color:var(--red);padding:4px 8px}
+.fs-bd{overflow-y:auto;flex:1;padding:12px 16px;-webkit-overflow-scrolling:touch}
+.fg{margin-bottom:16px}
+.fg-lbl{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--textm);margin-bottom:7px}
+.fsel{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 32px 10px 12px;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238FA3BC' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;transition:border-color .2s}
+.fsel:focus{border-color:var(--blue);background:#fff}
 .fsel option{background:#fff;color:var(--text)}
-.price-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.finput{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:11px 13px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
-.finput:focus{border-color:var(--accent);background:#fff}
-.finput::placeholder{color:var(--text-lt)}
-.fopts{display:flex;flex-wrap:wrap;gap:6px}
-.fopt{padding:7px 14px;border-radius:100px;border:1.5px solid var(--border);background:#fff;color:var(--text-2);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
-.fopt.on{background:var(--accent-lt);border-color:var(--accent);color:var(--accent-text)}
-.sheet-ft{padding:12px 18px;border-top:1px solid var(--border);flex-shrink:0;background:#fff}
-.sheet-apply{width:100%;background:var(--accent);color:#fff;font-size:15px;font-weight:700;padding:14px;border-radius:12px;transition:background 0.2s}
-.sheet-apply:hover{background:var(--accent-d)}
+.yr-row{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.finp{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.finp:focus{border-color:var(--blue);background:#fff}
+.finp::placeholder{color:var(--textlt)}
+.fopts{display:flex;flex-wrap:wrap;gap:5px}
+.fopt{padding:6px 12px;border-radius:100px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.fopt.on{background:var(--blue-lt);border-color:var(--blue);color:var(--blue-d)}
+.fs-ft{padding:10px 16px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+.fs-apply{width:100%;background:var(--blue);color:#fff;font-size:14px;font-weight:800;padding:13px;border-radius:10px;transition:background .2s;box-shadow:0 2px 8px rgba(29,94,191,.3)}
+.fs-apply:hover{background:var(--blue-d)}
 
-/* FOOTER */
-footer{background:var(--navy);color:#fff;padding:36px 16px 28px;text-align:center}
-.footer-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
-.footer-logo img{height:36px;width:auto;object-fit:contain;opacity:0.9}
-.footer-logo-text{font-size:18px;font-weight:800}
-.footer-logo-text span{color:#4ADE80}
-.footer-slogan{font-size:12px;color:rgba(255,255,255,0.4);font-style:italic;margin-bottom:8px}
-.footer-addr{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:20px;line-height:1.75}
-.footer-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.footer-btn{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);padding:9px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);transition:all 0.2s}
-.footer-btn:hover{color:#fff;background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.25)}
-.footer-copy{font-size:11px;color:rgba(255,255,255,0.2)}
+/* ── FOOTER ── */
+footer{background:var(--blue);color:#fff;padding:30px 16px calc(28px + env(safe-area-inset-bottom));text-align:center}
+.ft-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:4px}
+.ft-logo img{height:32px;width:32px;object-fit:contain;border-radius:6px;opacity:.9}
+.ft-logo-t{font-size:17px;font-weight:800}
+.ft-logo-t span{color:#FCD34D}
+.ft-slogan{font-size:11px;color:rgba(255,255,255,.5);font-style:italic;margin-bottom:6px}
+.ft-addr{font-size:12px;color:rgba(255,255,255,.45);line-height:1.8;margin-bottom:18px}
+.ft-btns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ft-btn{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);transition:all .2s}
+.ft-btn:hover{color:#fff;background:rgba(255,255,255,.15)}
+.ft-copy{font-size:10px;color:rgba(255,255,255,.2)}
+
+/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
@@ -241,43 +272,44 @@ footer{background:var(--navy);color:#fff;padding:36px 16px 28px;text-align:cente
 
 <nav class="nav">
   <a href="/" class="nav-logo">
-    <img class="logo-img" src="logo.png" alt="Friendz Auto Sales" onerror="this.style.display='none'">
+    <img class="logo-img" src="logo.png" alt="Friendz Auto" onerror="this.style.display='none'">
     <div class="logo-text">
-      <span class="logo-name">Friendz<span> Auto</span> Sales</span>
+      <span class="logo-name">Friendz<span> Auto</span></span>
       <span class="logo-slogan">Quality Cars · Friendly Service</span>
     </div>
   </a>
-  <div class="nav-right">
+  <div class="nav-r">
     <a href="tel:+16725000018" class="nav-phone">📞 (672) 500-0018</a>
-    <a href="tel:+16725000018" class="nav-cta">📞 Call Now</a>
+    <a href="tel:+16725000018" class="nav-cta">📞 Call</a>
   </div>
 </nav>
 
 <section class="hero">
-  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <canvas id="heroCanvas" class="hero-canvas"></canvas>
+  <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="hero-badge">🚗 Richmond, BC</div>
-    <h1 style="margin-bottom:8px">Quality Cars.<br><span>Friendly Service.</span></h1>
-    <p class="hero-sub" style="margin-bottom:8px">Browse our inspected and repaired pre-owned vehicles — priced fairly, no games.</p>
-    <div class="hero-addr" style="margin-bottom:20px">📍 2115 - 21000 Westminster HWY, Richmond BC</div>
+    <div class="hero-pill">📍 Richmond, BC</div>
+    <h1>Every car we sell,<br>we'd put our family in. <em>Seriously.</em></h1>
+    <p class="hero-body">We buy from auctions, repair what matters, and price every car honestly — so you drive away feeling great about it. No pressure. No games. Just good cars and real people.</p>
+    <div class="hero-addr">📍 2115 - 21000 Westminster HWY, Richmond BC</div>
     <div class="hero-stats">
       <div class="h-stat"><div class="h-stat-n" id="heroCount">—</div><div class="h-stat-l">In Stock</div></div>
       <div class="h-stat"><div class="h-stat-n" id="heroMakes">—</div><div class="h-stat-l">Makes</div></div>
-      <div class="h-stat"><div class="h-stat-n">Free</div><div class="h-stat-l">Carfax Reports</div></div>
+      <div class="h-stat"><div class="h-stat-n">Free</div><div class="h-stat-l">Carfax</div></div>
     </div>
   </div>
 </section>
 
-<div class="demo-banner" id="demoBanner">⚠️ Demo mode — showing sample vehicles. Connect Supabase to display real inventory.</div>
+<div class="demo-banner" id="demoBanner">⚠️ Demo mode — connect Supabase to show real inventory.</div>
 
 <div class="toolbar">
-  <div class="toolbar-inner">
-    <div class="search-wrap">
-      <span class="search-ic">🔍</span>
-      <input class="search-input" type="search" id="searchInput" placeholder="Search make, model, year…" oninput="handleSearch(this.value)">
+  <div class="toolbar-row">
+    <div class="s-wrap">
+      <span class="s-ic">🔍</span>
+      <input class="s-input" type="search" id="searchInput" placeholder="Search make, model, year…" oninput="handleSearch(this.value)">
     </div>
-    <button class="filter-toggle" id="filterToggle" onclick="openSheet()">⚙ Filter <span class="f-count" id="filterCount"></span></button>
-    <select class="sort-sel" id="sortSel" onchange="handleSort(this.value)">
+    <button class="btn-filter" id="filterBtn" onclick="openSheet()">⚙ Filter <span class="fc" id="fc"></span></button>
+    <select class="sort-sel" onchange="handleSort(this.value)">
       <option value="newest">Newest</option>
       <option value="price_asc">Price ↑</option>
       <option value="price_desc">Price ↓</option>
@@ -286,41 +318,40 @@ footer{background:var(--navy);color:#fff;padding:36px 16px 28px;text-align:cente
     </select>
   </div>
 </div>
-<div class="chips-row" id="chipsRow"></div>
+<div class="chips-bar"><div class="chips-row" id="chipsRow"></div></div>
 
 <main class="inventory">
-  <div class="inv-header"><div class="inv-count" id="invCount"><span>—</span> vehicles</div></div>
+  <div class="inv-hd"><div class="inv-count" id="invCount"><b>—</b> vehicles</div></div>
   <div class="cars-grid" id="carsGrid">
-    <div class="skel"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w85"></div><div class="skel-line w50"></div></div></div>
-    <div class="skel"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w85"></div><div class="skel-line w50"></div></div></div>
-    <div class="skel"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w85"></div><div class="skel-line w50"></div></div></div>
-    <div class="skel"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w85"></div><div class="skel-line w50"></div></div></div>
+    <div class="skel"><div class="sk-ph"></div><div class="sk-bd"><div class="sk-l w7"></div><div class="sk-l w8"></div><div class="sk-l w5"></div></div></div>
+    <div class="skel"><div class="sk-ph"></div><div class="sk-bd"><div class="sk-l w7"></div><div class="sk-l w8"></div><div class="sk-l w5"></div></div></div>
+    <div class="skel"><div class="sk-ph"></div><div class="sk-bd"><div class="sk-l w7"></div><div class="sk-l w8"></div><div class="sk-l w5"></div></div></div>
+    <div class="skel"><div class="sk-ph"></div><div class="sk-bd"><div class="sk-l w7"></div><div class="sk-l w8"></div><div class="sk-l w5"></div></div></div>
   </div>
 </main>
 
 <!-- CAR MODAL -->
-<div class="modal-ov" id="carModal" onclick="handleModalClick(event)">
-  <div class="modal-box" id="carModalBox">
-    <div class="drag-handle"></div>
-    <button class="modal-close" onclick="closeModal()">✕</button>
+<div class="modal-ov" id="carModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" style="position:relative">
+    <div class="drag-pip"></div>
+    <button class="modal-x" onclick="closeModal()">✕</button>
     <div class="gallery" id="gallery">
-      <img id="galleryMain" src="" alt="" style="display:none">
-      <div class="gallery-empty" id="galleryEmpty" style="display:none"><span style="font-size:36px;opacity:0.2">🚗</span><span>No photos yet</span></div>
-      <button class="gal-btn gal-prev" id="galPrev" onclick="prevPhoto()" style="display:none">‹</button>
-      <button class="gal-btn gal-next" id="galNext" onclick="nextPhoto()" style="display:none">›</button>
-      <div class="gal-dots" id="galDots"></div>
+      <img id="galMain" src="" alt="" style="display:none">
+      <div class="gal-empty" id="galEmpty" style="display:none"><span style="font-size:36px;opacity:.2">🚗</span><span>No photos yet</span></div>
+      <button class="gal-btn g-prev" id="gPrev" onclick="prevPh()" style="display:none">‹</button>
+      <button class="gal-btn g-next" id="gNext" onclick="nextPh()" style="display:none">›</button>
+      <div class="g-dots" id="gDots"></div>
     </div>
-    <div class="thumbs" id="thumbsRow"></div>
-    <div class="modal-body">
-      <div class="modal-car-name" id="mCarName"></div>
-      <div class="modal-trim" id="mTrim"></div>
-      <div class="modal-price-row" id="mPriceRow"></div>
-      <div class="specs-grid" id="mSpecsGrid"></div>
-      <div class="modal-desc" id="mDesc" style="display:none"></div>
-      <div class="modal-actions">
+    <div class="thumbs" id="thumbs"></div>
+    <div class="m-body">
+      <div class="m-name" id="mName"></div>
+      <div class="m-trim" id="mTrim"></div>
+      <div class="m-pr-row" id="mPrice"></div>
+      <div class="specs-g" id="mSpecs"></div>
+      <div class="m-desc" id="mDesc" style="display:none"></div>
+      <div class="m-actions" id="mActions">
         <a href="tel:+16725000018" class="btn-call">📞 Call Us</a>
         <a href="mailto:info@friendzauto.ca" class="btn-email">✉ Email</a>
-        <a href="#" class="btn-carfax" id="mCarfaxBtn" target="_blank" rel="noopener" style="display:none">📄 Carfax Report</a>
       </div>
     </div>
   </div>
@@ -328,62 +359,77 @@ footer{background:var(--navy);color:#fff;padding:36px 16px 28px;text-align:cente
 
 <!-- FILTER SHEET -->
 <div class="sheet-ov" id="sheetOv" onclick="closeSheet()"></div>
-<div class="filter-sheet" id="filterSheet">
-  <div class="sheet-drag"></div>
-  <div class="sheet-hd"><span class="sheet-title">Filter Vehicles</span><button class="sheet-reset" onclick="resetFilters()">Reset All</button></div>
-  <div class="sheet-bd">
-    <div class="filter-grp"><div class="fgrp-title">Make</div><select class="fsel" id="fMake" onchange="updateModelFilter()"><option value="">Any Make</option></select></div>
-    <div class="filter-grp"><div class="fgrp-title">Model</div><select class="fsel" id="fModel"><option value="">Any Model</option></select></div>
-    <div class="filter-grp"><div class="fgrp-title">Year Range</div><div class="price-row"><input class="finput" type="number" id="fYearMin" placeholder="From year" min="1990" max="2030"><input class="finput" type="number" id="fYearMax" placeholder="To year" min="1990" max="2030"></div></div>
-    <div class="filter-grp"><div class="fgrp-title">Max Price (CAD)</div><input class="finput" type="number" id="fPriceMax" placeholder="e.g. 40000" min="0" step="500"></div>
-    <div class="filter-grp"><div class="fgrp-title">Body Type</div><div class="fopts" id="fBodyOpts"></div></div>
-    <div class="filter-grp"><div class="fgrp-title">Transmission</div><div class="fopts" id="fTransOpts"></div></div>
-    <div class="filter-grp"><div class="fgrp-title">Drivetrain</div><div class="fopts" id="fDriveOpts"></div></div>
-    <div class="filter-grp"><div class="fgrp-title">Fuel Type</div><div class="fopts" id="fFuelOpts"></div></div>
+<div class="f-sheet" id="fSheet">
+  <div class="fs-pip"></div>
+  <div class="fs-hd"><span class="fs-title">Filter Vehicles</span><button class="fs-reset" onclick="resetFilters()">Reset All</button></div>
+  <div class="fs-bd">
+    <div class="fg"><div class="fg-lbl">Make</div><select class="fsel" id="fMake" onchange="updateModels()"><option value="">Any Make</option></select></div>
+    <div class="fg"><div class="fg-lbl">Model</div><select class="fsel" id="fModel"><option value="">Any Model</option></select></div>
+    <div class="fg"><div class="fg-lbl">Year Range</div><div class="yr-row"><input class="finp" type="number" id="fYrMin" placeholder="From" min="1990" max="2030"><input class="finp" type="number" id="fYrMax" placeholder="To" min="1990" max="2030"></div></div>
+    <div class="fg"><div class="fg-lbl">Max Price (CAD)</div><input class="finp" type="number" id="fPrMax" placeholder="e.g. 35000" step="1000"></div>
+    <div class="fg"><div class="fg-lbl">Body Type</div><div class="fopts" id="fBody"></div></div>
+    <div class="fg"><div class="fg-lbl">Transmission</div><div class="fopts" id="fTrans"></div></div>
+    <div class="fg"><div class="fg-lbl">Drivetrain</div><div class="fopts" id="fDrive"></div></div>
+    <div class="fg"><div class="fg-lbl">Fuel Type</div><div class="fopts" id="fFuel"></div></div>
   </div>
-  <div class="sheet-ft"><button class="sheet-apply" onclick="applySheet()">Show Results</button></div>
+  <div class="fs-ft"><button class="fs-apply" onclick="applySheet()">Show Results</button></div>
 </div>
 
 <footer>
-  <div class="footer-logo">
-    <img src="logo.png" alt="Friendz Auto" onerror="this.style.display='none'">
-    <span class="footer-logo-text">Friendz <span>Auto</span> Sales</span>
+  <div class="ft-logo">
+    <img src="logo.png" alt="" onerror="this.style.display='none'">
+    <span class="ft-logo-t">Friendz <span>Auto</span> Sales</span>
   </div>
-  <div class="footer-slogan">Quality Cars · Friendly Service</div>
-  <div class="footer-addr">2115 - 21000 Westminster HWY, Richmond BC<br>Mon–Sat: By Appointment · Sun: Closed</div>
-  <div class="footer-actions">
-    <a href="tel:+16725000018" class="footer-btn">📞 (672) 500-0018</a>
-    <a href="mailto:info@friendzauto.ca" class="footer-btn">✉ info@friendzauto.ca</a>
+  <div class="ft-slogan">Quality Cars · Friendly Service</div>
+  <div class="ft-addr">2115 - 21000 Westminster HWY, Richmond BC<br>Mon–Sat: By Appointment · Sun: Closed</div>
+  <div class="ft-btns">
+    <a href="tel:+16725000018" class="ft-btn">📞 (672) 500-0018</a>
+    <a href="mailto:info@friendzauto.ca" class="ft-btn">✉ Email Us</a>
   </div>
-  <div class="footer-copy">© 2025 Friendz Auto Sales. All rights reserved.</div>
+  <div class="ft-copy">© 2025 Friendz Auto Sales. All rights reserved.</div>
 </footer>
 
 <script>
+// ── CONFIG ──
 const SUPA_URL='https://fbfgadxqszgqqjvoqxom.supabase.co';
-const SUPA_KEY='sb_publishable_wn02XPsnFIx5TMhUwca8WQ_rRIRgXfB';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.YOUR_REAL_KEY_HERE'; // ← replace with your eyJ key
+
+// ── DEMO DATA ──
 const DEMO=[
-  {id:'d1',make:'Toyota',model:'Camry',year:2022,trim:'SE',price:28900,sale_price:26500,mileage:42000,color:'Pearl White',transmission:'Automatic',drivetrain:'FWD',fuel_type:'Gasoline',body_type:'Sedan',engine:'2.5L 4-Cyl',condition:'Excellent',description:'One owner, clean ICBC history, full service records. Winter tires included.',status:'available',featured:true,photos:[],carfax_url:null},
-  {id:'d2',make:'Honda',model:'CR-V',year:2021,trim:'EX-L AWD',price:34500,sale_price:null,mileage:38500,color:'Lunar Silver',transmission:'CVT',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'SUV',engine:'1.5L Turbo',condition:'Excellent',description:'Leather, panoramic roof, Honda Sensing. No accidents.',status:'available',featured:true,photos:[],carfax_url:null},
-  {id:'d3',make:'Ford',model:'F-150',year:2020,trim:'XLT 4x4',price:42000,sale_price:39900,mileage:67000,color:'Magnetic Gray',transmission:'Automatic',drivetrain:'4WD',fuel_type:'Gasoline',body_type:'Pickup',engine:'3.5L EcoBoost V6',condition:'Good',description:'Alberta truck, no rust. Tow package, bed liner, running boards.',status:'available',featured:false,photos:[],carfax_url:null},
-  {id:'d4',make:'Hyundai',model:'Tucson',year:2023,trim:'Preferred AWD',price:31500,sale_price:null,mileage:12000,color:'Phantom Black',transmission:'Automatic',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'SUV',engine:'2.5L 4-Cyl',condition:'Excellent',description:'Nearly new with full warranty. Wireless CarPlay, heated seats.',status:'available',featured:true,photos:[],carfax_url:null},
-  {id:'d5',make:'BMW',model:'3 Series',year:2021,trim:'330i xDrive',price:44900,sale_price:null,mileage:31000,color:'Mineral White',transmission:'Automatic',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'Sedan',engine:'2.0L Turbo',condition:'Excellent',description:'Sport package, premium audio, heads-up display.',status:'available',featured:false,photos:[],carfax_url:null},
-  {id:'d6',make:'Toyota',model:'RAV4',year:2022,trim:'XLE Premium',price:36800,sale_price:34500,mileage:22000,color:'Blueprint',transmission:'Automatic',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'SUV',engine:'2.5L 4-Cyl',condition:'Excellent',description:'Low mileage, power liftgate, heated front and rear seats.',status:'available',featured:false,photos:[],carfax_url:null},
+  {id:'d1',make:'Toyota',model:'Camry',year:2022,trim:'SE',price:28900,sale_price:26500,mileage:42000,color:'Pearl White',transmission:'Automatic',drivetrain:'FWD',fuel_type:'Gasoline',body_type:'Sedan',engine:'2.5L 4-Cyl',condition:'Excellent',description:'One owner, clean ICBC history, full service records. Winter tires included. A car the whole family will love.',status:'available',featured:true,photos:[],carfax_url:null},
+  {id:'d2',make:'Honda',model:'CR-V',year:2021,trim:'EX-L AWD',price:34500,sale_price:null,mileage:38500,color:'Lunar Silver',transmission:'CVT',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'SUV',engine:'1.5L Turbo',condition:'Excellent',description:'Leather seats, panoramic sunroof, Honda Sensing safety suite. One careful owner, no accidents.',status:'available',featured:true,photos:[],carfax_url:null},
+  {id:'d3',make:'Ford',model:'F-150',year:2020,trim:'XLT 4x4',price:42000,sale_price:39900,mileage:67000,color:'Magnetic Gray',transmission:'Automatic',drivetrain:'4WD',fuel_type:'Gasoline',body_type:'Pickup',engine:'3.5L EcoBoost V6',condition:'Good',description:'Brought in from Alberta — zero rust. Tow package, bed liner, running boards. Ready for work.',status:'available',featured:false,photos:[],carfax_url:null},
+  {id:'d4',make:'Hyundai',model:'Tucson',year:2023,trim:'Preferred AWD',price:31500,sale_price:null,mileage:12000,color:'Phantom Black',transmission:'Automatic',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'SUV',engine:'2.5L 4-Cyl',condition:'Excellent',description:'Practically new with full warranty remaining. Wireless CarPlay, heated steering, blind-spot monitoring.',status:'available',featured:true,photos:[],carfax_url:null},
+  {id:'d5',make:'Toyota',model:'RAV4',year:2022,trim:'XLE Premium',price:36800,sale_price:34500,mileage:22000,color:'Blueprint Blue',transmission:'Automatic',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'SUV',engine:'2.5L 4-Cyl',condition:'Excellent',description:'Low mileage, power liftgate, heated front and rear seats, 10-inch display. Bought it, took care of it.',status:'available',featured:false,photos:[],carfax_url:null},
+  {id:'d6',make:'BMW',model:'3 Series',year:2021,trim:'330i xDrive',price:44900,sale_price:null,mileage:31000,color:'Mineral White',transmission:'Automatic',drivetrain:'AWD',fuel_type:'Gasoline',body_type:'Sedan',engine:'2.0L Turbo',condition:'Excellent',description:'Sport package, premium Harman Kardon audio, heads-up display. Dealer maintained every service.',status:'available',featured:false,photos:[],carfax_url:null},
 ];
-let allCars=[],curPhotoIdx=0,curModalCar=null,filters={},sortBy='newest',searchQ='',galTouchX=0;
+
+let allCars=[],curCar=null,curPh=0,filters={},sortBy='newest',searchQ='',touchX=0;
+
+// ── INIT ──
 document.addEventListener('DOMContentLoaded',async()=>{
   try{
-    if(SUPA_URL.includes('YOUR_'))throw new Error();
+    if(SUPA_KEY.includes('YOUR_REAL'))throw new Error();
     const db=window.supabase.createClient(SUPA_URL,SUPA_KEY);
     const{data,error}=await db.from('cars').select('*').eq('status','available').order('featured',{ascending:false}).order('created_at',{ascending:false});
     if(error)throw error;
     allCars=data||[];
   }catch{allCars=DEMO;document.getElementById('demoBanner').classList.add('show');}
-  updateHeroStats();populateSheetFilters();renderInventory();initGalleryTouch();
+  updateStats();buildFilterOpts();render();initTouch();
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSheet();}});
+  // PWA
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
-function updateHeroStats(){document.getElementById('heroCount').textContent=allCars.length+'+';document.getElementById('heroMakes').textContent=[...new Set(allCars.map(c=>c.make))].length;}
-function ep(c){return(c.sale_price&&c.sale_price<c.price)?c.sale_price:c.price;}
-function renderInventory(){
+
+function updateStats(){
+  document.getElementById('heroCount').textContent=allCars.length+'+';
+  document.getElementById('heroMakes').textContent=[...new Set(allCars.map(c=>c.make))].length;
+}
+
+function ep(c){return c.sale_price&&c.sale_price<c.price?c.sale_price:c.price;}
+
+// ── RENDER ──
+function render(){
   let cars=[...allCars];
   if(searchQ){const q=searchQ.toLowerCase();cars=cars.filter(c=>`${c.year} ${c.make} ${c.model} ${c.trim||''} ${c.color||''}`.toLowerCase().includes(q));}
   if(filters.make)cars=cars.filter(c=>c.make===filters.make);
@@ -395,161 +441,143 @@ function renderInventory(){
   if(filters.year_min)cars=cars.filter(c=>c.year>=+filters.year_min);
   if(filters.year_max)cars=cars.filter(c=>c.year<=+filters.year_max);
   if(filters.price_max)cars=cars.filter(c=>ep(c)<=+filters.price_max);
-  switch(sortBy){case 'price_asc':cars.sort((a,b)=>ep(a)-ep(b));break;case 'price_desc':cars.sort((a,b)=>ep(b)-ep(a));break;case 'year_desc':cars.sort((a,b)=>b.year-a.year);break;case 'mileage_asc':cars.sort((a,b)=>(a.mileage||0)-(b.mileage||0));break;}
-  const grid=document.getElementById('carsGrid');
-  document.getElementById('invCount').innerHTML=`<span>${cars.length}</span> vehicle${cars.length!==1?'s':''} found`;
-  if(!cars.length){grid.innerHTML=`<div class="empty"><div class="empty-ic">🔍</div><div class="empty-t">No vehicles match</div><div class="empty-s">Try adjusting your filters</div><button class="empty-reset" onclick="resetFilters()">Clear Filters</button></div>`;return;}
-  grid.innerHTML=cars.map(car=>{
-    const s=car.sale_price&&car.sale_price<car.price,ph=car.photos&&car.photos.length?car.photos[0]:null,pc=car.photos?car.photos.length:0;
-    return`<div class="car-card" onclick="openModal('${car.id}')">
-      <div class="card-photo">
-        ${ph?`<img src="${ph}" alt="${car.year} ${car.make} ${car.model}" loading="lazy" onerror="this.closest('.card-photo').innerHTML='<div class=\\'no-photo\\'><span class=\\'no-photo-ic\\'>🚗</span><span>No photo</span></div>'">`:`<div class="no-photo"><span class="no-photo-ic">🚗</span><span>No photos yet</span></div>`}
-        ${s?`<span class="badge-sale">🏷 SALE</span>`:''}
-        ${car.featured&&!s?`<span class="badge-feat">★ Featured</span>`:''}
-        ${pc>1?`<span class="badge-photos">📷 ${pc}</span>`:''}
-        ${car.status==='sold'?`<div class="status-overlay"><div class="sold-tag">SOLD</div></div>`:''}
-        ${car.status==='pending'?`<div class="status-overlay"><div class="pending-tag">PENDING</div></div>`:''}
+  switch(sortBy){
+    case'price_asc':cars.sort((a,b)=>ep(a)-ep(b));break;
+    case'price_desc':cars.sort((a,b)=>ep(b)-ep(a));break;
+    case'year_desc':cars.sort((a,b)=>b.year-a.year);break;
+    case'mileage_asc':cars.sort((a,b)=>(a.mileage||0)-(b.mileage||0));break;
+  }
+  const g=document.getElementById('carsGrid');
+  document.getElementById('invCount').innerHTML=`<b>${cars.length}</b> vehicle${cars.length!==1?'s':''} found`;
+  if(!cars.length){g.innerHTML=`<div class="empty"><div class="empty-ic">🔍</div><div class="empty-t">No vehicles match</div><div class="empty-s">Try adjusting your filters</div><button class="empty-btn" onclick="resetFilters()">Clear Filters</button></div>`;updateChips();return;}
+  g.innerHTML=cars.map(c=>{
+    const s=c.sale_price&&c.sale_price<c.price,ph=c.photos&&c.photos.length?c.photos[0]:null,pc=c.photos?c.photos.length:0;
+    return`<div class="car-card" onclick="openModal('${c.id}')">
+      <div class="c-photo">
+        ${ph?`<img src="${ph}" alt="${c.year} ${c.make} ${c.model}" loading="lazy" onerror="this.closest('.c-photo').innerHTML='<div class=\\'no-ph\\'><span class=\\'no-ph-ic\\'>🚗</span><span>No photo</span></div>'">`:`<div class="no-ph"><span class="no-ph-ic">🚗</span><span>No photos yet</span></div>`}
+        ${s?'<span class="b-sale">🏷 Sale</span>':''}${c.featured&&!s?'<span class="b-feat">★ Featured</span>':''}
+        ${pc>1?`<span class="b-photos">📷 ${pc}</span>`:''}
+        ${c.status==='sold'?'<div class="b-overlay" style="background:rgba(15,28,46,.5)"><div class="b-sold">SOLD</div></div>':''}
+        ${c.status==='pending'?'<div class="b-overlay" style="background:rgba(15,28,46,.4)"><div class="b-pend">PENDING</div></div>':''}
       </div>
-      <div class="card-body">
-        <div class="card-ym">${car.year} · ${car.make}</div>
-        <div class="card-model">${car.model}</div>
-        <div class="card-trim">${car.trim||''}</div>
-        <div class="card-price-row">${s?`<span class="card-price-sale">$${Number(car.sale_price).toLocaleString()}</span><span class="card-price-orig">$${Number(car.price).toLocaleString()}</span>`:`<span class="card-price">$${Number(car.price).toLocaleString()}</span>`}</div>
-        <div class="card-specs">${car.mileage?`<span class="cspec">${Number(car.mileage).toLocaleString()} km</span>`:''} ${car.transmission?`<span class="cspec">${car.transmission}</span>`:''} ${car.drivetrain?`<span class="cspec">${car.drivetrain}</span>`:''}</div>
-        ${car.carfax_url?`<div class="card-carfax">📄 Carfax Available</div>`:''}
+      <div class="c-body">
+        <div class="c-ym">${c.year} · ${c.make}</div>
+        <div class="c-name">${c.model}</div>
+        <div class="c-trim">${c.trim||''}</div>
+        <div class="c-pr">${s?`<span class="c-sale-pr">$${Number(c.sale_price).toLocaleString()}</span><span class="c-orig">$${Number(c.price).toLocaleString()}</span>`:`<span class="c-price">$${Number(c.price).toLocaleString()}</span>`}</div>
+        <div class="c-specs">${c.mileage?`<span class="cs">${Number(c.mileage).toLocaleString()} km</span>`:''} ${c.transmission?`<span class="cs">${c.transmission}</span>`:''} ${c.drivetrain?`<span class="cs">${c.drivetrain}</span>`:''}</div>
+        ${c.carfax_url?'<div class="c-carfax">📄 Carfax Available</div>':''}
       </div>
     </div>`;
   }).join('');
   updateChips();
 }
+
+// ── MODAL ──
 function openModal(id){
-  const car=allCars.find(c=>c.id===id);if(!car)return;
-  curModalCar=car;curPhotoIdx=0;
-  document.getElementById('mCarName').textContent=`${car.year} ${car.make} ${car.model}`;
-  document.getElementById('mTrim').textContent=car.trim||'';
-  const s=car.sale_price&&car.sale_price<car.price;
-  document.getElementById('mPriceRow').innerHTML=s?`<span class="modal-price">$${Number(car.sale_price).toLocaleString()}</span><span class="modal-orig">$${Number(car.price).toLocaleString()}</span><span class="modal-sale-chip">SALE</span>`:`<span class="modal-price-norm">$${Number(car.price).toLocaleString()}</span>`;
-  document.getElementById('mSpecsGrid').innerHTML=[['Mileage',car.mileage?Number(car.mileage).toLocaleString()+' km':null],['Year',car.year],['Transmission',car.transmission],['Drivetrain',car.drivetrain],['Fuel',car.fuel_type],['Body',car.body_type],['Engine',car.engine],['Color',car.color],['Condition',car.condition]].filter(([,v])=>v).map(([l,v])=>`<div class="spec-item"><div class="spec-label">${l}</div><div class="spec-val">${v}</div></div>`).join('');
-  const de=document.getElementById('mDesc');if(car.description){de.textContent=car.description;de.style.display='block';}else de.style.display='none';
-  const cf=document.getElementById('mCarfaxBtn');
-  if(car.carfax_url){cf.href=car.carfax_url;cf.style.display='flex';}else cf.style.display='none';
-  setupGallery(car.photos||[]);
-  document.getElementById('carModal').classList.add('open');document.body.style.overflow='hidden';
+  const c=allCars.find(x=>x.id===id);if(!c)return;
+  curCar=c;curPh=0;
+  document.getElementById('mName').textContent=`${c.year} ${c.make} ${c.model}`;
+  document.getElementById('mTrim').textContent=c.trim||'';
+  const s=c.sale_price&&c.sale_price<c.price;
+  document.getElementById('mPrice').innerHTML=s
+    ?`<span class="m-price">$${Number(c.sale_price).toLocaleString()}</span><span class="m-orig">$${Number(c.price).toLocaleString()}</span><span class="m-sale-tag">SALE</span>`
+    :`<span class="m-price-n">$${Number(c.price).toLocaleString()}</span>`;
+  document.getElementById('mSpecs').innerHTML=[
+    ['Mileage',c.mileage?Number(c.mileage).toLocaleString()+' km':null],
+    ['Year',c.year],['Transmission',c.transmission],['Drivetrain',c.drivetrain],
+    ['Fuel',c.fuel_type],['Body',c.body_type],['Engine',c.engine],['Color',c.color],['Condition',c.condition]
+  ].filter(([,v])=>v).map(([l,v])=>`<div class="sp-item"><div class="sp-lbl">${l}</div><div class="sp-val">${v}</div></div>`).join('');
+  const de=document.getElementById('mDesc');
+  if(c.description){de.textContent=c.description;de.style.display='block';}else de.style.display='none';
+  // Actions
+  const ac=document.getElementById('mActions');
+  const hasC=!!c.carfax_url;
+  ac.className='m-actions'+(hasC?' has-carfax':'');
+  ac.innerHTML=`<a href="tel:+16725000018" class="btn-call">📞 Call Us</a><a href="mailto:info@friendzauto.ca" class="btn-email">✉ Email</a>${hasC?`<a href="${c.carfax_url}" class="btn-carfax" target="_blank" rel="noopener" download>📄 Carfax</a>`:''}`;
+  setupGallery(c.photos||[]);
+  document.getElementById('carModal').classList.add('open');
+  document.body.style.overflow='hidden';
 }
-function setupGallery(photos){
-  const m=document.getElementById('galleryMain'),e=document.getElementById('galleryEmpty'),p=document.getElementById('galPrev'),n=document.getElementById('galNext'),d=document.getElementById('galDots'),t=document.getElementById('thumbsRow');
-  if(!photos.length){m.style.display='none';e.style.display='flex';p.style.display='none';n.style.display='none';d.innerHTML='';t.innerHTML='';return;}
-  m.style.display='block';e.style.display='none';m.src=photos[0];
-  const sh=photos.length>1;p.style.display=sh?'flex':'none';n.style.display=sh?'flex':'none';
-  d.innerHTML=photos.map((_,i)=>`<div class="gal-dot${i===0?' on':''}" onclick="setPhoto(${i})"></div>`).join('');
-  t.innerHTML=photos.map((ph,i)=>`<img class="thumb${i===0?' on':''}" src="${ph}" alt="Photo ${i+1}" onclick="setPhoto(${i})" loading="lazy">`).join('');
+
+function setupGallery(phs){
+  const m=document.getElementById('galMain'),e=document.getElementById('galEmpty'),p=document.getElementById('gPrev'),n=document.getElementById('gNext'),d=document.getElementById('gDots'),t=document.getElementById('thumbs');
+  if(!phs.length){m.style.display='none';e.style.display='flex';p.style.display='none';n.style.display='none';d.innerHTML='';t.innerHTML='';return;}
+  m.style.display='block';e.style.display='none';m.src=phs[0];
+  const sh=phs.length>1;p.style.display=sh?'flex':'none';n.style.display=sh?'flex':'none';
+  d.innerHTML=phs.map((_,i)=>`<div class="g-dot${i===0?' on':''}" onclick="setPh(${i})"></div>`).join('');
+  t.innerHTML=phs.map((u,i)=>`<img class="thumb${i===0?' on':''}" src="${u}" onclick="setPh(${i})" loading="lazy">`).join('');
 }
-function setPhoto(i){const ph=curModalCar?.photos||[];if(!ph[i])return;curPhotoIdx=i;document.getElementById('galleryMain').src=ph[i];document.querySelectorAll('.gal-dot').forEach((d,j)=>d.classList.toggle('on',j===i));document.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('on',j===i));}
-function prevPhoto(){const l=(curModalCar?.photos||[]).length;setPhoto((curPhotoIdx-1+l)%l);}
-function nextPhoto(){setPhoto((curPhotoIdx+1)%(curModalCar?.photos||[1]).length);}
-function initGalleryTouch(){const g=document.getElementById('gallery');g.addEventListener('touchstart',e=>{galTouchX=e.touches[0].clientX},{passive:true});g.addEventListener('touchend',e=>{const dx=galTouchX-e.changedTouches[0].clientX;if(Math.abs(dx)>40&&(curModalCar?.photos||[]).length>1)dx>0?nextPhoto():prevPhoto();});}
+function setPh(i){const p=curCar?.photos||[];if(!p[i])return;curPh=i;document.getElementById('galMain').src=p[i];document.querySelectorAll('.g-dot').forEach((d,j)=>d.classList.toggle('on',j===i));document.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('on',j===i));}
+function prevPh(){const l=(curCar?.photos||[]).length;setPh((curPh-1+l)%l);}
+function nextPh(){setPh((curPh+1)%(curCar?.photos||[1]).length);}
+function initTouch(){const g=document.getElementById('gallery');g.addEventListener('touchstart',e=>{touchX=e.touches[0].clientX;},{passive:true});g.addEventListener('touchend',e=>{const dx=touchX-e.changedTouches[0].clientX;if(Math.abs(dx)>40&&(curCar?.photos||[]).length>1)dx>0?nextPh():prevPh();});}
 function closeModal(){document.getElementById('carModal').classList.remove('open');document.body.style.overflow='';}
-function handleModalClick(e){if(e.target===document.getElementById('carModal'))closeModal();}
-function handleSearch(v){searchQ=v.trim();renderInventory();}
-function handleSort(v){sortBy=v;renderInventory();}
-const BODY_TYPES=['Sedan','SUV','Pickup','Van','Coupe','Hatchback','Wagon','Convertible'];
-const TRANS_TYPES=['Automatic','Manual','CVT'];
-const DRIVE_TYPES=['FWD','AWD','RWD','4WD','4x4'];
-const FUEL_TYPES=['Gasoline','Diesel','Hybrid','Electric','Plug-in Hybrid'];
-function populateSheetFilters(){const makes=[...new Set(allCars.map(c=>c.make))].sort(),ms=document.getElementById('fMake');makes.forEach(m=>ms.add(new Option(m,m)));buildOpts('fBodyOpts',BODY_TYPES,'body_type');buildOpts('fTransOpts',TRANS_TYPES,'transmission');buildOpts('fDriveOpts',DRIVE_TYPES,'drivetrain');buildOpts('fFuelOpts',FUEL_TYPES,'fuel_type');}
+
+// ── SEARCH / SORT ──
+function handleSearch(v){searchQ=v.trim();render();}
+function handleSort(v){sortBy=v;render();}
+
+// ── FILTER OPTS ──
+const BODIES=['Sedan','SUV','Pickup','Van','Coupe','Hatchback','Wagon','Convertible'];
+const TRANS=['Automatic','Manual','CVT'];
+const DRIVES=['FWD','AWD','RWD','4WD','4x4'];
+const FUELS=['Gasoline','Diesel','Hybrid','Electric','Plug-in Hybrid'];
+function buildFilterOpts(){
+  const makes=[...new Set(allCars.map(c=>c.make))].sort(),ms=document.getElementById('fMake');
+  makes.forEach(m=>ms.add(new Option(m,m)));
+  buildOpts('fBody',BODIES,'body_type');buildOpts('fTrans',TRANS,'transmission');buildOpts('fDrive',DRIVES,'drivetrain');buildOpts('fFuel',FUELS,'fuel_type');
+}
 function buildOpts(id,vals,key){document.getElementById(id).innerHTML=vals.map(v=>`<button class="fopt" data-key="${key}" data-val="${v}" onclick="toggleOpt(this)">${v}</button>`).join('');}
-function toggleOpt(btn){const k=btn.dataset.key,v=btn.dataset.val;if(btn.classList.contains('on')){btn.classList.remove('on');delete filters[k];}else{document.querySelectorAll(`.fopt[data-key="${k}"]`).forEach(b=>b.classList.remove('on'));btn.classList.add('on');filters[k]=v;}}
-function updateModelFilter(){const mk=document.getElementById('fMake').value,ms=document.getElementById('fModel');ms.innerHTML='<option value="">Any Model</option>';if(mk)[...new Set(allCars.filter(c=>c.make===mk).map(c=>c.model))].sort().forEach(m=>ms.add(new Option(m,m)));filters.make=mk||undefined;delete filters.model;}
-function applySheet(){filters.model=document.getElementById('fModel').value||undefined;filters.year_min=document.getElementById('fYearMin').value||undefined;filters.year_max=document.getElementById('fYearMax').value||undefined;filters.price_max=document.getElementById('fPriceMax').value||undefined;closeSheet();renderInventory();}
-function resetFilters(){filters={};searchQ='';document.getElementById('searchInput').value='';document.getElementById('fMake').value='';document.getElementById('fModel').innerHTML='<option value="">Any Model</option>';document.getElementById('fYearMin').value='';document.getElementById('fYearMax').value='';document.getElementById('fPriceMax').value='';document.querySelectorAll('.fopt.on').forEach(b=>b.classList.remove('on'));renderInventory();}
-function openSheet(){document.getElementById('sheetOv').classList.add('open');document.getElementById('filterSheet').classList.add('open');document.body.style.overflow='hidden';}
-function closeSheet(){document.getElementById('sheetOv').classList.remove('open');document.getElementById('filterSheet').classList.remove('open');document.body.style.overflow='';}
-function updateChips(){const row=document.getElementById('chipsRow'),labels={make:'Make',model:'Model',body_type:'Body',transmission:'Trans',drivetrain:'Drive',fuel_type:'Fuel',year_min:'From',year_max:'To',price_max:'Max $'};const chips=Object.entries(filters).filter(([,v])=>v).map(([k,v])=>`<div class="chip">${labels[k]||k}: ${k==='price_max'?'$'+Number(v).toLocaleString():v}<button class="chip-x" onclick="removeFilter('${k}')">×</button></div>`);if(searchQ)chips.unshift(`<div class="chip">Search: "${searchQ}"<button class="chip-x" onclick="document.getElementById('searchInput').value='';handleSearch('')">×</button></div>`);row.innerHTML=chips.join('');const fc=document.getElementById('filterCount'),n=Object.values(filters).filter(Boolean).length+(searchQ?1:0);fc.textContent=n;fc.classList.toggle('show',n>0);document.getElementById('filterToggle').classList.toggle('active',n>0);}
-function removeFilter(k){delete filters[k];if(['body_type','transmission','drivetrain','fuel_type'].includes(k))document.querySelectorAll(`.fopt[data-key="${k}"]`).forEach(b=>b.classList.remove('on'));renderInventory();}
+function toggleOpt(b){const k=b.dataset.key,v=b.dataset.val;if(b.classList.contains('on')){b.classList.remove('on');delete filters[k];}else{document.querySelectorAll(`.fopt[data-key="${k}"]`).forEach(x=>x.classList.remove('on'));b.classList.add('on');filters[k]=v;}}
+function updateModels(){const mk=document.getElementById('fMake').value,ms=document.getElementById('fModel');ms.innerHTML='<option value="">Any Model</option>';if(mk)[...new Set(allCars.filter(c=>c.make===mk).map(c=>c.model))].sort().forEach(m=>ms.add(new Option(m,m)));filters.make=mk||undefined;delete filters.model;}
+function applySheet(){filters.model=document.getElementById('fModel').value||undefined;filters.year_min=document.getElementById('fYrMin').value||undefined;filters.year_max=document.getElementById('fYrMax').value||undefined;filters.price_max=document.getElementById('fPrMax').value||undefined;closeSheet();render();}
+function resetFilters(){filters={};searchQ='';document.getElementById('searchInput').value='';document.getElementById('fMake').value='';document.getElementById('fModel').innerHTML='<option value="">Any Model</option>';document.getElementById('fYrMin').value='';document.getElementById('fYrMax').value='';document.getElementById('fPrMax').value='';document.querySelectorAll('.fopt.on').forEach(b=>b.classList.remove('on'));render();}
+function openSheet(){document.getElementById('sheetOv').classList.add('open');document.getElementById('fSheet').classList.add('open');document.body.style.overflow='hidden';}
+function closeSheet(){document.getElementById('sheetOv').classList.remove('open');document.getElementById('fSheet').classList.remove('open');document.body.style.overflow='';}
 
-// ── HERO CANVAS: Contour Lines + Floating Cubes ──
+// ── CHIPS ──
+function updateChips(){
+  const row=document.getElementById('chipsRow'),lb={make:'Make',model:'Model',body_type:'Body',transmission:'Trans',drivetrain:'Drive',fuel_type:'Fuel',year_min:'From',year_max:'To',price_max:'Max $'};
+  const ch=Object.entries(filters).filter(([,v])=>v).map(([k,v])=>`<div class="chip">${lb[k]||k}: ${k==='price_max'?'$'+Number(v).toLocaleString():v}<button class="chip-x" onclick="removeF('${k}')">×</button></div>`);
+  if(searchQ)ch.unshift(`<div class="chip">"${searchQ}"<button class="chip-x" onclick="document.getElementById('searchInput').value='';handleSearch('')">×</button></div>`);
+  row.innerHTML=ch.join('');
+  const fc=document.getElementById('fc'),n=Object.values(filters).filter(Boolean).length+(searchQ?1:0);
+  fc.textContent=n;fc.classList.toggle('show',n>0);
+  document.getElementById('filterBtn').classList.toggle('on',n>0);
+}
+function removeF(k){delete filters[k];if(['body_type','transmission','drivetrain','fuel_type'].includes(k))document.querySelectorAll(`.fopt[data-key="${k}"]`).forEach(b=>b.classList.remove('on'));render();}
+
+// ── HERO CANVAS ──
 (function(){
-  const canvas=document.getElementById('heroCanvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  let W,H,tick=0;
-
-  function resize(){
-    W=canvas.width=canvas.offsetWidth;
-    H=canvas.height=canvas.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize',resize);
-
-  // Contour wave lines
-  function drawContours(){
-    const lines=9;
-    for(let i=0;i<lines;i++){
-      const y=H*0.2+i*(H*0.85/lines);
-      const phase=tick*0.008+i*0.7;
-      ctx.beginPath();
-      ctx.moveTo(0,y);
-      for(let x=0;x<=W;x+=6){
-        const wave=Math.sin(x*0.012+phase)*18+Math.sin(x*0.007-phase*0.6)*12;
-        ctx.lineTo(x,y+wave);
-      }
-      const alpha=0.06+i*0.012;
-      ctx.strokeStyle=`rgba(255,255,255,${alpha})`;
-      ctx.lineWidth=1;
-      ctx.stroke();
-    }
-  }
-
-  // Floating wireframe cubes
-  const cubes=[
-    {x:0.08,y:0.18,s:28,rot:0,speed:0.4,opacity:0.13},
-    {x:0.88,y:0.12,s:20,rot:1.2,speed:0.3,opacity:0.10},
-    {x:0.92,y:0.72,s:34,rot:0.5,speed:0.25,opacity:0.08},
-    {x:0.04,y:0.78,s:22,rot:2.1,speed:0.35,opacity:0.11},
-    {x:0.78,y:0.40,s:16,rot:0.8,speed:0.5,opacity:0.09},
-    {x:0.18,y:0.50,s:14,rot:1.8,speed:0.45,opacity:0.08},
-  ];
-
-  function drawCube(cx,cy,size,angle,opacity){
-    const cos=Math.cos(angle),sin=Math.sin(angle);
-    const ox=size*0.45,oy=size*0.28; // isometric offset
-    // 8 vertices of a cube projected isometrically
-    const pts=[
-      [-size,-size],[ size,-size],[ size, size],[-size, size], // front face
-      [-size+ox,-size-oy],[size+ox,-size-oy],[size+ox,size-oy],[-size+ox,size-oy] // back face
-    ].map(([x,y])=>[cx+x*cos-y*sin,cy+x*sin+y*cos]);
-    ctx.strokeStyle=`rgba(255,255,255,${opacity})`;
-    ctx.lineWidth=1;
-    // front face
+  const cv=document.getElementById('heroCanvas');if(!cv)return;
+  const ctx=cv.getContext('2d');let W,H,t=0;
+  function resize(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  const cubes=[{x:.08,y:.2,s:22,r:0,sp:.4,op:.11},{x:.9,y:.15,s:16,r:1.2,sp:.3,op:.09},{x:.93,y:.7,s:28,r:.5,sp:.22,op:.07},{x:.05,y:.75,s:18,r:2,sp:.32,op:.10},{x:.8,y:.45,s:13,r:.8,sp:.45,op:.08},{x:.15,y:.55,s:11,r:1.8,sp:.38,op:.07}];
+  function drawCube(cx,cy,sz,ag,op){
+    const cos=Math.cos(ag),sin=Math.sin(ag),ox=sz*.4,oy=sz*.25;
+    const pts=[[-sz,-sz],[sz,-sz],[sz,sz],[-sz,sz],[-sz+ox,-sz-oy],[sz+ox,-sz-oy],[sz+ox,sz-oy],[-sz+ox,sz-oy]].map(([x,y])=>[cx+x*cos-y*sin,cy+x*sin+y*cos]);
+    ctx.strokeStyle=`rgba(255,255,255,${op})`;ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(...pts[0]);for(let i=1;i<4;i++)ctx.lineTo(...pts[i]);ctx.closePath();ctx.stroke();
-    // back face
     ctx.beginPath();ctx.moveTo(...pts[4]);for(let i=5;i<8;i++)ctx.lineTo(...pts[i]);ctx.closePath();ctx.stroke();
-    // connecting edges
     for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(...pts[i]);ctx.lineTo(...pts[i+4]);ctx.stroke();}
   }
-
-  // Dots grid (subtle)
-  function drawDots(){
-    const spacing=38;
-    ctx.fillStyle='rgba(255,255,255,0.07)';
-    for(let x=spacing/2;x<W;x+=spacing){
-      for(let y=spacing/2;y<H;y+=spacing){
-        ctx.beginPath();ctx.arc(x,y,1.2,0,Math.PI*2);ctx.fill();
-      }
-    }
-  }
-
   function frame(){
     ctx.clearRect(0,0,W,H);
-    drawDots();
-    drawContours();
-    cubes.forEach(c=>{
-      c.rot+=c.speed*0.012;
-      const floatY=Math.sin(tick*0.018+c.rot)*6;
-      drawCube(c.x*W,(c.y*H)+floatY,c.s,c.rot,c.opacity);
-    });
-    tick++;
-    requestAnimationFrame(frame);
+    // Dot grid
+    ctx.fillStyle='rgba(255,255,255,0.06)';
+    for(let x=30;x<W;x+=40)for(let y=20;y<H;y+=40){ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();}
+    // Contour lines
+    for(let i=0;i<7;i++){
+      const y=H*.15+i*(H*.78/7),ph=t*.007+i*.65;
+      ctx.beginPath();ctx.moveTo(0,y);
+      for(let x=0;x<=W;x+=8){ctx.lineTo(x,y+Math.sin(x*.011+ph)*15+Math.sin(x*.006-ph*.5)*9);}
+      ctx.strokeStyle=`rgba(255,255,255,${.05+i*.01})`;ctx.lineWidth=.8;ctx.stroke();
+    }
+    // Cubes
+    cubes.forEach(c=>{c.r+=c.sp*.011;drawCube(c.x*W,c.y*H+Math.sin(t*.016+c.r)*5,c.s,c.r,c.op);});
+    t++;requestAnimationFrame(frame);
   }
   frame();
 })();
