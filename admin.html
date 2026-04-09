@@ -2,222 +2,234 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1D5EBF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Friendz Admin">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="logo.png">
 <title>Admin — Friendz Auto Sales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F8FAFC;--bg2:#FFFFFF;--bg3:#F1F5F9;
-  --border:#E2E8F0;--border2:#CBD5E1;
-  --accent:#16A34A;--accent-d:#15803D;--accent-lt:#DCFCE7;--accent-text:#14532D;
-  --navy:#1D6FE8;--navy2:#1558C7;
-  --text:#1E293B;--text-2:#334155;--text-m:#64748B;--text-lt:#94A3B8;
-  --sale:#DC2626;--sale-lt:#FEE2E2;
+  --bg:#F6F8FA;--surface:#FFF;--surface2:#EEF2F8;
+  --border:#DDE3ED;--border2:#C8D2E0;
+  --blue:#1D5EBF;--blue-d:#1749A0;--blue-lt:#E8F0FB;
+  --amber:#F59E0B;--amber-d:#D97706;--amber-lt:#FEF3C7;
+  --green:#16A34A;--green-d:#15803D;--green-lt:#DCFCE7;
+  --red:#DC2626;--red-lt:#FEE2E2;
+  --purple:#7C3AED;--purple-lt:#EDE9FE;
   --warn:#D97706;--warn-lt:#FEF3C7;
-  --blue:#1D4ED8;--blue-lt:#EFF6FF;
-  --shadow:0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md:0 4px 16px rgba(0,0,0,0.1);
+  --text:#0F1C2E;--text2:#2D3F55;--textm:#5A6E87;--textlt:#8FA3BC;
+  --shadow-sm:0 1px 3px rgba(15,28,46,.07);
+  --shadow:0 2px 8px rgba(15,28,46,.09);
+  --shadow-md:0 6px 20px rgba(15,28,46,.12);
   --r:12px;
 }
-html,body{height:100%}
-body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;overflow-x:hidden}
+html,body{height:100%;-webkit-text-size-adjust:100%}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font-family:inherit}
 
-/* LOGIN */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#F0FDF4 0%,#F8FAFC 50%,#EFF6FF 100%)}
-.login-card{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:40px 32px;width:100%;max-width:400px;box-shadow:var(--shadow-md)}
-.login-logo{text-align:center;margin-bottom:28px}
-.login-logo-img{height:56px;width:auto;object-fit:contain;margin:0 auto 10px}
-.login-brand{font-size:18px;font-weight:800;color:var(--navy)}
-.login-brand span{color:var(--accent)}
-.login-sub{font-size:12px;color:var(--text-m);margin-top:2px}
-.login-title{font-size:20px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:6px}
-.login-hint{font-size:13px;color:var(--text-m);text-align:center;margin-bottom:24px}
-.form-grp{margin-bottom:14px}
-.form-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-m);margin-bottom:6px;display:block}
-.form-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:11px 13px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
-.form-input:focus{border-color:var(--accent);background:#fff}
-.form-input::placeholder{color:var(--text-lt)}
-.btn-login{width:100%;background:var(--accent);color:#fff;font-size:15px;font-weight:700;padding:13px;border-radius:10px;margin-top:8px;transition:background 0.2s;box-shadow:0 2px 8px rgba(22,163,74,0.25)}
-.btn-login:hover{background:var(--accent-d)}
-.login-err{color:var(--sale);font-size:12px;text-align:center;margin-top:8px;min-height:16px}
+/* ── LOGIN ── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#E8F0FB 0%,#F6F8FA 60%,#FEF3C7 100%)}
+.login-card{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:36px 28px;width:100%;max-width:400px;box-shadow:var(--shadow-md)}
+.login-logo{text-align:center;margin-bottom:24px}
+.login-logo img{height:54px;width:54px;object-fit:contain;border-radius:12px;margin:0 auto 10px;border:1px solid var(--border)}
+.login-brand{font-size:17px;font-weight:800;color:var(--blue)}
+.login-brand span{color:var(--amber)}
+.login-sub{font-size:11px;color:var(--textm);margin-top:2px}
+.l-title{font-size:19px;font-weight:800;color:var(--text);text-align:center;margin-bottom:5px}
+.l-hint{font-size:12px;color:var(--textm);text-align:center;margin-bottom:22px}
+.fg{margin-bottom:13px}
+.fl{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--textm);margin-bottom:5px;display:block}
+.fi{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:11px 13px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.fi:focus{border-color:var(--blue);background:#fff}
+.fi::placeholder{color:var(--textlt)}
+.btn-login{width:100%;background:var(--blue);color:#fff;font-size:14px;font-weight:800;padding:13px;border-radius:10px;margin-top:6px;transition:background .2s;box-shadow:0 2px 8px rgba(29,94,191,.25)}
+.btn-login:hover{background:var(--blue-d)}
+.l-err{color:var(--red);font-size:12px;text-align:center;margin-top:8px;min-height:16px;font-weight:600}
 
-/* DASHBOARD */
-.dashboard{display:none;flex-direction:column;min-height:100vh}
+/* ── DASHBOARD ── */
+.dash{display:none;flex-direction:column;min-height:100vh}
 
-/* ADMIN NAV */
-.admin-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:60px;background:#fff;border-bottom:1.5px solid var(--border);box-shadow:var(--shadow);gap:10px}
-.admin-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.admin-logo img{height:32px;width:auto;object-fit:contain}
-.admin-logo-text{font-size:14px;font-weight:800;color:var(--navy);white-space:nowrap}
-.admin-logo-text span{color:var(--accent)}
-.admin-nav-right{display:flex;align-items:center;gap:8px}
-.btn-add{display:flex;align-items:center;gap:5px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:8px;transition:background 0.2s;white-space:nowrap;box-shadow:0 2px 6px rgba(22,163,74,0.25)}
-.btn-add:hover{background:var(--accent-d)}
-.btn-logout{font-size:12px;font-weight:700;color:var(--text-m);padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg3);transition:all 0.2s}
-.btn-logout:hover{color:var(--sale);border-color:rgba(220,38,38,0.3);background:var(--sale-lt)}
+/* ── ADMIN NAV ── */
+.a-nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:56px;background:#fff;border-bottom:1.5px solid var(--border);box-shadow:var(--shadow-sm);gap:8px}
+.a-logo{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.a-logo img{height:30px;width:30px;object-fit:contain;border-radius:6px}
+.a-logo-t{font-size:14px;font-weight:800;color:var(--blue)}
+.a-logo-t span{color:var(--amber)}
+.a-nav-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.btn-add{display:flex;align-items:center;gap:4px;background:var(--amber);color:var(--text);font-size:12px;font-weight:800;padding:8px 13px;border-radius:8px;transition:background .2s;white-space:nowrap;box-shadow:0 2px 6px rgba(245,158,11,.3)}
+.btn-add:hover{background:var(--amber-d)}
+.btn-logout{font-size:11px;font-weight:700;color:var(--textm);padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);transition:all .2s;white-space:nowrap}
+.btn-logout:hover{color:var(--red);border-color:rgba(220,38,38,.3);background:var(--red-lt)}
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px;max-width:900px;margin:0 auto;width:100%}
-@media(min-width:640px){.stats-row{grid-template-columns:repeat(4,1fr)}}
-.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow)}
-.stat-n{font-size:28px;font-weight:800;line-height:1}
-.stat-l{font-size:11px;font-weight:600;color:var(--text-m);letter-spacing:0.06em;margin-top:3px}
-.stat-n.c-avail{color:var(--accent)}
-.stat-n.c-sold{color:#4F46E5}
-.stat-n.c-pend{color:var(--warn)}
-.stat-n.c-total{color:var(--navy)}
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px;max-width:900px;margin:0 auto;width:100%}
+@media(min-width:600px){.stats-row{grid-template-columns:repeat(4,1fr)}}
+.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-n{font-size:26px;font-weight:800;line-height:1}
+.stat-l{font-size:10px;font-weight:700;color:var(--textm);letter-spacing:.05em;margin-top:2px;text-transform:uppercase}
+.sn-av{color:var(--green)}
+.sn-so{color:var(--purple)}
+.sn-pe{color:var(--amber)}
+.sn-to{color:var(--blue)}
 
-/* INVENTORY LIST */
-.inv-wrap{padding:0 14px 40px;max-width:900px;margin:0 auto;width:100%}
-.inv-table-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.inv-table-title{font-size:14px;font-weight:800;color:var(--navy2)}
-.inv-list{display:flex;flex-direction:column;gap:10px}
-.inv-item{background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;display:flex;align-items:stretch;transition:border-color 0.2s;box-shadow:var(--shadow)}
-.inv-item:hover{border-color:var(--border2)}
-.inv-thumb{width:88px;flex-shrink:0;background:var(--bg3);overflow:hidden}
+/* ── INV LIST ── */
+.inv-wrap{padding:0 12px 80px;max-width:900px;margin:0 auto;width:100%}
+.inv-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.inv-hd-t{font-size:13px;font-weight:800;color:var(--text2)}
+.inv-list{display:flex;flex-direction:column;gap:8px}
+
+/* Mobile card layout */
+.inv-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.inv-card:hover{border-color:var(--border2)}
+.inv-card-top{display:flex;align-items:stretch;min-height:80px}
+.inv-thumb{width:90px;min-height:80px;flex-shrink:0;background:var(--surface2);overflow:hidden;position:relative}
 .inv-thumb img{width:100%;height:100%;object-fit:cover}
-.inv-thumb-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px;opacity:0.2}
-.inv-info{flex:1;padding:11px 12px;min-width:0}
-.inv-car-name{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.inv-car-meta{font-size:11px;color:var(--text-m);margin-bottom:6px}
-.inv-badges{display:flex;gap:5px;flex-wrap:wrap}
-.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:0.04em}
-.badge-avail{background:var(--accent-lt);color:var(--accent-text);border:1px solid rgba(22,163,74,0.2)}
-.badge-sold{background:#EDE9FE;color:#4F46E5;border:1px solid rgba(79,70,229,0.2)}
-.badge-pend{background:var(--warn-lt);color:var(--warn);border:1px solid rgba(217,119,6,0.2)}
-.badge-sale{background:var(--sale-lt);color:var(--sale);border:1px solid rgba(220,38,38,0.2)}
-.badge-feat{background:var(--accent-lt);color:var(--accent-text);border:1px solid rgba(22,163,74,0.2)}
-.badge-carfax{background:var(--blue-lt);color:var(--blue);border:1px solid rgba(29,78,216,0.2)}
-.inv-price-col{display:flex;flex-direction:column;justify-content:center;padding:10px 8px;text-align:right;flex-shrink:0}
-.inv-price{font-size:14px;font-weight:800;color:var(--navy)}
-.inv-price.on-sale{color:var(--accent)}
-.inv-price-orig{font-size:10px;color:var(--text-lt);text-decoration:line-through}
-.inv-actions{display:flex;flex-direction:column;gap:5px;padding:10px;flex-shrink:0;justify-content:center}
-.btn-edit{background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;transition:all 0.2s;white-space:nowrap}
-.btn-edit:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt)}
-.btn-del{background:#fff;border:1.5px solid rgba(220,38,38,0.15);color:var(--text-lt);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;transition:all 0.2s}
-.btn-del:hover{border-color:var(--sale);color:var(--sale);background:var(--sale-lt)}
-.inv-empty{text-align:center;padding:50px 20px;color:var(--text-m)}
-.inv-empty-ic{font-size:40px;opacity:0.15;margin-bottom:12px}
+.inv-thumb-e{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:22px;opacity:.2}
+.inv-info{flex:1;padding:10px 10px 8px;min-width:0}
+.inv-nm{font-size:14px;font-weight:800;color:var(--text);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-meta{font-size:10px;color:var(--textm);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-bdg{display:flex;gap:4px;flex-wrap:wrap}
+.bdg{font-size:9px;font-weight:800;padding:2px 7px;border-radius:100px;letter-spacing:.04em;white-space:nowrap}
+.bdg-av{background:var(--green-lt);color:var(--green-d);border:1px solid rgba(22,163,74,.15)}
+.bdg-so{background:var(--purple-lt);color:var(--purple);border:1px solid rgba(124,58,237,.15)}
+.bdg-pe{background:var(--warn-lt);color:var(--warn);border:1px solid rgba(217,119,6,.15)}
+.bdg-sa{background:var(--red-lt);color:var(--red);border:1px solid rgba(220,38,38,.15)}
+.bdg-fe{background:var(--amber-lt);color:var(--amber-d);border:1px solid rgba(245,158,11,.15)}
+.bdg-cf{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.inv-card-bot{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-top:1px solid var(--border);background:var(--bg)}
+.inv-pr{font-size:15px;font-weight:800;color:var(--text)}
+.inv-pr.sale{color:var(--green)}
+.inv-pr-orig{font-size:10px;color:var(--textlt);text-decoration:line-through;margin-left:5px}
+.inv-acts{display:flex;gap:5px}
+.btn-edit{background:var(--blue-lt);border:1.5px solid rgba(29,94,191,.2);color:var(--blue);font-size:11px;font-weight:800;padding:6px 12px;border-radius:7px;transition:all .2s;white-space:nowrap}
+.btn-edit:hover{background:var(--blue);color:#fff}
+.btn-del{background:var(--red-lt);border:1.5px solid rgba(220,38,38,.15);color:var(--red);font-size:11px;font-weight:800;padding:6px 12px;border-radius:7px;transition:all .2s;white-space:nowrap}
+.btn-del:hover{background:var(--red);color:#fff}
+.inv-empty{text-align:center;padding:50px 20px;color:var(--textm)}
+.inv-empty-ic{font-size:36px;opacity:.15;margin-bottom:10px}
 
-/* SKELETON */
-.skel{background:#fff;border:1.5px solid var(--border);border-radius:12px;height:80px;animation:pulse 1.8s ease infinite}
+/* ── SKELETON ── */
+.skel{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);height:90px;animation:pulse 1.8s ease infinite}
 @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 
-/* FORM MODAL */
-.form-modal-ov{position:fixed;inset:0;background:rgba(15,23,42,0.5);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
-@media(min-width:640px){.form-modal-ov{align-items:center}}
-.form-modal-ov.open{opacity:1;pointer-events:all}
-.form-modal{background:#fff;border-radius:24px 24px 0 0;border:1.5px solid var(--border);border-bottom:none;width:100%;max-height:94vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0,0.67,0);box-shadow:0 -8px 40px rgba(0,0,0,0.12)}
-@media(min-width:640px){.form-modal{border-radius:20px;border:1.5px solid var(--border);max-width:660px;max-height:90vh;transform:translateY(20px) scale(0.98)}}
-.form-modal-ov.open .form-modal{transform:translateY(0) scale(1)}
-.form-drag{width:32px;height:3px;background:var(--border2);border-radius:2px;margin:8px auto 0;position:absolute;top:0;left:50%;transform:translateX(-50%)}
-@media(min-width:640px){.form-drag{display:none}}
-.form-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1.5px solid var(--border);position:sticky;top:0;background:#fff;z-index:2}
-.form-title{font-size:17px;font-weight:800;color:var(--navy)}
-.form-close{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-.form-close:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
-.form-body{padding:16px 20px 24px}
-.form-section{margin-bottom:20px;padding-bottom:16px;border-bottom:1.5px solid var(--border)}
-.form-section:last-child{border-bottom:none;margin-bottom:0}
-.form-section-title{font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.form-row.single{grid-template-columns:1fr}
-.form-row.triple{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:480px){.form-row.triple{grid-template-columns:1fr 1fr}}
-.form-field{display:flex;flex-direction:column}
-.form-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:5px}
-.finput{background:var(--bg3);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;width:100%;transition:border-color 0.2s;-webkit-appearance:none}
-.finput:focus{border-color:var(--accent);background:#fff}
-.finput::placeholder{color:var(--text-lt)}
-.fselect{background:var(--bg3);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 32px 10px 12px;outline:none;width:100%;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color 0.2s;cursor:pointer}
-.fselect:focus{border-color:var(--accent);background:#fff}
-.fselect option{background:#fff;color:var(--text)}
-.ftextarea{background:var(--bg3);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;width:100%;transition:border-color 0.2s;resize:vertical;min-height:80px;line-height:1.6}
-.ftextarea:focus{border-color:var(--accent);background:#fff}
-.ftextarea::placeholder{color:var(--text-lt)}
+/* ── FORM MODAL ── */
+.fm-ov{position:fixed;inset:0;background:rgba(15,28,46,.55);backdrop-filter:blur(6px);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+@media(min-width:600px){.fm-ov{align-items:center;padding:16px}}
+.fm-ov.open{opacity:1;pointer-events:all}
+.fm-box{background:#fff;border-radius:22px 22px 0 0;border:1.5px solid var(--border);width:100%;max-height:94vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,0,.67,0);box-shadow:0 -8px 40px rgba(15,28,46,.14)}
+@media(min-width:600px){.fm-box{border-radius:18px;max-width:680px;max-height:92vh;transform:translateY(16px) scale(.97)}}
+.fm-ov.open .fm-box{transform:translateY(0) scale(1)}
+.fm-pip{width:30px;height:3px;background:var(--border2);border-radius:2px;margin:8px auto 0;position:absolute;top:0;left:50%;transform:translateX(-50%)}
+@media(min-width:600px){.fm-pip{display:none}}
+.fm-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1.5px solid var(--border);position:sticky;top:0;background:#fff;z-index:2}
+.fm-title{font-size:15px;font-weight:800;color:var(--text)}
+.fm-x{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);color:var(--text2);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.fm-x:hover{background:var(--text);color:#fff;border-color:var(--text)}
+.fm-body{padding:14px 16px 20px}
+.fm-sec{margin-bottom:18px;padding-bottom:14px;border-bottom:1.5px solid var(--border)}
+.fm-sec:last-child{border-bottom:none;margin-bottom:0}
+.fm-sec-t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.fm-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.fm-row.one{grid-template-columns:1fr}
+.fm-row.three{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:400px){.fm-row.three{grid-template-columns:1fr 1fr}}
+.ff{display:flex;flex-direction:column;gap:4px}
+.fl2{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--textm)}
+.fi2{background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 11px;outline:none;width:100%;transition:border-color .2s;-webkit-appearance:none}
+.fi2:focus{border-color:var(--blue);background:#fff}
+.fi2::placeholder{color:var(--textlt)}
+.fsel2{background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 30px 10px 11px;outline:none;width:100%;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238FA3BC' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;cursor:pointer;transition:border-color .2s}
+.fsel2:focus{border-color:var(--blue);background:#fff}
+.fsel2 option{background:#fff;color:var(--text)}
+.ftxa{background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 11px;outline:none;width:100%;transition:border-color .2s;resize:vertical;min-height:76px;line-height:1.6}
+.ftxa:focus{border-color:var(--blue);background:#fff}
+.ftxa::placeholder{color:var(--textlt)}
 
-/* TOGGLE */
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border:1.5px solid var(--border);border-radius:9px}
-.toggle-label{font-size:13px;font-weight:700;color:var(--navy)}
-.toggle-sub{font-size:11px;color:var(--text-m)}
-.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
-.toggle input{opacity:0;width:0;height:0;position:absolute}
-.toggle-track{position:absolute;inset:0;border-radius:12px;background:var(--border2);cursor:pointer;transition:background 0.2s}
-.toggle input:checked+.toggle-track{background:var(--accent)}
-.toggle-thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform 0.2s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
-.toggle input:checked~.toggle-thumb{transform:translateX(20px)}
-.sale-reveal{display:none}
-.sale-reveal.show{display:block}
+/* ── TOGGLE ── */
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px}
+.tog-info{}
+.tog-lbl{font-size:13px;font-weight:700;color:var(--text)}
+.tog-sub{font-size:10px;color:var(--textm)}
+.tog{position:relative;width:42px;height:23px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0;position:absolute}
+.tog-tr{position:absolute;inset:0;border-radius:12px;background:var(--border2);cursor:pointer;transition:background .2s}
+.tog input:checked+.tog-tr{background:var(--blue)}
+.tog-th{position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;transition:transform .2s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.tog input:checked~.tog-th{transform:translateX(19px)}
+.sale-hide{display:none}
+.sale-hide.show{display:block}
 
-/* PHOTO UPLOAD */
-.photo-drop{border:2px dashed var(--border2);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:var(--bg3)}
-.photo-drop:hover,.photo-drop.dragover{border-color:var(--accent);background:var(--accent-lt)}
-.photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.photo-drop-ic{font-size:30px;margin-bottom:8px;opacity:0.35}
-.photo-drop-text{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:3px}
-.photo-drop-hint{font-size:11px;color:var(--text-m)}
-.photo-previews{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-@media(min-width:480px){.photo-previews{grid-template-columns:repeat(4,1fr)}}
-.photo-prev-item{position:relative;aspect-ratio:4/3;border-radius:9px;overflow:hidden;border:2px solid var(--border);background:var(--bg3)}
-.photo-prev-item img{width:100%;height:100%;object-fit:cover}
-.photo-prev-item.cover{border-color:var(--accent)}
-.photo-prev-item.cover::before{content:'★ Cover';position:absolute;top:0;left:0;right:0;background:var(--accent);color:#fff;font-size:9px;font-weight:800;text-align:center;padding:2px;letter-spacing:0.05em}
-.photo-rem{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.9);border:1px solid var(--border);color:var(--navy);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s}
-.photo-rem:hover{background:var(--sale);color:#fff;border-color:var(--sale)}
-.set-cover-btn{opacity:0;position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,0.75);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;transition:opacity 0.2s;cursor:pointer}
-.photo-prev-item:hover .set-cover-btn{opacity:1}
-.upload-progress{margin-top:8px;font-size:12px;color:var(--text-m);text-align:center;min-height:16px;font-weight:600}
-.progress-bar-wrap{background:var(--border);border-radius:4px;height:5px;margin-top:6px;overflow:hidden;display:none}
-.progress-bar{height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width 0.3s}
+/* ── PHOTO DROP ── */
+.ph-drop{border:2px dashed var(--border2);border-radius:11px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;background:var(--bg)}
+.ph-drop:hover,.ph-drop.dov{border-color:var(--blue);background:var(--blue-lt)}
+.ph-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.ph-drop-ic{font-size:26px;margin-bottom:6px;opacity:.35}
+.ph-drop-t{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:2px}
+.ph-drop-s{font-size:10px;color:var(--textm)}
+.ph-prev{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+@media(min-width:400px){.ph-prev{grid-template-columns:repeat(4,1fr)}}
+.ph-item{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:2px solid var(--border);background:var(--surface2)}
+.ph-item img{width:100%;height:100%;object-fit:cover}
+.ph-item.cover{border-color:var(--green)}
+.ph-item.cover::before{content:'★ Cover';position:absolute;top:0;left:0;right:0;background:var(--green);color:#fff;font-size:8px;font-weight:800;text-align:center;padding:2px;letter-spacing:.04em}
+.ph-rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid var(--border);color:var(--text);font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.ph-rm:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.ph-cv-btn{opacity:0;position:absolute;bottom:3px;left:50%;transform:translateX(-50%);background:rgba(15,28,46,.75);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:4px;white-space:nowrap;transition:opacity .2s;cursor:pointer}
+.ph-item:hover .ph-cv-btn{opacity:1}
+.up-prog{margin-top:6px;font-size:11px;color:var(--textm);font-weight:600;text-align:center;min-height:14px}
+.prog-wrap{background:var(--border);border-radius:4px;height:4px;margin-top:5px;overflow:hidden;display:none}
+.prog-bar{height:100%;background:var(--blue);border-radius:4px;width:0%;transition:width .3s}
 
-/* CARFAX UPLOAD */
-.carfax-upload{border:2px dashed var(--border2);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:var(--bg3)}
-.carfax-upload:hover,.carfax-upload.dragover{border-color:var(--blue);background:var(--blue-lt)}
-.carfax-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.carfax-upload-ic{font-size:24px;margin-bottom:4px;opacity:0.4}
-.carfax-upload-text{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:2px}
-.carfax-upload-hint{font-size:11px;color:var(--text-m)}
-.carfax-preview{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 13px;background:#fff;border:1.5px solid var(--border);border-radius:9px}
-.carfax-preview-ic{font-size:20px;flex-shrink:0}
-.carfax-preview-name{flex:1;font-size:12px;font-weight:700;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.carfax-preview-size{font-size:11px;color:var(--text-m)}
-.carfax-rem{font-size:11px;font-weight:700;color:var(--sale);cursor:pointer;flex-shrink:0;padding:4px 8px;border-radius:6px;border:1px solid rgba(220,38,38,0.2);background:var(--sale-lt)}
-.carfax-existing{display:flex;align-items:center;gap:8px;margin-top:8px;padding:9px 12px;background:var(--blue-lt);border:1.5px solid rgba(29,78,216,0.2);border-radius:9px;font-size:12px;font-weight:600;color:var(--blue)}
-.carfax-existing a{color:var(--blue);text-decoration:underline;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.carfax-existing button{font-size:11px;font-weight:700;color:var(--sale);flex-shrink:0;padding:3px 8px;border:1px solid rgba(220,38,38,0.2);border-radius:5px;background:var(--sale-lt)}
+/* ── CARFAX DROP ── */
+.cf-drop{border:2px dashed var(--border2);border-radius:11px;padding:15px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;background:var(--bg)}
+.cf-drop:hover,.cf-drop.dov{border-color:#1D4ED8;background:#EFF6FF}
+.cf-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.cf-drop-ic{font-size:22px;opacity:.4;margin-bottom:4px}
+.cf-drop-t{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:2px}
+.cf-drop-s{font-size:10px;color:var(--textm)}
+.cf-prev{display:flex;align-items:center;gap:8px;margin-top:8px;padding:9px 12px;background:#fff;border:1.5px solid var(--border);border-radius:9px}
+.cf-prev-ic{font-size:18px;flex-shrink:0}
+.cf-prev-nm{flex:1;font-size:11px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cf-prev-sz{font-size:10px;color:var(--textm)}
+.cf-rm{font-size:10px;font-weight:700;color:var(--red);cursor:pointer;padding:3px 8px;border-radius:5px;border:1px solid rgba(220,38,38,.2);background:var(--red-lt);flex-shrink:0}
+.cf-exist{display:flex;align-items:center;gap:6px;margin-top:7px;padding:8px 11px;background:#EFF6FF;border:1.5px solid rgba(29,78,216,.2);border-radius:9px;font-size:11px;font-weight:600;color:#1D4ED8;flex-wrap:wrap}
+.cf-exist a{color:#1D4ED8;text-decoration:underline;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.cf-exist button{font-size:10px;font-weight:700;color:var(--red);padding:3px 7px;border:1px solid rgba(220,38,38,.2);border-radius:5px;background:var(--red-lt);flex-shrink:0}
 
-/* FORM FOOTER */
-.form-ft{display:flex;gap:10px;padding:14px 20px;border-top:1.5px solid var(--border);position:sticky;bottom:0;background:#fff}
-.btn-save{flex:1;background:var(--accent);color:#fff;font-size:14px;font-weight:700;padding:13px;border-radius:10px;transition:background 0.2s;box-shadow:0 2px 8px rgba(22,163,74,0.2)}
-.btn-save:hover{background:var(--accent-d)}
-.btn-save:disabled{opacity:0.5;cursor:not-allowed}
-.btn-cancel{background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;font-weight:600;padding:13px 18px;border-radius:10px;transition:all 0.2s}
-.btn-cancel:hover{border-color:var(--border2);color:var(--navy)}
+/* ── FORM FOOTER ── */
+.fm-ft{display:flex;gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));border-top:1.5px solid var(--border);position:sticky;bottom:0;background:#fff}
+.btn-save{flex:1;background:var(--blue);color:#fff;font-size:14px;font-weight:800;padding:13px;border-radius:10px;transition:background .2s;box-shadow:0 2px 8px rgba(29,94,191,.2)}
+.btn-save:hover{background:var(--blue-d)}
+.btn-save:disabled{opacity:.5;cursor:not-allowed}
+.btn-cancel{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);font-size:14px;font-weight:700;padding:13px 16px;border-radius:10px;transition:all .2s}
+.btn-cancel:hover{border-color:var(--border2)}
 
-/* CONFIRM MODAL */
-.confirm-ov{position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
-.confirm-ov.open{opacity:1;pointer-events:all}
-.confirm-box{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:28px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow-md)}
-.confirm-ic{font-size:36px;margin-bottom:12px}
-.confirm-title{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px}
-.confirm-sub{font-size:13px;color:var(--text-m);margin-bottom:20px;line-height:1.6}
-.confirm-btns{display:flex;gap:10px}
-.btn-confirm-del{flex:1;background:var(--sale);color:#fff;font-size:14px;font-weight:700;padding:12px;border-radius:10px;transition:background 0.2s}
-.btn-confirm-del:hover{background:#B91C1C}
-.btn-confirm-cancel{flex:1;background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;font-weight:600;padding:12px;border-radius:10px}
+/* ── CONFIRM ── */
+.conf-ov{position:fixed;inset:0;background:rgba(15,28,46,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+.conf-ov.open{opacity:1;pointer-events:all}
+.conf-box{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:26px;max-width:320px;width:100%;text-align:center;box-shadow:var(--shadow-md)}
+.conf-ic{font-size:32px;margin-bottom:10px}
+.conf-t{font-size:15px;font-weight:800;color:var(--text);margin-bottom:7px}
+.conf-s{font-size:12px;color:var(--textm);margin-bottom:18px;line-height:1.6}
+.conf-btns{display:flex;gap:8px}
+.btn-conf-del{flex:1;background:var(--red);color:#fff;font-size:13px;font-weight:800;padding:11px;border-radius:9px;transition:background .2s}
+.btn-conf-del:hover{background:#B91C1C}
+.btn-conf-can{flex:1;background:var(--bg);border:1.5px solid var(--border);color:var(--text2);font-size:13px;font-weight:700;padding:11px;border-radius:9px}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);z-index:999;background:#fff;border:1.5px solid var(--border);color:var(--text);font-size:13px;font-weight:700;padding:12px 20px;border-radius:12px;opacity:0;transition:all 0.3s;white-space:nowrap;box-shadow:var(--shadow-md)}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(16px);z-index:999;background:#fff;border:1.5px solid var(--border);color:var(--text);font-size:12px;font-weight:700;padding:11px 18px;border-radius:11px;opacity:0;transition:all .3s;white-space:nowrap;box-shadow:var(--shadow-md)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.toast-ok{border-color:rgba(22,163,74,0.35);color:var(--accent)}
-.toast.toast-err{border-color:rgba(220,38,38,0.35);color:var(--sale)}
+.toast.ok{border-color:rgba(22,163,74,.35);color:var(--green)}
+.toast.err{border-color:rgba(220,38,38,.35);color:var(--red)}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
@@ -229,41 +241,41 @@ input,select,textarea{font-family:inherit}
 <div id="loginWrap" class="login-wrap">
   <div class="login-card">
     <div class="login-logo">
-      <img class="login-logo-img" src="logo.png" alt="Friendz Auto" onerror="this.style.display='none'">
+      <img src="logo.png" alt="Friendz Auto" onerror="this.style.display='none'">
       <div class="login-brand">Friendz<span> Auto</span> Sales</div>
       <div class="login-sub">Admin Portal · Richmond, BC</div>
     </div>
-    <h2 class="login-title">Welcome Back</h2>
-    <p class="login-hint">Sign in to manage your inventory</p>
-    <div class="form-grp"><label class="form-label" for="loginEmail">Email</label><input class="form-input" type="email" id="loginEmail" placeholder="info@friendzauto.ca" autocomplete="email"></div>
-    <div class="form-grp"><label class="form-label" for="loginPass">Password</label><input class="form-input" type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"></div>
-    <button class="btn-login" onclick="doLogin()" id="loginBtn">Sign In →</button>
-    <div class="login-err" id="loginErr"></div>
+    <h2 class="l-title">Welcome Back 👋</h2>
+    <p class="l-hint">Sign in to manage your inventory</p>
+    <div class="fg"><label class="fl" for="lEmail">Email</label><input class="fi" type="email" id="lEmail" placeholder="info@friendzauto.ca" autocomplete="email"></div>
+    <div class="fg"><label class="fl" for="lPass">Password</label><input class="fi" type="password" id="lPass" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="btn-login" id="lBtn" onclick="doLogin()">Sign In →</button>
+    <div class="l-err" id="lErr"></div>
   </div>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" class="dashboard">
-  <nav class="admin-nav">
-    <div class="admin-logo">
-      <img src="logo.png" alt="logo" onerror="this.style.display='none'">
-      <span class="admin-logo-text">Friendz <span>Admin</span></span>
+<div id="dashboard" class="dash">
+  <nav class="a-nav">
+    <div class="a-logo">
+      <img src="logo.png" alt="" onerror="this.style.display='none'">
+      <span class="a-logo-t">Friendz <span>Admin</span></span>
     </div>
-    <div class="admin-nav-right">
+    <div class="a-nav-r">
       <button class="btn-add" onclick="openForm()">+ Add Car</button>
       <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </nav>
 
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-n c-total" id="sTotal">—</div><div class="stat-l">Total</div></div>
-    <div class="stat-card"><div class="stat-n c-avail" id="sAvail">—</div><div class="stat-l">Available</div></div>
-    <div class="stat-card"><div class="stat-n c-sold" id="sSold">—</div><div class="stat-l">Sold</div></div>
-    <div class="stat-card"><div class="stat-n c-pend" id="sPending">—</div><div class="stat-l">Pending</div></div>
+    <div class="stat-card"><div class="stat-n sn-to" id="sT">—</div><div class="stat-l">Total</div></div>
+    <div class="stat-card"><div class="stat-n sn-av" id="sA">—</div><div class="stat-l">Available</div></div>
+    <div class="stat-card"><div class="stat-n sn-so" id="sS">—</div><div class="stat-l">Sold</div></div>
+    <div class="stat-card"><div class="stat-n sn-pe" id="sP">—</div><div class="stat-l">Pending</div></div>
   </div>
 
   <div class="inv-wrap">
-    <div class="inv-table-hd"><span class="inv-table-title">All Inventory</span></div>
+    <div class="inv-hd"><span class="inv-hd-t">All Inventory</span></div>
     <div class="inv-list" id="invList">
       <div class="skel"></div><div class="skel"></div><div class="skel"></div>
     </div>
@@ -271,103 +283,99 @@ input,select,textarea{font-family:inherit}
 </div>
 
 <!-- CAR FORM MODAL -->
-<div class="form-modal-ov" id="formModalOv" onclick="handleFormBg(event)">
-  <div class="form-modal" id="formModal">
-    <div class="form-drag"></div>
-    <div class="form-hd">
-      <span class="form-title" id="formTitle">Add New Car</span>
-      <button class="form-close" onclick="closeForm()">✕</button>
+<div class="fm-ov" id="fmOv" onclick="if(event.target===this)closeForm()">
+  <div class="fm-box" style="position:relative">
+    <div class="fm-pip"></div>
+    <div class="fm-hd">
+      <span class="fm-title" id="fmTitle">Add New Car</span>
+      <button class="fm-x" onclick="closeForm()">✕</button>
     </div>
-    <div class="form-body">
+    <div class="fm-body">
 
-      <!-- VEHICLE INFO -->
-      <div class="form-section">
-        <div class="form-section-title">Vehicle Info</div>
-        <div class="form-row triple">
-          <div class="form-field"><label class="form-lbl">Year *</label><input class="finput" type="number" id="fYear" placeholder="2022" min="1990" max="2030"></div>
-          <div class="form-field"><label class="form-lbl">Make *</label><input class="finput" type="text" id="fMake" placeholder="Toyota"></div>
-          <div class="form-field"><label class="form-lbl">Model *</label><input class="finput" type="text" id="fModel" placeholder="Camry"></div>
+      <!-- VEHICLE -->
+      <div class="fm-sec">
+        <div class="fm-sec-t">Vehicle Info</div>
+        <div class="fm-row three">
+          <div class="ff"><label class="fl2">Year *</label><input class="fi2" type="number" id="fY" placeholder="2022" min="1990" max="2030"></div>
+          <div class="ff"><label class="fl2">Make *</label><input class="fi2" type="text" id="fMk" placeholder="Toyota"></div>
+          <div class="ff"><label class="fl2">Model *</label><input class="fi2" type="text" id="fMd" placeholder="Camry"></div>
         </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-lbl">Trim</label><input class="finput" type="text" id="fTrim" placeholder="SE, XLE…"></div>
-          <div class="form-field"><label class="form-lbl">Color</label><input class="finput" type="text" id="fColor" placeholder="Pearl White"></div>
+        <div class="fm-row">
+          <div class="ff"><label class="fl2">Trim</label><input class="fi2" type="text" id="fTr" placeholder="SE, XLE…"></div>
+          <div class="ff"><label class="fl2">Color</label><input class="fi2" type="text" id="fCl" placeholder="Pearl White"></div>
         </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-lbl">VIN</label><input class="finput" type="text" id="fVin" placeholder="Optional"></div>
-          <div class="form-field"><label class="form-lbl">Mileage (km)</label><input class="finput" type="number" id="fMileage" placeholder="42000"></div>
+        <div class="fm-row">
+          <div class="ff"><label class="fl2">VIN</label><input class="fi2" type="text" id="fVn" placeholder="Optional"></div>
+          <div class="ff"><label class="fl2">Mileage (km)</label><input class="fi2" type="number" id="fMi" placeholder="42000"></div>
         </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-lbl">Engine</label><input class="finput" type="text" id="fEngine" placeholder="2.5L 4-Cyl"></div>
-          <div class="form-field"><label class="form-lbl">Body Type</label><select class="fselect" id="fBodyType"><option value="">Select…</option><option>Sedan</option><option>SUV</option><option>Pickup</option><option>Van</option><option>Coupe</option><option>Hatchback</option><option>Wagon</option><option>Convertible</option></select></div>
+        <div class="fm-row">
+          <div class="ff"><label class="fl2">Engine</label><input class="fi2" type="text" id="fEn" placeholder="2.5L 4-Cyl"></div>
+          <div class="ff"><label class="fl2">Body Type</label>
+            <select class="fsel2" id="fBt"><option value="">Select…</option><option>Sedan</option><option>SUV</option><option>Pickup</option><option>Van</option><option>Coupe</option><option>Hatchback</option><option>Wagon</option><option>Convertible</option></select>
+          </div>
         </div>
-        <div class="form-row triple">
-          <div class="form-field"><label class="form-lbl">Transmission</label><select class="fselect" id="fTrans"><option value="">Select…</option><option>Automatic</option><option>Manual</option><option>CVT</option></select></div>
-          <div class="form-field"><label class="form-lbl">Drivetrain</label><select class="fselect" id="fDrive"><option value="">Select…</option><option>FWD</option><option>AWD</option><option>RWD</option><option>4WD</option><option>4x4</option></select></div>
-          <div class="form-field"><label class="form-lbl">Fuel Type</label><select class="fselect" id="fFuel"><option value="">Select…</option><option>Gasoline</option><option>Diesel</option><option>Hybrid</option><option>Electric</option><option>Plug-in Hybrid</option></select></div>
+        <div class="fm-row three">
+          <div class="ff"><label class="fl2">Transmission</label><select class="fsel2" id="fTx"><option value="">Select…</option><option>Automatic</option><option>Manual</option><option>CVT</option></select></div>
+          <div class="ff"><label class="fl2">Drivetrain</label><select class="fsel2" id="fDv"><option value="">Select…</option><option>FWD</option><option>AWD</option><option>RWD</option><option>4WD</option><option>4x4</option></select></div>
+          <div class="ff"><label class="fl2">Fuel</label><select class="fsel2" id="fFl"><option value="">Select…</option><option>Gasoline</option><option>Diesel</option><option>Hybrid</option><option>Electric</option><option>Plug-in Hybrid</option></select></div>
         </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-lbl">Condition</label><select class="fselect" id="fCondition"><option value="Good">Good</option><option value="Excellent">Excellent</option><option value="Fair">Fair</option></select></div>
-          <div class="form-field"><label class="form-lbl">Status</label><select class="fselect" id="fStatus"><option value="available">Available</option><option value="pending">Pending</option><option value="sold">Sold</option></select></div>
+        <div class="fm-row">
+          <div class="ff"><label class="fl2">Condition</label><select class="fsel2" id="fCn"><option value="Good">Good</option><option value="Excellent">Excellent</option><option value="Fair">Fair</option></select></div>
+          <div class="ff"><label class="fl2">Status</label><select class="fsel2" id="fSt"><option value="available">Available</option><option value="pending">Pending</option><option value="sold">Sold</option></select></div>
         </div>
-        <div class="form-row single"><div class="form-field"><label class="form-lbl">Description</label><textarea class="ftextarea" id="fDesc" placeholder="Describe the car — history, features, condition notes…"></textarea></div></div>
+        <div class="fm-row one"><div class="ff"><label class="fl2">Description</label><textarea class="ftxa" id="fDs" placeholder="Describe the car — history, features, what makes it special…"></textarea></div></div>
       </div>
 
       <!-- PRICING -->
-      <div class="form-section">
-        <div class="form-section-title">Pricing</div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-lbl">Asking Price (CAD) *</label><input class="finput" type="number" id="fPrice" placeholder="28900" step="100" min="0"></div>
+      <div class="fm-sec">
+        <div class="fm-sec-t">Pricing</div>
+        <div class="fm-row">
+          <div class="ff"><label class="fl2">Asking Price (CAD) *</label><input class="fi2" type="number" id="fPr" placeholder="28900" step="100" min="0"></div>
           <div style="display:flex;align-items:flex-end">
-            <div class="toggle-row" style="width:100%">
-              <div><div class="toggle-label">On Sale</div><div class="toggle-sub">Show discounted price</div></div>
-              <label class="toggle"><input type="checkbox" id="fOnSale" onchange="toggleSaleField()"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+            <div class="tog-row" style="width:100%">
+              <div class="tog-info"><div class="tog-lbl">On Sale</div><div class="tog-sub">Show discounted price</div></div>
+              <label class="tog"><input type="checkbox" id="fOs" onchange="toggleSale()"><span class="tog-tr"></span><span class="tog-th"></span></label>
             </div>
           </div>
         </div>
-        <div class="sale-reveal" id="saleReveal">
-          <div class="form-row single"><div class="form-field"><label class="form-lbl">Sale Price (CAD)</label><input class="finput" type="number" id="fSalePrice" placeholder="24900" step="100" min="0"></div></div>
+        <div class="sale-hide" id="saleHide">
+          <div class="fm-row one"><div class="ff"><label class="fl2">Sale Price (CAD)</label><input class="fi2" type="number" id="fSp" placeholder="24900" step="100" min="0"></div></div>
         </div>
-        <div class="toggle-row" style="margin-top:10px">
-          <div><div class="toggle-label">Featured</div><div class="toggle-sub">Show at top of inventory</div></div>
-          <label class="toggle"><input type="checkbox" id="fFeatured"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+        <div class="tog-row" style="margin-top:8px">
+          <div class="tog-info"><div class="tog-lbl">Featured</div><div class="tog-sub">Show at top of inventory</div></div>
+          <label class="tog"><input type="checkbox" id="fFt"><span class="tog-tr"></span><span class="tog-th"></span></label>
         </div>
       </div>
 
       <!-- PHOTOS -->
-      <div class="form-section">
-        <div class="form-section-title">Photos</div>
-        <div class="photo-drop" id="photoDrop"
-          ondragover="event.preventDefault();this.classList.add('dragover')"
-          ondragleave="this.classList.remove('dragover')"
-          ondrop="handleDrop(event)">
-          <input type="file" accept="image/*" multiple onchange="handlePhotoSelect(this.files)" id="photoInput">
-          <div class="photo-drop-ic">📷</div>
-          <div class="photo-drop-text">Tap or drag photos here</div>
-          <div class="photo-drop-hint">Auto-compressed to web size · First photo = cover image</div>
+      <div class="fm-sec">
+        <div class="fm-sec-t">Photos</div>
+        <div class="ph-drop" id="phDrop" ondragover="event.preventDefault();this.classList.add('dov')" ondragleave="this.classList.remove('dov')" ondrop="handleDrop(event)">
+          <input type="file" accept="image/*" multiple onchange="handlePhotos(this.files)" id="phInput">
+          <div class="ph-drop-ic">📷</div>
+          <div class="ph-drop-t">Tap or drag photos here</div>
+          <div class="ph-drop-s">Auto-compressed · First photo = cover image</div>
         </div>
-        <div class="photo-previews" id="photoPreviews"></div>
-        <div class="upload-progress" id="uploadProgress"></div>
-        <div class="progress-bar-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="ph-prev" id="phPrev"></div>
+        <div class="up-prog" id="upProg"></div>
+        <div class="prog-wrap" id="progWrap"><div class="prog-bar" id="progBar"></div></div>
       </div>
 
       <!-- CARFAX -->
-      <div class="form-section">
-        <div class="form-section-title">Carfax Report (PDF)</div>
-        <div id="carfaxExisting" style="display:none"></div>
-        <div class="carfax-upload" id="carfaxDrop"
-          ondragover="event.preventDefault();this.classList.add('dragover')"
-          ondragleave="this.classList.remove('dragover')"
-          ondrop="handleCarfaxDrop(event)">
-          <input type="file" accept="application/pdf,.pdf" onchange="handleCarfaxSelect(this.files)" id="carfaxInput">
-          <div class="carfax-upload-ic">📄</div>
-          <div class="carfax-upload-text">Tap or drag Carfax PDF here</div>
-          <div class="carfax-upload-hint">PDF only · Customers can view and download</div>
+      <div class="fm-sec">
+        <div class="fm-sec-t">Carfax Report (PDF)</div>
+        <div id="cfExist"></div>
+        <div class="cf-drop" id="cfDrop" ondragover="event.preventDefault();this.classList.add('dov')" ondragleave="this.classList.remove('dov')" ondrop="handleCfDrop(event)">
+          <input type="file" accept=".pdf,application/pdf" onchange="handleCf(this.files)" id="cfInput">
+          <div class="cf-drop-ic">📄</div>
+          <div class="cf-drop-t">Tap or drag Carfax PDF</div>
+          <div class="cf-drop-s">PDF only · Customers can view & download</div>
         </div>
-        <div id="carfaxPreview" style="display:none"></div>
+        <div id="cfPrev"></div>
       </div>
 
     </div>
-    <div class="form-ft">
+    <div class="fm-ft">
       <button class="btn-cancel" onclick="closeForm()">Cancel</button>
       <button class="btn-save" id="btnSave" onclick="saveCar()">Save Vehicle</button>
     </div>
@@ -375,239 +383,214 @@ input,select,textarea{font-family:inherit}
 </div>
 
 <!-- CONFIRM DELETE -->
-<div class="confirm-ov" id="confirmOv">
-  <div class="confirm-box">
-    <div class="confirm-ic">🗑</div>
-    <div class="confirm-title">Delete Vehicle?</div>
-    <div class="confirm-sub" id="confirmMsg">This will permanently remove the listing.</div>
-    <div class="confirm-btns">
-      <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancel</button>
-      <button class="btn-confirm-del" id="confirmDelBtn">Delete</button>
+<div class="conf-ov" id="confOv">
+  <div class="conf-box">
+    <div class="conf-ic">🗑</div>
+    <div class="conf-t">Delete Vehicle?</div>
+    <div class="conf-s" id="confMsg">This will permanently remove the listing.</div>
+    <div class="conf-btns">
+      <button class="btn-conf-can" onclick="closeConf()">Cancel</button>
+      <button class="btn-conf-del" id="confDel">Delete</button>
     </div>
   </div>
 </div>
 
 <script>
 const SUPA_URL='https://fbfgadxqszgqqjvoqxom.supabase.co';
-const SUPA_KEY='sb_publishable_wn02XPsnFIx5TMhUwca8WQ_rRIRgXfB';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.YOUR_REAL_KEY_HERE'; // ← replace with your eyJ key
 
-let db,allCars=[],editingCarId=null,pendingPhotos=[],existingPhotos=[],pendingCarfax=null,existingCarfaxUrl=null;
+let db,allCars=[],editId=null,pendPh=[],existPh=[],pendCf=null,existCfUrl=null,delId=null;
 
 document.addEventListener('DOMContentLoaded',async()=>{
   db=window.supabase.createClient(SUPA_URL,SUPA_KEY);
   const{data:{session}}=await db.auth.getSession();
-  if(session)showDashboard(session);
-  db.auth.onAuthStateChange((_,s)=>{if(s)showDashboard(s);else showLogin();});
-  document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  if(session)showDash();
+  db.auth.onAuthStateChange((_,s)=>{if(s)showDash();else showLogin();});
+  document.getElementById('lPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
 
 async function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim(),pass=document.getElementById('loginPass').value,btn=document.getElementById('loginBtn'),err=document.getElementById('loginErr');
+  const email=document.getElementById('lEmail').value.trim(),pass=document.getElementById('lPass').value,btn=document.getElementById('lBtn'),err=document.getElementById('lErr');
   err.textContent='';btn.textContent='Signing in…';btn.disabled=true;
   const{error}=await db.auth.signInWithPassword({email,password:pass});
   btn.textContent='Sign In →';btn.disabled=false;
   if(error)err.textContent='✕ '+error.message;
 }
-async function doLogout(){await db.auth.signOut();showLogin();}
+async function doLogout(){await db.auth.signOut();}
 function showLogin(){document.getElementById('loginWrap').style.display='flex';document.getElementById('dashboard').style.display='none';}
-function showDashboard(){document.getElementById('loginWrap').style.display='none';document.getElementById('dashboard').style.display='flex';loadInventory();}
+function showDash(){document.getElementById('loginWrap').style.display='none';document.getElementById('dashboard').style.display='flex';load();}
 
-async function loadInventory(){
+async function load(){
   const{data,error}=await db.from('cars').select('*').order('created_at',{ascending:false});
-  if(error){showToast('Failed to load inventory','err');return;}
-  allCars=data||[];renderStats();renderInventory();
+  if(error){toast('Failed to load','err');return;}
+  allCars=data||[];renderStats();renderList();
 }
 
 function renderStats(){
-  document.getElementById('sTotal').textContent=allCars.length;
-  document.getElementById('sAvail').textContent=allCars.filter(c=>c.status==='available').length;
-  document.getElementById('sSold').textContent=allCars.filter(c=>c.status==='sold').length;
-  document.getElementById('sPending').textContent=allCars.filter(c=>c.status==='pending').length;
+  document.getElementById('sT').textContent=allCars.length;
+  document.getElementById('sA').textContent=allCars.filter(c=>c.status==='available').length;
+  document.getElementById('sS').textContent=allCars.filter(c=>c.status==='sold').length;
+  document.getElementById('sP').textContent=allCars.filter(c=>c.status==='pending').length;
 }
 
-function renderInventory(){
+function renderList(){
   const list=document.getElementById('invList');
-  if(!allCars.length){list.innerHTML=`<div class="inv-empty"><div class="inv-empty-ic">🚗</div>No vehicles yet. Click "+ Add Car" to get started.</div>`;return;}
-  list.innerHTML=allCars.map(car=>{
-    const s=car.sale_price&&car.sale_price<car.price,ph=car.photos&&car.photos.length?car.photos[0]:null;
-    const sb=car.status==='available'?'<span class="badge badge-avail">✓ Available</span>':car.status==='sold'?'<span class="badge badge-sold">Sold</span>':'<span class="badge badge-pend">Pending</span>';
-    return`<div class="inv-item">
-      <div class="inv-thumb">${ph?`<img src="${ph}" alt="" loading="lazy">`:`<div class="inv-thumb-empty">🚗</div>`}</div>
-      <div class="inv-info">
-        <div class="inv-car-name">${car.year} ${car.make} ${car.model}${car.trim?' '+car.trim:''}</div>
-        <div class="inv-car-meta">${car.mileage?Number(car.mileage).toLocaleString()+' km · ':''}${car.transmission||''}${car.drivetrain?' · '+car.drivetrain:''}</div>
-        <div class="inv-badges">${sb}${s?'<span class="badge badge-sale">🏷 SALE</span>':''}${car.featured?'<span class="badge badge-feat">★ Featured</span>':''}${car.carfax_url?'<span class="badge badge-carfax">📄 Carfax</span>':''}</div>
+  if(!allCars.length){list.innerHTML=`<div class="inv-empty"><div class="inv-empty-ic">🚗</div>No vehicles yet. Tap "+ Add Car" to get started.</div>`;return;}
+  list.innerHTML=allCars.map(c=>{
+    const s=c.sale_price&&c.sale_price<c.price,ph=c.photos&&c.photos.length?c.photos[0]:null;
+    const sb=c.status==='available'?'<span class="bdg bdg-av">✓ Available</span>':c.status==='sold'?'<span class="bdg bdg-so">Sold</span>':'<span class="bdg bdg-pe">Pending</span>';
+    return`<div class="inv-card">
+      <div class="inv-card-top">
+        <div class="inv-thumb">${ph?`<img src="${ph}" alt="" loading="lazy">`:'<div class="inv-thumb-e">🚗</div>'}</div>
+        <div class="inv-info">
+          <div class="inv-nm">${c.year} ${c.make} ${c.model}${c.trim?' '+c.trim:''}</div>
+          <div class="inv-meta">${c.mileage?Number(c.mileage).toLocaleString()+' km':''} ${c.transmission?'· '+c.transmission:''} ${c.drivetrain?'· '+c.drivetrain:''}</div>
+          <div class="inv-bdg">${sb}${s?'<span class="bdg bdg-sa">🏷 Sale</span>':''}${c.featured?'<span class="bdg bdg-fe">★ Featured</span>':''}${c.carfax_url?'<span class="bdg bdg-cf">📄 Carfax</span>':''}</div>
+        </div>
       </div>
-      <div class="inv-price-col"><div class="inv-price${s?' on-sale':''}">$${Number(s?car.sale_price:car.price).toLocaleString()}</div>${s?`<div class="inv-price-orig">$${Number(car.price).toLocaleString()}</div>`:''}</div>
-      <div class="inv-actions">
-        <button class="btn-edit" onclick="editCar('${car.id}')">✏ Edit</button>
-        <button class="btn-del" onclick="confirmDelete('${car.id}')">🗑 Del</button>
+      <div class="inv-card-bot">
+        <div style="display:flex;align-items:baseline">
+          <span class="inv-pr${s?' sale':''}">$${Number(s?c.sale_price:c.price).toLocaleString()}</span>
+          ${s?`<span class="inv-pr-orig">$${Number(c.price).toLocaleString()}</span>`:''}
+        </div>
+        <div class="inv-acts">
+          <button class="btn-edit" onclick="editCar('${c.id}')">✏ Edit</button>
+          <button class="btn-del" onclick="confirmDel('${c.id}')">🗑</button>
+        </div>
       </div>
     </div>`;
   }).join('');
 }
 
-function openForm(){editingCarId=null;pendingPhotos=[];existingPhotos=[];pendingCarfax=null;existingCarfaxUrl=null;clearForm();document.getElementById('formTitle').textContent='Add New Car';document.getElementById('formModalOv').classList.add('open');document.body.style.overflow='hidden';}
+// ── FORM ──
+function openForm(){editId=null;pendPh=[];existPh=[];pendCf=null;existCfUrl=null;clearForm();document.getElementById('fmTitle').textContent='Add New Car';document.getElementById('fmOv').classList.add('open');document.body.style.overflow='hidden';}
 
 function editCar(id){
-  const car=allCars.find(c=>c.id===id);if(!car)return;
-  editingCarId=id;pendingPhotos=[];existingPhotos=car.photos?[...car.photos]:[];pendingCarfax=null;existingCarfaxUrl=car.carfax_url||null;
+  const c=allCars.find(x=>x.id===id);if(!c)return;
+  editId=id;pendPh=[];existPh=c.photos?[...c.photos]:[];pendCf=null;existCfUrl=c.carfax_url||null;
   clearForm();
-  document.getElementById('fYear').value=car.year||'';
-  document.getElementById('fMake').value=car.make||'';
-  document.getElementById('fModel').value=car.model||'';
-  document.getElementById('fTrim').value=car.trim||'';
-  document.getElementById('fColor').value=car.color||'';
-  document.getElementById('fVin').value=car.vin||'';
-  document.getElementById('fMileage').value=car.mileage||'';
-  document.getElementById('fEngine').value=car.engine||'';
-  document.getElementById('fDesc').value=car.description||'';
-  document.getElementById('fPrice').value=car.price||'';
-  document.getElementById('fBodyType').value=car.body_type||'';
-  document.getElementById('fTrans').value=car.transmission||'';
-  document.getElementById('fDrive').value=car.drivetrain||'';
-  document.getElementById('fFuel').value=car.fuel_type||'';
-  document.getElementById('fCondition').value=car.condition||'Good';
-  document.getElementById('fStatus').value=car.status||'available';
-  document.getElementById('fFeatured').checked=car.featured||false;
-  const s=car.sale_price&&car.sale_price<car.price;
-  document.getElementById('fOnSale').checked=s;
-  document.getElementById('fSalePrice').value=s?car.sale_price:'';
-  toggleSaleField();
-  renderPhotoPreviews();
-  renderCarfaxSection();
-  document.getElementById('formTitle').textContent='Edit Vehicle';
-  document.getElementById('formModalOv').classList.add('open');
-  document.body.style.overflow='hidden';
+  const s=c.sale_price&&c.sale_price<c.price;
+  const v=(id,val)=>{const el=document.getElementById(id);if(el&&val!=null)el.value=val;};
+  v('fY',c.year);v('fMk',c.make);v('fMd',c.model);v('fTr',c.trim);v('fCl',c.color);v('fVn',c.vin);v('fMi',c.mileage);v('fEn',c.engine);v('fDs',c.description);v('fPr',c.price);v('fBt',c.body_type);v('fTx',c.transmission);v('fDv',c.drivetrain);v('fFl',c.fuel_type);v('fCn',c.condition||'Good');v('fSt',c.status||'available');
+  document.getElementById('fFt').checked=c.featured||false;
+  document.getElementById('fOs').checked=s;
+  if(s)v('fSp',c.sale_price);
+  toggleSale();renderPhPrev();renderCfSection();
+  document.getElementById('fmTitle').textContent='Edit Vehicle';
+  document.getElementById('fmOv').classList.add('open');document.body.style.overflow='hidden';
 }
 
 function clearForm(){
-  ['fYear','fMake','fModel','fTrim','fColor','fVin','fMileage','fEngine','fDesc','fPrice','fSalePrice'].forEach(id=>document.getElementById(id).value='');
-  ['fBodyType','fTrans','fDrive','fFuel'].forEach(id=>document.getElementById(id).selectedIndex=0);
-  document.getElementById('fCondition').value='Good';
-  document.getElementById('fStatus').value='available';
-  document.getElementById('fFeatured').checked=false;
-  document.getElementById('fOnSale').checked=false;
-  document.getElementById('saleReveal').classList.remove('show');
-  document.getElementById('photoPreviews').innerHTML='';
-  document.getElementById('uploadProgress').textContent='';
-  document.getElementById('progressWrap').style.display='none';
-  document.getElementById('photoInput').value='';
-  document.getElementById('carfaxInput').value='';
-  document.getElementById('carfaxPreview').style.display='none';
-  document.getElementById('carfaxPreview').innerHTML='';
-  document.getElementById('carfaxExisting').style.display='none';
-  document.getElementById('carfaxExisting').innerHTML='';
+  ['fY','fMk','fMd','fTr','fCl','fVn','fMi','fEn','fDs','fPr','fSp'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['fBt','fTx','fDv','fFl'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  const cn=document.getElementById('fCn'),st=document.getElementById('fSt');
+  if(cn)cn.value='Good';if(st)st.value='available';
+  document.getElementById('fFt').checked=false;document.getElementById('fOs').checked=false;
+  document.getElementById('saleHide').classList.remove('show');
+  document.getElementById('phPrev').innerHTML='';document.getElementById('phInput').value='';
+  document.getElementById('upProg').textContent='';document.getElementById('progWrap').style.display='none';
+  document.getElementById('cfPrev').innerHTML='';document.getElementById('cfPrev').style.display='none';
+  document.getElementById('cfExist').innerHTML='';document.getElementById('cfExist').style.display='none';
+  document.getElementById('cfInput').value='';
 }
+function closeForm(){document.getElementById('fmOv').classList.remove('open');document.body.style.overflow='';editId=null;pendPh=[];existPh=[];pendCf=null;existCfUrl=null;}
+function toggleSale(){document.getElementById('saleHide').classList.toggle('show',document.getElementById('fOs').checked);}
 
-function closeForm(){document.getElementById('formModalOv').classList.remove('open');document.body.style.overflow='';editingCarId=null;pendingPhotos=[];existingPhotos=[];pendingCarfax=null;existingCarfaxUrl=null;}
-function handleFormBg(e){if(e.target===document.getElementById('formModalOv'))closeForm();}
-function toggleSaleField(){document.getElementById('saleReveal').classList.toggle('show',document.getElementById('fOnSale').checked);}
-
-/* PHOTO HANDLING */
-function handleDrop(e){e.preventDefault();document.getElementById('photoDrop').classList.remove('dragover');handlePhotoSelect(e.dataTransfer.files);}
-async function handlePhotoSelect(files){
+// ── PHOTOS ──
+function handleDrop(e){e.preventDefault();document.getElementById('phDrop').classList.remove('dov');handlePhotos(e.dataTransfer.files);}
+async function handlePhotos(files){
   const arr=Array.from(files).filter(f=>f.type.startsWith('image/'));
   if(!arr.length)return;
-  document.getElementById('uploadProgress').textContent=`Compressing ${arr.length} photo${arr.length>1?'s':''}…`;
-  for(const file of arr){
-    const blob=await compressImage(file);
-    pendingPhotos.push({blob,previewUrl:URL.createObjectURL(blob),name:`${Date.now()}-${Math.random().toString(36).substr(2,6)}.jpg`});
-  }
-  document.getElementById('uploadProgress').textContent=`${pendingPhotos.length+existingPhotos.length} photo${(pendingPhotos.length+existingPhotos.length)>1?'s':''} ready`;
-  renderPhotoPreviews();
+  document.getElementById('upProg').textContent=`Compressing ${arr.length} photo${arr.length>1?'s':''}…`;
+  for(const f of arr){const b=await compress(f);pendPh.push({blob:b,url:URL.createObjectURL(b),name:`${Date.now()}-${Math.random().toString(36).substr(2,6)}.jpg`});}
+  document.getElementById('upProg').textContent=`${pendPh.length+existPh.length} photo${(pendPh.length+existPh.length)!==1?'s':''} ready`;
+  renderPhPrev();
 }
-async function compressImage(file,maxW=1200,q=0.82){
+async function compress(file,maxW=1200,q=.82){
   return new Promise(res=>{
     const img=new Image(),url=URL.createObjectURL(file);
     img.onload=()=>{let{width:w,height:h}=img;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);c.toBlob(res,'image/jpeg',q);};
     img.onerror=()=>res(file);img.src=url;
   });
 }
-function renderPhotoPreviews(){
-  const wrap=document.getElementById('photoPreviews');
-  const all=[...existingPhotos.map((url,i)=>({url,type:'existing',idx:i})),...pendingPhotos.map((p,i)=>({url:p.previewUrl,type:'pending',idx:i}))];
-  wrap.innerHTML=all.map(({url,type,idx},i)=>`<div class="photo-prev-item${i===0?' cover':''}"><img src="${url}" alt="" loading="lazy"><span class="photo-rem" onclick="removePhoto('${type}',${idx})">✕</span>${i!==0?`<span class="set-cover-btn" onclick="makeCover('${type}',${idx})">★ Cover</span>`:''}</div>`).join('');
+function renderPhPrev(){
+  const all=[...existPh.map((u,i)=>({url:u,type:'ex',idx:i})),...pendPh.map((p,i)=>({url:p.url,type:'pe',idx:i}))];
+  document.getElementById('phPrev').innerHTML=all.map(({url,type,idx},i)=>`<div class="ph-item${i===0?' cover':''}"><img src="${url}" alt="" loading="lazy"><span class="ph-rm" onclick="rmPh('${type}',${idx})">✕</span>${i!==0?`<span class="ph-cv-btn" onclick="mkCover('${type}',${idx})">★ Cover</span>`:''}</div>`).join('');
 }
-function removePhoto(type,idx){if(type==='existing')existingPhotos.splice(idx,1);else pendingPhotos.splice(idx,1);renderPhotoPreviews();}
-function makeCover(type,idx){if(type==='existing'){const[i]=existingPhotos.splice(idx,1);existingPhotos.unshift(i);}else{const[i]=pendingPhotos.splice(idx,1);pendingPhotos.unshift(i);}renderPhotoPreviews();}
+function rmPh(type,idx){if(type==='ex')existPh.splice(idx,1);else pendPh.splice(idx,1);renderPhPrev();}
+function mkCover(type,idx){if(type==='ex'){const[i]=existPh.splice(idx,1);existPh.unshift(i);}else{const[i]=pendPh.splice(idx,1);pendPh.unshift(i);}renderPhPrev();}
 
-/* CARFAX HANDLING */
-function handleCarfaxDrop(e){e.preventDefault();document.getElementById('carfaxDrop').classList.remove('dragover');handleCarfaxSelect(e.dataTransfer.files);}
-function handleCarfaxSelect(files){
-  const file=Array.from(files).find(f=>f.type==='application/pdf'||f.name.endsWith('.pdf'));
-  if(!file)return;
-  pendingCarfax={file,name:`carfax-${Date.now()}.pdf`};
-  renderCarfaxSection();
+// ── CARFAX ──
+function handleCfDrop(e){e.preventDefault();document.getElementById('cfDrop').classList.remove('dov');handleCf(e.dataTransfer.files);}
+function handleCf(files){
+  const f=Array.from(files).find(x=>x.type==='application/pdf'||x.name.endsWith('.pdf'));
+  if(!f)return;
+  pendCf={file:f,name:`carfax-${Date.now()}.pdf`};renderCfSection();
 }
-function renderCarfaxSection(){
-  const prev=document.getElementById('carfaxPreview'),exist=document.getElementById('carfaxExisting');
-  if(pendingCarfax){
-    const sz=(pendingCarfax.file.size/1024).toFixed(0);
+function renderCfSection(){
+  const prev=document.getElementById('cfPrev'),exist=document.getElementById('cfExist');
+  if(pendCf){
     prev.style.display='block';
-    prev.innerHTML=`<div class="carfax-preview"><span class="carfax-preview-ic">📄</span><div><div class="carfax-preview-name">${pendingCarfax.file.name}</div><div class="carfax-preview-size">${sz} KB — will upload on save</div></div><button class="carfax-rem" onclick="clearCarfax()">Remove</button></div>`;
+    prev.innerHTML=`<div class="cf-prev"><span class="cf-prev-ic">📄</span><div><div class="cf-prev-nm">${pendCf.file.name}</div><div class="cf-prev-sz">${(pendCf.file.size/1024).toFixed(0)} KB</div></div><button class="cf-rm" onclick="clearCf()">Remove</button></div>`;
   }else{prev.style.display='none';prev.innerHTML='';}
-  if(existingCarfaxUrl&&!pendingCarfax){
-    exist.style.display='flex';
-    exist.className='carfax-existing';
-    exist.innerHTML=`📄 <a href="${existingCarfaxUrl}" target="_blank">View current Carfax PDF</a><button onclick="clearExistingCarfax()">Remove</button>`;
+  if(existCfUrl&&!pendCf){
+    exist.style.display='flex';exist.className='cf-exist';
+    exist.innerHTML=`📄 <a href="${existCfUrl}" target="_blank">View current Carfax</a><button onclick="clearExistCf()">Remove</button>`;
   }else{exist.style.display='none';exist.innerHTML='';}
 }
-function clearCarfax(){pendingCarfax=null;document.getElementById('carfaxInput').value='';renderCarfaxSection();}
-function clearExistingCarfax(){existingCarfaxUrl=null;renderCarfaxSection();}
+function clearCf(){pendCf=null;document.getElementById('cfInput').value='';renderCfSection();}
+function clearExistCf(){existCfUrl=null;renderCfSection();}
 
-/* SAVE */
+// ── SAVE ──
 async function saveCar(){
-  const year=+document.getElementById('fYear').value,make=document.getElementById('fMake').value.trim(),model=document.getElementById('fModel').value.trim(),price=+document.getElementById('fPrice').value;
-  if(!year||!make||!model||!price){showToast('Fill in Year, Make, Model, and Price','err');return;}
+  const yr=+document.getElementById('fY').value,mk=document.getElementById('fMk').value.trim(),md=document.getElementById('fMd').value.trim(),pr=+document.getElementById('fPr').value;
+  if(!yr||!mk||!md||!pr){toast('Fill in Year, Make, Model, and Price','err');return;}
   const btn=document.getElementById('btnSave');btn.disabled=true;btn.textContent='Saving…';
   try{
     // Upload photos
-    let newPhotoUrls=[];
-    if(pendingPhotos.length){
-      const prog=document.getElementById('uploadProgress'),bar=document.getElementById('progressBar'),wrap=document.getElementById('progressWrap');
-      wrap.style.display='block';
-      for(let i=0;i<pendingPhotos.length;i++){
-        const{blob,name}=pendingPhotos[i];
-        prog.textContent=`Uploading photo ${i+1} of ${pendingPhotos.length}…`;
-        bar.style.width=`${Math.round((i/pendingPhotos.length)*100)}%`;
+    let newPhs=[];
+    if(pendPh.length){
+      const pg=document.getElementById('upProg'),bar=document.getElementById('progBar'),pw=document.getElementById('progWrap');
+      pw.style.display='block';
+      for(let i=0;i<pendPh.length;i++){
+        const{blob,name}=pendPh[i];
+        pg.textContent=`Uploading photo ${i+1}/${pendPh.length}…`;
+        bar.style.width=`${Math.round(i/pendPh.length*100)}%`;
         const path=`cars/${name}`;
         const{error}=await db.storage.from('car-photos').upload(path,blob,{contentType:'image/jpeg',upsert:true});
-        if(!error){const{data:{publicUrl}}=db.storage.from('car-photos').getPublicUrl(path);newPhotoUrls.push(publicUrl);}
+        if(!error){const{data:{publicUrl}}=db.storage.from('car-photos').getPublicUrl(path);newPhs.push(publicUrl);}
       }
-      bar.style.width='100%';wrap.style.display='none';
+      bar.style.width='100%';pw.style.display='none';
     }
-
-    // Upload Carfax PDF
-    let carfaxUrl=existingCarfaxUrl;
-    if(pendingCarfax){
-      document.getElementById('uploadProgress').textContent='Uploading Carfax PDF…';
-      const path=`carfax/${pendingCarfax.name}`;
-      const{error}=await db.storage.from('car-photos').upload(path,pendingCarfax.file,{contentType:'application/pdf',upsert:true});
-      if(!error){const{data:{publicUrl}}=db.storage.from('car-photos').getPublicUrl(path);carfaxUrl=publicUrl;}
+    // Upload carfax
+    let cfUrl=existCfUrl;
+    if(pendCf){
+      document.getElementById('upProg').textContent='Uploading Carfax PDF…';
+      const path=`carfax/${pendCf.name}`;
+      const{error}=await db.storage.from('car-photos').upload(path,pendCf.file,{contentType:'application/pdf',upsert:true});
+      if(!error){const{data:{publicUrl}}=db.storage.from('car-photos').getPublicUrl(path);cfUrl=publicUrl;}
     }
-
-    const s=document.getElementById('fOnSale').checked,sp=+document.getElementById('fSalePrice').value;
-    const carData={year,make,model,trim:document.getElementById('fTrim').value.trim()||null,color:document.getElementById('fColor').value.trim()||null,vin:document.getElementById('fVin').value.trim()||null,mileage:+document.getElementById('fMileage').value||null,engine:document.getElementById('fEngine').value.trim()||null,description:document.getElementById('fDesc').value.trim()||null,price,sale_price:s&&sp>0?sp:null,body_type:document.getElementById('fBodyType').value||null,transmission:document.getElementById('fTrans').value||null,drivetrain:document.getElementById('fDrive').value||null,fuel_type:document.getElementById('fFuel').value||null,condition:document.getElementById('fCondition').value,status:document.getElementById('fStatus').value,featured:document.getElementById('fFeatured').checked,photos:[...existingPhotos,...newPhotoUrls],carfax_url:carfaxUrl||null};
-
+    const onSale=document.getElementById('fOs').checked,sp=+document.getElementById('fSp').value;
+    const g=id=>document.getElementById(id)?.value?.trim()||null;
+    const data={year:yr,make:mk,model:md,trim:g('fTr'),color:g('fCl'),vin:g('fVn'),mileage:+document.getElementById('fMi').value||null,engine:g('fEn'),description:g('fDs'),price:pr,sale_price:onSale&&sp>0?sp:null,body_type:document.getElementById('fBt').value||null,transmission:document.getElementById('fTx').value||null,drivetrain:document.getElementById('fDv').value||null,fuel_type:document.getElementById('fFl').value||null,condition:document.getElementById('fCn').value,status:document.getElementById('fSt').value,featured:document.getElementById('fFt').checked,photos:[...existPh,...newPhs],carfax_url:cfUrl||null};
     let error;
-    if(editingCarId){({error}=await db.from('cars').update(carData).eq('id',editingCarId));}
-    else{({error}=await db.from('cars').insert(carData));}
+    if(editId)({error}=await db.from('cars').update(data).eq('id',editId));
+    else({error}=await db.from('cars').insert(data));
     if(error)throw error;
-    showToast(editingCarId?'✓ Vehicle updated!':'✓ Vehicle added!','ok');
-    closeForm();await loadInventory();
-  }catch(err){showToast('Error: '+(err.message||'Something went wrong'),'err');}
-  finally{btn.disabled=false;btn.textContent='Save Vehicle';document.getElementById('uploadProgress').textContent='';}
+    toast(editId?'✓ Vehicle updated!':'✓ Vehicle added!','ok');
+    closeForm();await load();
+  }catch(err){toast('Error: '+(err.message||'Something went wrong'),'err');}
+  finally{btn.disabled=false;btn.textContent='Save Vehicle';document.getElementById('upProg').textContent='';}
 }
 
-/* DELETE */
-let deleteTargetId=null;
-function confirmDelete(id){const car=allCars.find(c=>c.id===id);deleteTargetId=id;document.getElementById('confirmMsg').textContent=`Delete ${car?.year||''} ${car?.make||''} ${car?.model||''}? This cannot be undone.`;document.getElementById('confirmDelBtn').onclick=doDelete;document.getElementById('confirmOv').classList.add('open');}
-async function doDelete(){if(!deleteTargetId)return;const{error}=await db.from('cars').delete().eq('id',deleteTargetId);closeConfirm();if(error){showToast('Delete failed: '+error.message,'err');return;}showToast('✓ Vehicle deleted','ok');await loadInventory();}
-function closeConfirm(){document.getElementById('confirmOv').classList.remove('open');deleteTargetId=null;}
+// ── DELETE ──
+function confirmDel(id){const c=allCars.find(x=>x.id===id);delId=id;document.getElementById('confMsg').textContent=`Delete ${c?.year||''} ${c?.make||''} ${c?.model||''}? This can't be undone.`;document.getElementById('confDel').onclick=doDel;document.getElementById('confOv').classList.add('open');}
+async function doDel(){if(!delId)return;const{error}=await db.from('cars').delete().eq('id',delId);closeConf();if(error){toast('Delete failed','err');return;}toast('✓ Vehicle deleted','ok');await load();}
+function closeConf(){document.getElementById('confOv').classList.remove('open');delId=null;}
 
-/* TOAST */
-function showToast(msg,type='ok'){document.querySelectorAll('.toast').forEach(t=>t.remove());const t=document.createElement('div');t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),350);},3500);}
+// ── TOAST ──
+function toast(msg,type='ok'){document.querySelectorAll('.toast').forEach(t=>t.remove());const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;document.body.appendChild(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),350);},3200);}
 </script>
 </body>
 </html>
