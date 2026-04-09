@@ -1,0 +1,16 @@
+{
+  "name": "Friendz Auto Sales",
+  "short_name": "Friendz Auto",
+  "description": "Quality Cars, Friendly Service — Richmond, BC",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#F6F8FA",
+  "theme_color": "#1D5EBF",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["automotive", "shopping"],
+  "lang": "en-CA"
+}
