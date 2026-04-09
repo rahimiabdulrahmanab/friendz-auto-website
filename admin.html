@@ -3,237 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Portal — Friendz Auto Sales</title>
+<title>Admin — Friendz Auto Sales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#05080F;--bg2:#0B1120;--bg3:#111827;
-  --glass:rgba(255,255,255,0.05);--glass-b:rgba(255,255,255,0.08);
-  --accent:#10B981;--accent-d:#059669;--accent-glow:rgba(16,185,129,0.12);
-  --text:#F0F4FF;--text-2:#CBD5E1;--text-m:#64748B;
-  --sale:#EF4444;--sale-bg:rgba(239,68,68,0.1);
-  --warn:#F59E0B;--warn-bg:rgba(245,158,11,0.1);
+  --bg:#F8FAFC;--bg2:#FFFFFF;--bg3:#F1F5F9;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --accent:#16A34A;--accent-d:#15803D;--accent-lt:#DCFCE7;--accent-text:#14532D;
+  --navy:#1D6FE8;--navy2:#1558C7;
+  --text:#1E293B;--text-2:#334155;--text-m:#64748B;--text-lt:#94A3B8;
+  --sale:#DC2626;--sale-lt:#FEE2E2;
+  --warn:#D97706;--warn-lt:#FEF3C7;
+  --blue:#1D4ED8;--blue-lt:#EFF6FF;
+  --shadow:0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.1);
   --r:12px;
 }
 html,body{height:100%}
 body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;overflow-x:hidden}
-img{display:block;max-width:100%}
-a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font-family:inherit}
 
-/* ── LOGIN ── */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(16,185,129,0.08) 0%,transparent 60%)}
-.login-card{background:rgba(11,17,32,0.9);border:1px solid var(--glass-b);border-radius:20px;padding:40px 32px;width:100%;max-width:400px;backdrop-filter:blur(20px)}
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#F0FDF4 0%,#F8FAFC 50%,#EFF6FF 100%)}
+.login-card{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:40px 32px;width:100%;max-width:400px;box-shadow:var(--shadow-md)}
 .login-logo{text-align:center;margin-bottom:28px}
-.login-logo-img{width:60px;height:60px;object-fit:contain;border-radius:12px;margin:0 auto 10px;border:1px solid var(--glass-b);padding:4px;background:rgba(255,255,255,0.04)}
-.login-brand{font-size:18px;font-weight:800}
+.login-logo-img{height:56px;width:auto;object-fit:contain;margin:0 auto 10px}
+.login-brand{font-size:18px;font-weight:800;color:var(--navy)}
 .login-brand span{color:var(--accent)}
 .login-sub{font-size:12px;color:var(--text-m);margin-top:2px}
-.login-title{font-size:20px;font-weight:800;text-align:center;margin-bottom:6px}
+.login-title{font-size:20px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:6px}
 .login-hint{font-size:13px;color:var(--text-m);text-align:center;margin-bottom:24px}
 .form-grp{margin-bottom:14px}
 .form-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-m);margin-bottom:6px;display:block}
-.form-input{width:100%;background:var(--glass);border:1px solid var(--glass-b);border-radius:10px;color:var(--text);font-size:14px;padding:11px 13px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
-.form-input:focus{border-color:rgba(16,185,129,0.45)}
-.form-input::placeholder{color:var(--text-m)}
-.btn-login{width:100%;background:var(--accent);color:#fff;font-size:15px;font-weight:700;padding:13px;border-radius:10px;margin-top:8px;transition:background 0.2s}
+.form-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:11px 13px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.form-input:focus{border-color:var(--accent);background:#fff}
+.form-input::placeholder{color:var(--text-lt)}
+.btn-login{width:100%;background:var(--accent);color:#fff;font-size:15px;font-weight:700;padding:13px;border-radius:10px;margin-top:8px;transition:background 0.2s;box-shadow:0 2px 8px rgba(22,163,74,0.25)}
 .btn-login:hover{background:var(--accent-d)}
 .login-err{color:var(--sale);font-size:12px;text-align:center;margin-top:8px;min-height:16px}
 
-/* ── DASHBOARD LAYOUT ── */
+/* DASHBOARD */
 .dashboard{display:none;flex-direction:column;min-height:100vh}
+
 /* ADMIN NAV */
-.admin-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:58px;background:rgba(5,8,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-b);gap:10px}
+.admin-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:60px;background:#fff;border-bottom:1.5px solid var(--border);box-shadow:var(--shadow);gap:10px}
 .admin-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.admin-logo img{height:32px;width:32px;object-fit:contain;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-b);padding:2px}
-.admin-logo-text{font-size:13px;font-weight:800;white-space:nowrap}
+.admin-logo img{height:32px;width:auto;object-fit:contain}
+.admin-logo-text{font-size:14px;font-weight:800;color:var(--navy);white-space:nowrap}
 .admin-logo-text span{color:var(--accent)}
 .admin-nav-right{display:flex;align-items:center;gap:8px}
-.btn-add{display:flex;align-items:center;gap:5px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:8px;transition:background 0.2s;white-space:nowrap}
+.btn-add{display:flex;align-items:center;gap:5px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:8px;transition:background 0.2s;white-space:nowrap;box-shadow:0 2px 6px rgba(22,163,74,0.25)}
 .btn-add:hover{background:var(--accent-d)}
-.btn-logout{font-size:12px;font-weight:600;color:var(--text-m);padding:7px 12px;border:1px solid var(--glass-b);border-radius:8px;background:var(--glass);transition:all 0.2s}
-.btn-logout:hover{color:var(--sale);border-color:rgba(239,68,68,0.3)}
+.btn-logout{font-size:12px;font-weight:700;color:var(--text-m);padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg3);transition:all 0.2s}
+.btn-logout:hover{color:var(--sale);border-color:rgba(220,38,38,0.3);background:var(--sale-lt)}
 
-/* STATS ROW */
+/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px;max-width:900px;margin:0 auto;width:100%}
 @media(min-width:640px){.stats-row{grid-template-columns:repeat(4,1fr)}}
-.stat-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:14px 16px;text-align:center}
-.stat-n{font-size:26px;font-weight:800;color:var(--accent);line-height:1}
+.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+.stat-n{font-size:28px;font-weight:800;line-height:1}
 .stat-l{font-size:11px;font-weight:600;color:var(--text-m);letter-spacing:0.06em;margin-top:3px}
-.stat-n.sold-c{color:#6366F1}
-.stat-n.pending-c{color:var(--warn)}
-.stat-n.total-c{color:var(--text-2)}
+.stat-n.c-avail{color:var(--accent)}
+.stat-n.c-sold{color:#4F46E5}
+.stat-n.c-pend{color:var(--warn)}
+.stat-n.c-total{color:var(--navy)}
 
-/* INVENTORY TABLE */
+/* INVENTORY LIST */
 .inv-wrap{padding:0 14px 40px;max-width:900px;margin:0 auto;width:100%}
 .inv-table-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.inv-table-title{font-size:14px;font-weight:800;color:var(--text-2)}
+.inv-table-title{font-size:14px;font-weight:800;color:var(--navy2)}
 .inv-list{display:flex;flex-direction:column;gap:10px}
-.inv-item{background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;overflow:hidden;display:flex;align-items:stretch;gap:0;transition:border-color 0.2s}
-.inv-item:hover{border-color:rgba(16,185,129,0.25)}
-.inv-thumb{width:90px;flex-shrink:0;background:var(--bg3);position:relative;overflow:hidden}
+.inv-item{background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;display:flex;align-items:stretch;transition:border-color 0.2s;box-shadow:var(--shadow)}
+.inv-item:hover{border-color:var(--border2)}
+.inv-thumb{width:88px;flex-shrink:0;background:var(--bg3);overflow:hidden}
 .inv-thumb img{width:100%;height:100%;object-fit:cover}
 .inv-thumb-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px;opacity:0.2}
-.inv-info{flex:1;padding:12px 12px;min-width:0}
-.inv-car-name{font-size:15px;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-info{flex:1;padding:11px 12px;min-width:0}
+.inv-car-name{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-car-meta{font-size:11px;color:var(--text-m);margin-bottom:6px}
 .inv-badges{display:flex;gap:5px;flex-wrap:wrap}
-.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:0.05em}
-.badge-avail{background:var(--accent-glow);color:var(--accent);border:1px solid rgba(16,185,129,0.2)}
-.badge-sold{background:rgba(99,102,241,0.15);color:#818CF8;border:1px solid rgba(99,102,241,0.2)}
-.badge-pend{background:var(--warn-bg);color:var(--warn);border:1px solid rgba(245,158,11,0.2)}
-.badge-sale{background:var(--sale-bg);color:var(--sale);border:1px solid rgba(239,68,68,0.2)}
-.badge-feat{background:var(--accent-glow);color:var(--accent);border:1px solid rgba(16,185,129,0.2)}
-.inv-price{font-size:14px;font-weight:800;color:var(--text);white-space:nowrap}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:0.04em}
+.badge-avail{background:var(--accent-lt);color:var(--accent-text);border:1px solid rgba(22,163,74,0.2)}
+.badge-sold{background:#EDE9FE;color:#4F46E5;border:1px solid rgba(79,70,229,0.2)}
+.badge-pend{background:var(--warn-lt);color:var(--warn);border:1px solid rgba(217,119,6,0.2)}
+.badge-sale{background:var(--sale-lt);color:var(--sale);border:1px solid rgba(220,38,38,0.2)}
+.badge-feat{background:var(--accent-lt);color:var(--accent-text);border:1px solid rgba(22,163,74,0.2)}
+.badge-carfax{background:var(--blue-lt);color:var(--blue);border:1px solid rgba(29,78,216,0.2)}
+.inv-price-col{display:flex;flex-direction:column;justify-content:center;padding:10px 8px;text-align:right;flex-shrink:0}
+.inv-price{font-size:14px;font-weight:800;color:var(--navy)}
 .inv-price.on-sale{color:var(--accent)}
-.inv-actions{display:flex;flex-direction:column;gap:5px;padding:10px 10px;flex-shrink:0;justify-content:center}
-.btn-edit{background:var(--glass);border:1px solid var(--glass-b);color:var(--text-2);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;transition:all 0.2s;white-space:nowrap}
-.btn-edit:hover{border-color:rgba(16,185,129,0.4);color:var(--accent)}
-.btn-del{background:transparent;border:1px solid rgba(239,68,68,0.15);color:var(--text-m);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;transition:all 0.2s}
-.btn-del:hover{border-color:var(--sale);color:var(--sale)}
+.inv-price-orig{font-size:10px;color:var(--text-lt);text-decoration:line-through}
+.inv-actions{display:flex;flex-direction:column;gap:5px;padding:10px;flex-shrink:0;justify-content:center}
+.btn-edit{background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;transition:all 0.2s;white-space:nowrap}
+.btn-edit:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt)}
+.btn-del{background:#fff;border:1.5px solid rgba(220,38,38,0.15);color:var(--text-lt);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;transition:all 0.2s}
+.btn-del:hover{border-color:var(--sale);color:var(--sale);background:var(--sale-lt)}
 .inv-empty{text-align:center;padding:50px 20px;color:var(--text-m)}
-.inv-empty-ic{font-size:40px;opacity:0.2;margin-bottom:12px}
+.inv-empty-ic{font-size:40px;opacity:0.15;margin-bottom:12px}
 
-/* LOADING SKELETON */
-.skel{background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;height:80px;animation:pulse 1.8s ease infinite}
-@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+/* SKELETON */
+.skel{background:#fff;border:1.5px solid var(--border);border-radius:12px;height:80px;animation:pulse 1.8s ease infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 
-/* CAR FORM MODAL */
-.form-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
+/* FORM MODAL */
+.form-modal-ov{position:fixed;inset:0;background:rgba(15,23,42,0.5);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
 @media(min-width:640px){.form-modal-ov{align-items:center}}
 .form-modal-ov.open{opacity:1;pointer-events:all}
-.form-modal{background:#0C1320;border:1px solid var(--glass-b);border-radius:24px 24px 0 0;width:100%;max-height:94vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0,0.67,0)}
-@media(min-width:640px){.form-modal{border-radius:20px;max-width:640px;max-height:90vh;transform:translateY(20px) scale(0.98);transition:transform 0.3s cubic-bezier(0.34,1.4,0.64,1)}}
+.form-modal{background:#fff;border-radius:24px 24px 0 0;border:1.5px solid var(--border);border-bottom:none;width:100%;max-height:94vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0,0.67,0);box-shadow:0 -8px 40px rgba(0,0,0,0.12)}
+@media(min-width:640px){.form-modal{border-radius:20px;border:1.5px solid var(--border);max-width:660px;max-height:90vh;transform:translateY(20px) scale(0.98)}}
 .form-modal-ov.open .form-modal{transform:translateY(0) scale(1)}
-.form-drag{width:32px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin:8px auto 0}
+.form-drag{width:32px;height:3px;background:var(--border2);border-radius:2px;margin:8px auto 0;position:absolute;top:0;left:50%;transform:translateX(-50%)}
 @media(min-width:640px){.form-drag{display:none}}
-.form-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--glass-b);position:sticky;top:0;background:#0C1320;z-index:2}
-.form-title{font-size:17px;font-weight:800}
-.form-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.07);color:var(--text);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
-.form-close:hover{background:rgba(255,255,255,0.14)}
+.form-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1.5px solid var(--border);position:sticky;top:0;background:#fff;z-index:2}
+.form-title{font-size:17px;font-weight:800;color:var(--navy)}
+.form-close{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.form-close:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
 .form-body{padding:16px 20px 24px}
-.form-section{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--glass-b)}
+.form-section{margin-bottom:20px;padding-bottom:16px;border-bottom:1.5px solid var(--border)}
 .form-section:last-child{border-bottom:none;margin-bottom:0}
-.form-section-title{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.form-section-title{font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .form-row.single{grid-template-columns:1fr}
 .form-row.triple{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:480px){.form-row,.form-row.triple{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.form-row.triple{grid-template-columns:1fr 1fr}}
 .form-field{display:flex;flex-direction:column}
 .form-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:5px}
-.finput{background:var(--glass);border:1px solid var(--glass-b);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;width:100%;transition:border-color 0.2s;-webkit-appearance:none}
-.finput:focus{border-color:rgba(16,185,129,0.45)}
-.finput::placeholder{color:var(--text-m)}
-.fselect{background:var(--glass);border:1px solid var(--glass-b);border-radius:9px;color:var(--text);font-size:13px;padding:10px 32px 10px 12px;outline:none;width:100%;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color 0.2s;cursor:pointer}
-.fselect:focus{border-color:rgba(16,185,129,0.45)}
-.fselect option{background:#0D1420;color:var(--text)}
-.ftextarea{background:var(--glass);border:1px solid var(--glass-b);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;width:100%;transition:border-color 0.2s;resize:vertical;min-height:80px;line-height:1.6}
-.ftextarea:focus{border-color:rgba(16,185,129,0.45)}
-.ftextarea::placeholder{color:var(--text-m)}
+.finput{background:var(--bg3);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;width:100%;transition:border-color 0.2s;-webkit-appearance:none}
+.finput:focus{border-color:var(--accent);background:#fff}
+.finput::placeholder{color:var(--text-lt)}
+.fselect{background:var(--bg3);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 32px 10px 12px;outline:none;width:100%;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color 0.2s;cursor:pointer}
+.fselect:focus{border-color:var(--accent);background:#fff}
+.fselect option{background:#fff;color:var(--text)}
+.ftextarea{background:var(--bg3);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:10px 12px;outline:none;width:100%;transition:border-color 0.2s;resize:vertical;min-height:80px;line-height:1.6}
+.ftextarea:focus{border-color:var(--accent);background:#fff}
+.ftextarea::placeholder{color:var(--text-lt)}
 
-/* TOGGLE SWITCH */
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--glass);border:1px solid var(--glass-b);border-radius:9px}
-.toggle-label{font-size:13px;font-weight:600}
+/* TOGGLE */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border:1.5px solid var(--border);border-radius:9px}
+.toggle-label{font-size:13px;font-weight:700;color:var(--navy)}
 .toggle-sub{font-size:11px;color:var(--text-m)}
 .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0;position:absolute}
-.toggle-track{position:absolute;inset:0;border-radius:12px;background:rgba(255,255,255,0.1);cursor:pointer;transition:background 0.2s}
-.toggle input:checked + .toggle-track{background:var(--accent)}
-.toggle-thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform 0.2s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,0.4)}
-.toggle input:checked ~ .toggle-thumb{transform:translateX(20px)}
-
-/* SALE PRICE SECTION */
+.toggle-track{position:absolute;inset:0;border-radius:12px;background:var(--border2);cursor:pointer;transition:background 0.2s}
+.toggle input:checked+.toggle-track{background:var(--accent)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform 0.2s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.toggle input:checked~.toggle-thumb{transform:translateX(20px)}
 .sale-reveal{display:none}
 .sale-reveal.show{display:block}
 
 /* PHOTO UPLOAD */
-.photo-drop{border:2px dashed rgba(255,255,255,0.12);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
-.photo-drop:hover,.photo-drop.dragover{border-color:rgba(16,185,129,0.5);background:var(--accent-glow)}
+.photo-drop{border:2px dashed var(--border2);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:var(--bg3)}
+.photo-drop:hover,.photo-drop.dragover{border-color:var(--accent);background:var(--accent-lt)}
 .photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.photo-drop-ic{font-size:32px;margin-bottom:8px;opacity:0.4}
-.photo-drop-text{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:3px}
+.photo-drop-ic{font-size:30px;margin-bottom:8px;opacity:0.35}
+.photo-drop-text{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:3px}
 .photo-drop-hint{font-size:11px;color:var(--text-m)}
 .photo-previews{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 @media(min-width:480px){.photo-previews{grid-template-columns:repeat(4,1fr)}}
-.photo-prev-item{position:relative;aspect-ratio:4/3;border-radius:9px;overflow:hidden;border:2px solid var(--glass-b);background:var(--bg3)}
+.photo-prev-item{position:relative;aspect-ratio:4/3;border-radius:9px;overflow:hidden;border:2px solid var(--border);background:var(--bg3)}
 .photo-prev-item img{width:100%;height:100%;object-fit:cover}
 .photo-prev-item.cover{border-color:var(--accent)}
-.photo-prev-item.cover::before{content:'★ Cover';position:absolute;top:0;left:0;right:0;background:rgba(16,185,129,0.8);color:#fff;font-size:9px;font-weight:800;text-align:center;padding:2px;letter-spacing:0.05em}
-.photo-rem{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s}
-.photo-rem:hover{background:var(--sale)}
+.photo-prev-item.cover::before{content:'★ Cover';position:absolute;top:0;left:0;right:0;background:var(--accent);color:#fff;font-size:9px;font-weight:800;text-align:center;padding:2px;letter-spacing:0.05em}
+.photo-rem{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.9);border:1px solid var(--border);color:var(--navy);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s}
+.photo-rem:hover{background:var(--sale);color:#fff;border-color:var(--sale)}
+.set-cover-btn{opacity:0;position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,0.75);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;transition:opacity 0.2s;cursor:pointer}
 .photo-prev-item:hover .set-cover-btn{opacity:1}
-.set-cover-btn{opacity:0;position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;transition:opacity 0.2s;cursor:pointer}
-.upload-progress{margin-top:8px;font-size:12px;color:var(--text-m);text-align:center;min-height:16px}
-.progress-bar-wrap{background:rgba(255,255,255,0.06);border-radius:4px;height:4px;margin-top:6px;overflow:hidden;display:none}
+.upload-progress{margin-top:8px;font-size:12px;color:var(--text-m);text-align:center;min-height:16px;font-weight:600}
+.progress-bar-wrap{background:var(--border);border-radius:4px;height:5px;margin-top:6px;overflow:hidden;display:none}
 .progress-bar{height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width 0.3s}
 
+/* CARFAX UPLOAD */
+.carfax-upload{border:2px dashed var(--border2);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:var(--bg3)}
+.carfax-upload:hover,.carfax-upload.dragover{border-color:var(--blue);background:var(--blue-lt)}
+.carfax-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.carfax-upload-ic{font-size:24px;margin-bottom:4px;opacity:0.4}
+.carfax-upload-text{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:2px}
+.carfax-upload-hint{font-size:11px;color:var(--text-m)}
+.carfax-preview{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 13px;background:#fff;border:1.5px solid var(--border);border-radius:9px}
+.carfax-preview-ic{font-size:20px;flex-shrink:0}
+.carfax-preview-name{flex:1;font-size:12px;font-weight:700;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.carfax-preview-size{font-size:11px;color:var(--text-m)}
+.carfax-rem{font-size:11px;font-weight:700;color:var(--sale);cursor:pointer;flex-shrink:0;padding:4px 8px;border-radius:6px;border:1px solid rgba(220,38,38,0.2);background:var(--sale-lt)}
+.carfax-existing{display:flex;align-items:center;gap:8px;margin-top:8px;padding:9px 12px;background:var(--blue-lt);border:1.5px solid rgba(29,78,216,0.2);border-radius:9px;font-size:12px;font-weight:600;color:var(--blue)}
+.carfax-existing a{color:var(--blue);text-decoration:underline;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.carfax-existing button{font-size:11px;font-weight:700;color:var(--sale);flex-shrink:0;padding:3px 8px;border:1px solid rgba(220,38,38,0.2);border-radius:5px;background:var(--sale-lt)}
+
 /* FORM FOOTER */
-.form-ft{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--glass-b);position:sticky;bottom:0;background:#0C1320}
-.btn-save{flex:1;background:var(--accent);color:#fff;font-size:14px;font-weight:700;padding:13px;border-radius:10px;transition:background 0.2s}
+.form-ft{display:flex;gap:10px;padding:14px 20px;border-top:1.5px solid var(--border);position:sticky;bottom:0;background:#fff}
+.btn-save{flex:1;background:var(--accent);color:#fff;font-size:14px;font-weight:700;padding:13px;border-radius:10px;transition:background 0.2s;box-shadow:0 2px 8px rgba(22,163,74,0.2)}
 .btn-save:hover{background:var(--accent-d)}
 .btn-save:disabled{opacity:0.5;cursor:not-allowed}
-.btn-cancel{background:var(--glass);border:1px solid var(--glass-b);color:var(--text-2);font-size:14px;font-weight:600;padding:13px 18px;border-radius:10px;transition:all 0.2s}
-.btn-cancel:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.btn-cancel{background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;font-weight:600;padding:13px 18px;border-radius:10px;transition:all 0.2s}
+.btn-cancel:hover{border-color:var(--border2);color:var(--navy)}
 
 /* CONFIRM MODAL */
-.confirm-ov{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.confirm-ov{position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .confirm-ov.open{opacity:1;pointer-events:all}
-.confirm-box{background:#0C1320;border:1px solid var(--glass-b);border-radius:16px;padding:24px;max-width:340px;width:100%;text-align:center}
+.confirm-box{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:28px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow-md)}
 .confirm-ic{font-size:36px;margin-bottom:12px}
-.confirm-title{font-size:16px;font-weight:800;margin-bottom:8px}
+.confirm-title{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px}
 .confirm-sub{font-size:13px;color:var(--text-m);margin-bottom:20px;line-height:1.6}
 .confirm-btns{display:flex;gap:10px}
 .btn-confirm-del{flex:1;background:var(--sale);color:#fff;font-size:14px;font-weight:700;padding:12px;border-radius:10px;transition:background 0.2s}
-.btn-confirm-del:hover{background:#DC2626}
-.btn-confirm-cancel{flex:1;background:var(--glass);border:1px solid var(--glass-b);color:var(--text-2);font-size:14px;font-weight:600;padding:12px;border-radius:10px}
+.btn-confirm-del:hover{background:#B91C1C}
+.btn-confirm-cancel{flex:1;background:var(--bg3);border:1.5px solid var(--border);color:var(--text-2);font-size:14px;font-weight:600;padding:12px;border-radius:10px}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(30px);z-index:999;background:#1A2540;border:1px solid var(--glass-b);color:var(--text);font-size:13px;font-weight:600;padding:12px 20px;border-radius:12px;opacity:0;transition:all 0.3s;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,0.4)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);z-index:999;background:#fff;border:1.5px solid var(--border);color:var(--text);font-size:13px;font-weight:700;padding:12px 20px;border-radius:12px;opacity:0;transition:all 0.3s;white-space:nowrap;box-shadow:var(--shadow-md)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.toast-ok{border-color:rgba(16,185,129,0.35);color:var(--accent)}
-.toast.toast-err{border-color:rgba(239,68,68,0.35);color:var(--sale)}
-
-/* SCROLLBAR */
+.toast.toast-ok{border-color:rgba(22,163,74,0.35);color:var(--accent)}
+.toast.toast-err{border-color:rgba(220,38,38,0.35);color:var(--sale)}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN ═══ -->
+<!-- LOGIN -->
 <div id="loginWrap" class="login-wrap">
   <div class="login-card">
     <div class="login-logo">
-      <img class="login-logo-img" src="https://raw.githubusercontent.com/rahimiabdulrahmanab/friendzauto/main/friendzauto.jpg" alt="logo" onerror="this.style.display='none'">
-      <div class="login-brand">Friendz<span> Auto</span></div>
+      <img class="login-logo-img" src="logo.png" alt="Friendz Auto" onerror="this.style.display='none'">
+      <div class="login-brand">Friendz<span> Auto</span> Sales</div>
       <div class="login-sub">Admin Portal · Richmond, BC</div>
     </div>
     <h2 class="login-title">Welcome Back</h2>
     <p class="login-hint">Sign in to manage your inventory</p>
-    <div class="form-grp">
-      <label class="form-label" for="loginEmail">Email</label>
-      <input class="form-input" type="email" id="loginEmail" placeholder="admin@friendzauto.ca" autocomplete="email">
-    </div>
-    <div class="form-grp">
-      <label class="form-label" for="loginPass">Password</label>
-      <input class="form-input" type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
-    </div>
+    <div class="form-grp"><label class="form-label" for="loginEmail">Email</label><input class="form-input" type="email" id="loginEmail" placeholder="info@friendzauto.ca" autocomplete="email"></div>
+    <div class="form-grp"><label class="form-label" for="loginPass">Password</label><input class="form-input" type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"></div>
     <button class="btn-login" onclick="doLogin()" id="loginBtn">Sign In →</button>
     <div class="login-err" id="loginErr"></div>
   </div>
 </div>
 
-<!-- ═══ DASHBOARD ═══ -->
+<!-- DASHBOARD -->
 <div id="dashboard" class="dashboard">
-  <!-- Admin Nav -->
   <nav class="admin-nav">
     <div class="admin-logo">
-      <img src="https://raw.githubusercontent.com/rahimiabdulrahmanab/friendzauto/main/friendzauto.jpg" alt="logo" onerror="this.style.display='none'">
+      <img src="logo.png" alt="logo" onerror="this.style.display='none'">
       <span class="admin-logo-text">Friendz <span>Admin</span></span>
     </div>
     <div class="admin-nav-right">
@@ -242,26 +255,22 @@ input,select,textarea{font-family:inherit}
     </div>
   </nav>
 
-  <!-- Stats -->
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-n total-c" id="sTotal">—</div><div class="stat-l">Total</div></div>
-    <div class="stat-card"><div class="stat-n" id="sAvail">—</div><div class="stat-l">Available</div></div>
-    <div class="stat-card"><div class="stat-n sold-c" id="sSold">—</div><div class="stat-l">Sold</div></div>
-    <div class="stat-card"><div class="stat-n pending-c" id="sPending">—</div><div class="stat-l">Pending</div></div>
+    <div class="stat-card"><div class="stat-n c-total" id="sTotal">—</div><div class="stat-l">Total</div></div>
+    <div class="stat-card"><div class="stat-n c-avail" id="sAvail">—</div><div class="stat-l">Available</div></div>
+    <div class="stat-card"><div class="stat-n c-sold" id="sSold">—</div><div class="stat-l">Sold</div></div>
+    <div class="stat-card"><div class="stat-n c-pend" id="sPending">—</div><div class="stat-l">Pending</div></div>
   </div>
 
-  <!-- Inventory list -->
   <div class="inv-wrap">
-    <div class="inv-table-hd">
-      <span class="inv-table-title">All Inventory</span>
-    </div>
+    <div class="inv-table-hd"><span class="inv-table-title">All Inventory</span></div>
     <div class="inv-list" id="invList">
       <div class="skel"></div><div class="skel"></div><div class="skel"></div>
     </div>
   </div>
 </div>
 
-<!-- ═══ CAR FORM MODAL ═══ -->
+<!-- CAR FORM MODAL -->
 <div class="form-modal-ov" id="formModalOv" onclick="handleFormBg(event)">
   <div class="form-modal" id="formModal">
     <div class="form-drag"></div>
@@ -271,7 +280,7 @@ input,select,textarea{font-family:inherit}
     </div>
     <div class="form-body">
 
-      <!-- BASIC INFO -->
+      <!-- VEHICLE INFO -->
       <div class="form-section">
         <div class="form-section-title">Vehicle Info</div>
         <div class="form-row triple">
@@ -280,7 +289,7 @@ input,select,textarea{font-family:inherit}
           <div class="form-field"><label class="form-lbl">Model *</label><input class="finput" type="text" id="fModel" placeholder="Camry"></div>
         </div>
         <div class="form-row">
-          <div class="form-field"><label class="form-lbl">Trim</label><input class="finput" type="text" id="fTrim" placeholder="SE, XLE, EX-L..."></div>
+          <div class="form-field"><label class="form-lbl">Trim</label><input class="finput" type="text" id="fTrim" placeholder="SE, XLE…"></div>
           <div class="form-field"><label class="form-lbl">Color</label><input class="finput" type="text" id="fColor" placeholder="Pearl White"></div>
         </div>
         <div class="form-row">
@@ -289,38 +298,18 @@ input,select,textarea{font-family:inherit}
         </div>
         <div class="form-row">
           <div class="form-field"><label class="form-lbl">Engine</label><input class="finput" type="text" id="fEngine" placeholder="2.5L 4-Cyl"></div>
-          <div class="form-field"><label class="form-lbl">Body Type</label>
-            <select class="fselect" id="fBodyType">
-              <option value="">Select…</option>
-              <option>Sedan</option><option>SUV</option><option>Pickup</option><option>Van</option>
-              <option>Coupe</option><option>Hatchback</option><option>Wagon</option><option>Convertible</option>
-            </select>
-          </div>
+          <div class="form-field"><label class="form-lbl">Body Type</label><select class="fselect" id="fBodyType"><option value="">Select…</option><option>Sedan</option><option>SUV</option><option>Pickup</option><option>Van</option><option>Coupe</option><option>Hatchback</option><option>Wagon</option><option>Convertible</option></select></div>
         </div>
         <div class="form-row triple">
-          <div class="form-field"><label class="form-lbl">Transmission</label>
-            <select class="fselect" id="fTrans"><option value="">Select…</option><option>Automatic</option><option>Manual</option><option>CVT</option></select>
-          </div>
-          <div class="form-field"><label class="form-lbl">Drivetrain</label>
-            <select class="fselect" id="fDrive"><option value="">Select…</option><option>FWD</option><option>AWD</option><option>RWD</option><option>4WD</option><option>4x4</option></select>
-          </div>
-          <div class="form-field"><label class="form-lbl">Fuel Type</label>
-            <select class="fselect" id="fFuel"><option value="">Select…</option><option>Gasoline</option><option>Diesel</option><option>Hybrid</option><option>Electric</option><option>Plug-in Hybrid</option></select>
-          </div>
+          <div class="form-field"><label class="form-lbl">Transmission</label><select class="fselect" id="fTrans"><option value="">Select…</option><option>Automatic</option><option>Manual</option><option>CVT</option></select></div>
+          <div class="form-field"><label class="form-lbl">Drivetrain</label><select class="fselect" id="fDrive"><option value="">Select…</option><option>FWD</option><option>AWD</option><option>RWD</option><option>4WD</option><option>4x4</option></select></div>
+          <div class="form-field"><label class="form-lbl">Fuel Type</label><select class="fselect" id="fFuel"><option value="">Select…</option><option>Gasoline</option><option>Diesel</option><option>Hybrid</option><option>Electric</option><option>Plug-in Hybrid</option></select></div>
         </div>
         <div class="form-row">
-          <div class="form-field"><label class="form-lbl">Condition</label>
-            <select class="fselect" id="fCondition"><option value="Good">Good</option><option value="Excellent">Excellent</option><option value="Fair">Fair</option></select>
-          </div>
-          <div class="form-field"><label class="form-lbl">Status</label>
-            <select class="fselect" id="fStatus"><option value="available">Available</option><option value="pending">Pending</option><option value="sold">Sold</option></select>
-          </div>
+          <div class="form-field"><label class="form-lbl">Condition</label><select class="fselect" id="fCondition"><option value="Good">Good</option><option value="Excellent">Excellent</option><option value="Fair">Fair</option></select></div>
+          <div class="form-field"><label class="form-lbl">Status</label><select class="fselect" id="fStatus"><option value="available">Available</option><option value="pending">Pending</option><option value="sold">Sold</option></select></div>
         </div>
-        <div class="form-row single">
-          <div class="form-field"><label class="form-lbl">Description</label>
-            <textarea class="ftextarea" id="fDesc" placeholder="Describe the car — history, features, condition notes…"></textarea>
-          </div>
-        </div>
+        <div class="form-row single"><div class="form-field"><label class="form-lbl">Description</label><textarea class="ftextarea" id="fDesc" placeholder="Describe the car — history, features, condition notes…"></textarea></div></div>
       </div>
 
       <!-- PRICING -->
@@ -336,12 +325,10 @@ input,select,textarea{font-family:inherit}
           </div>
         </div>
         <div class="sale-reveal" id="saleReveal">
-          <div class="form-row single">
-            <div class="form-field"><label class="form-lbl">Sale Price (CAD)</label><input class="finput" type="number" id="fSalePrice" placeholder="24900" step="100" min="0"></div>
-          </div>
+          <div class="form-row single"><div class="form-field"><label class="form-lbl">Sale Price (CAD)</label><input class="finput" type="number" id="fSalePrice" placeholder="24900" step="100" min="0"></div></div>
         </div>
         <div class="toggle-row" style="margin-top:10px">
-          <div><div class="toggle-label">Featured</div><div class="toggle-sub">Show prominently at top</div></div>
+          <div><div class="toggle-label">Featured</div><div class="toggle-sub">Show at top of inventory</div></div>
           <label class="toggle"><input type="checkbox" id="fFeatured"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
         </div>
       </div>
@@ -350,20 +337,36 @@ input,select,textarea{font-family:inherit}
       <div class="form-section">
         <div class="form-section-title">Photos</div>
         <div class="photo-drop" id="photoDrop"
-          ondragover="e.preventDefault();this.classList.add('dragover')"
+          ondragover="event.preventDefault();this.classList.add('dragover')"
           ondragleave="this.classList.remove('dragover')"
-          ondrop="handleDrop(e)">
+          ondrop="handleDrop(event)">
           <input type="file" accept="image/*" multiple onchange="handlePhotoSelect(this.files)" id="photoInput">
           <div class="photo-drop-ic">📷</div>
           <div class="photo-drop-text">Tap or drag photos here</div>
-          <div class="photo-drop-hint">Auto-compressed to web size · First photo = cover</div>
+          <div class="photo-drop-hint">Auto-compressed to web size · First photo = cover image</div>
         </div>
         <div class="photo-previews" id="photoPreviews"></div>
         <div class="upload-progress" id="uploadProgress"></div>
         <div class="progress-bar-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
       </div>
-    </div>
 
+      <!-- CARFAX -->
+      <div class="form-section">
+        <div class="form-section-title">Carfax Report (PDF)</div>
+        <div id="carfaxExisting" style="display:none"></div>
+        <div class="carfax-upload" id="carfaxDrop"
+          ondragover="event.preventDefault();this.classList.add('dragover')"
+          ondragleave="this.classList.remove('dragover')"
+          ondrop="handleCarfaxDrop(event)">
+          <input type="file" accept="application/pdf,.pdf" onchange="handleCarfaxSelect(this.files)" id="carfaxInput">
+          <div class="carfax-upload-ic">📄</div>
+          <div class="carfax-upload-text">Tap or drag Carfax PDF here</div>
+          <div class="carfax-upload-hint">PDF only · Customers can view and download</div>
+        </div>
+        <div id="carfaxPreview" style="display:none"></div>
+      </div>
+
+    </div>
     <div class="form-ft">
       <button class="btn-cancel" onclick="closeForm()">Cancel</button>
       <button class="btn-save" id="btnSave" onclick="saveCar()">Save Vehicle</button>
@@ -371,12 +374,12 @@ input,select,textarea{font-family:inherit}
   </div>
 </div>
 
-<!-- ═══ CONFIRM DELETE ═══ -->
+<!-- CONFIRM DELETE -->
 <div class="confirm-ov" id="confirmOv">
   <div class="confirm-box">
     <div class="confirm-ic">🗑</div>
     <div class="confirm-title">Delete Vehicle?</div>
-    <div class="confirm-sub" id="confirmMsg">This will permanently remove the car and all its photos from the database.</div>
+    <div class="confirm-sub" id="confirmMsg">This will permanently remove the listing.</div>
     <div class="confirm-btns">
       <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancel</button>
       <button class="btn-confirm-del" id="confirmDelBtn">Delete</button>
@@ -385,113 +388,57 @@ input,select,textarea{font-family:inherit}
 </div>
 
 <script>
-// ═══════════════════════════════════════════
-//  CONFIG — Replace with your Supabase values
-// ═══════════════════════════════════════════
-const SUPA_URL = 'https://fbfgadxqszgqqjvoqxom.supabase.co';
-const SUPA_KEY = 'sb_publishable_wn02XPsnFIx5TMhUwca8WQ_rRIRgXfB';
+const SUPA_URL='https://fbfgadxqszgqqjvoqxom.supabase.co';
+const SUPA_KEY='sb_publishable_wn02XPsnFIx5TMhUwca8WQ_rRIRgXfB';
 
-let db, userSession;
-let allCars = [];
-let editingCarId = null;
-let pendingPhotos = [];    // {file, blob, previewUrl, name}
-let existingPhotos = [];   // URLs already saved in DB
+let db,allCars=[],editingCarId=null,pendingPhotos=[],existingPhotos=[],pendingCarfax=null,existingCarfaxUrl=null;
 
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async () => {
-  if (SUPA_URL.includes('YOUR_')) {
-    showToast('⚠ Configure Supabase URL & Key in admin.html','err');
-    document.getElementById('loginErr').textContent = 'Supabase not configured yet. See setup guide.';
-    return;
-  }
-  db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
-  const {data:{session}} = await db.auth.getSession();
-  if (session) showDashboard(session);
-  db.auth.onAuthStateChange((_,s) => { if(s) showDashboard(s); else showLogin(); });
-  // Enter key on login
-  document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.addEventListener('DOMContentLoaded',async()=>{
+  db=window.supabase.createClient(SUPA_URL,SUPA_KEY);
+  const{data:{session}}=await db.auth.getSession();
+  if(session)showDashboard(session);
+  db.auth.onAuthStateChange((_,s)=>{if(s)showDashboard(s);else showLogin();});
+  document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 });
 
-// ═══════════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════════
-async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPass').value;
-  const btn   = document.getElementById('loginBtn');
-  const err   = document.getElementById('loginErr');
-  err.textContent=''; btn.textContent='Signing in…'; btn.disabled=true;
-  const {error} = await db.auth.signInWithPassword({email,password:pass});
-  btn.textContent='Sign In →'; btn.disabled=false;
-  if (error) err.textContent = '✕ ' + error.message;
+async function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim(),pass=document.getElementById('loginPass').value,btn=document.getElementById('loginBtn'),err=document.getElementById('loginErr');
+  err.textContent='';btn.textContent='Signing in…';btn.disabled=true;
+  const{error}=await db.auth.signInWithPassword({email,password:pass});
+  btn.textContent='Sign In →';btn.disabled=false;
+  if(error)err.textContent='✕ '+error.message;
+}
+async function doLogout(){await db.auth.signOut();showLogin();}
+function showLogin(){document.getElementById('loginWrap').style.display='flex';document.getElementById('dashboard').style.display='none';}
+function showDashboard(){document.getElementById('loginWrap').style.display='none';document.getElementById('dashboard').style.display='flex';loadInventory();}
+
+async function loadInventory(){
+  const{data,error}=await db.from('cars').select('*').order('created_at',{ascending:false});
+  if(error){showToast('Failed to load inventory','err');return;}
+  allCars=data||[];renderStats();renderInventory();
 }
 
-async function doLogout() {
-  await db.auth.signOut();
-  showLogin();
+function renderStats(){
+  document.getElementById('sTotal').textContent=allCars.length;
+  document.getElementById('sAvail').textContent=allCars.filter(c=>c.status==='available').length;
+  document.getElementById('sSold').textContent=allCars.filter(c=>c.status==='sold').length;
+  document.getElementById('sPending').textContent=allCars.filter(c=>c.status==='pending').length;
 }
 
-function showLogin() {
-  document.getElementById('loginWrap').style.display='flex';
-  document.getElementById('dashboard').style.display='none';
-}
-
-function showDashboard(session) {
-  userSession = session;
-  document.getElementById('loginWrap').style.display='none';
-  document.getElementById('dashboard').style.display='flex';
-  loadInventory();
-}
-
-// ═══════════════════════════════════════════
-//  INVENTORY
-// ═══════════════════════════════════════════
-async function loadInventory() {
-  const {data,error} = await db.from('cars').select('*').order('created_at',{ascending:false});
-  if (error) { showToast('Failed to load inventory','err'); return; }
-  allCars = data||[];
-  renderStats();
-  renderInventory();
-}
-
-function renderStats() {
-  document.getElementById('sTotal').textContent   = allCars.length;
-  document.getElementById('sAvail').textContent   = allCars.filter(c=>c.status==='available').length;
-  document.getElementById('sSold').textContent    = allCars.filter(c=>c.status==='sold').length;
-  document.getElementById('sPending').textContent = allCars.filter(c=>c.status==='pending').length;
-}
-
-function renderInventory() {
-  const list = document.getElementById('invList');
-  if (!allCars.length) {
-    list.innerHTML = `<div class="inv-empty"><div class="inv-empty-ic">🚗</div>No vehicles yet. Click "Add Car" to get started.</div>`;
-    return;
-  }
-  list.innerHTML = allCars.map(car => {
-    const onSale = car.sale_price && car.sale_price < car.price;
-    const photo = car.photos&&car.photos.length ? car.photos[0] : null;
-    const statusBadge = car.status==='available' ? '<span class="badge badge-avail">✓ Available</span>'
-      : car.status==='sold' ? '<span class="badge badge-sold">Sold</span>'
-      : '<span class="badge badge-pend">Pending</span>';
-    return `<div class="inv-item">
-      <div class="inv-thumb">
-        ${photo ? `<img src="${photo}" alt="" loading="lazy">` : `<div class="inv-thumb-empty">🚗</div>`}
-      </div>
+function renderInventory(){
+  const list=document.getElementById('invList');
+  if(!allCars.length){list.innerHTML=`<div class="inv-empty"><div class="inv-empty-ic">🚗</div>No vehicles yet. Click "+ Add Car" to get started.</div>`;return;}
+  list.innerHTML=allCars.map(car=>{
+    const s=car.sale_price&&car.sale_price<car.price,ph=car.photos&&car.photos.length?car.photos[0]:null;
+    const sb=car.status==='available'?'<span class="badge badge-avail">✓ Available</span>':car.status==='sold'?'<span class="badge badge-sold">Sold</span>':'<span class="badge badge-pend">Pending</span>';
+    return`<div class="inv-item">
+      <div class="inv-thumb">${ph?`<img src="${ph}" alt="" loading="lazy">`:`<div class="inv-thumb-empty">🚗</div>`}</div>
       <div class="inv-info">
         <div class="inv-car-name">${car.year} ${car.make} ${car.model}${car.trim?' '+car.trim:''}</div>
-        <div class="inv-car-meta">${car.mileage?Number(car.mileage).toLocaleString()+' km · ':''} ${car.transmission||''} ${car.drivetrain?'· '+car.drivetrain:''}</div>
-        <div class="inv-badges">
-          ${statusBadge}
-          ${onSale ? `<span class="badge badge-sale">🏷 SALE</span>` : ''}
-          ${car.featured ? `<span class="badge badge-feat">★ Featured</span>` : ''}
-        </div>
+        <div class="inv-car-meta">${car.mileage?Number(car.mileage).toLocaleString()+' km · ':''}${car.transmission||''}${car.drivetrain?' · '+car.drivetrain:''}</div>
+        <div class="inv-badges">${sb}${s?'<span class="badge badge-sale">🏷 SALE</span>':''}${car.featured?'<span class="badge badge-feat">★ Featured</span>':''}${car.carfax_url?'<span class="badge badge-carfax">📄 Carfax</span>':''}</div>
       </div>
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:10px 6px;text-align:right;flex-shrink:0">
-        <div class="inv-price${onSale?' on-sale':''}">$${Number(onSale?car.sale_price:car.price).toLocaleString()}</div>
-        ${onSale?`<div style="font-size:10px;color:var(--text-m);text-decoration:line-through">$${Number(car.price).toLocaleString()}</div>`:''}
-      </div>
+      <div class="inv-price-col"><div class="inv-price${s?' on-sale':''}">$${Number(s?car.sale_price:car.price).toLocaleString()}</div>${s?`<div class="inv-price-orig">$${Number(car.price).toLocaleString()}</div>`:''}</div>
       <div class="inv-actions">
         <button class="btn-edit" onclick="editCar('${car.id}')">✏ Edit</button>
         <button class="btn-del" onclick="confirmDelete('${car.id}')">🗑 Del</button>
@@ -500,61 +447,43 @@ function renderInventory() {
   }).join('');
 }
 
-// ═══════════════════════════════════════════
-//  FORM — OPEN / CLOSE
-// ═══════════════════════════════════════════
-function openForm() {
-  editingCarId = null;
-  pendingPhotos = [];
-  existingPhotos = [];
-  clearForm();
-  document.getElementById('formTitle').textContent = 'Add New Car';
-  document.getElementById('formModalOv').classList.add('open');
-  document.body.style.overflow='hidden';
-}
+function openForm(){editingCarId=null;pendingPhotos=[];existingPhotos=[];pendingCarfax=null;existingCarfaxUrl=null;clearForm();document.getElementById('formTitle').textContent='Add New Car';document.getElementById('formModalOv').classList.add('open');document.body.style.overflow='hidden';}
 
-function editCar(id) {
-  const car = allCars.find(c=>c.id===id);
-  if (!car) return;
-  editingCarId = id;
-  pendingPhotos = [];
-  existingPhotos = car.photos ? [...car.photos] : [];
+function editCar(id){
+  const car=allCars.find(c=>c.id===id);if(!car)return;
+  editingCarId=id;pendingPhotos=[];existingPhotos=car.photos?[...car.photos]:[];pendingCarfax=null;existingCarfaxUrl=car.carfax_url||null;
   clearForm();
-  // Fill form
-  document.getElementById('fYear').value    = car.year||'';
-  document.getElementById('fMake').value    = car.make||'';
-  document.getElementById('fModel').value   = car.model||'';
-  document.getElementById('fTrim').value    = car.trim||'';
-  document.getElementById('fColor').value   = car.color||'';
-  document.getElementById('fVin').value     = car.vin||'';
-  document.getElementById('fMileage').value = car.mileage||'';
-  document.getElementById('fEngine').value  = car.engine||'';
-  document.getElementById('fDesc').value    = car.description||'';
-  document.getElementById('fPrice').value   = car.price||'';
-  document.getElementById('fBodyType').value= car.body_type||'';
-  document.getElementById('fTrans').value   = car.transmission||'';
-  document.getElementById('fDrive').value   = car.drivetrain||'';
-  document.getElementById('fFuel').value    = car.fuel_type||'';
+  document.getElementById('fYear').value=car.year||'';
+  document.getElementById('fMake').value=car.make||'';
+  document.getElementById('fModel').value=car.model||'';
+  document.getElementById('fTrim').value=car.trim||'';
+  document.getElementById('fColor').value=car.color||'';
+  document.getElementById('fVin').value=car.vin||'';
+  document.getElementById('fMileage').value=car.mileage||'';
+  document.getElementById('fEngine').value=car.engine||'';
+  document.getElementById('fDesc').value=car.description||'';
+  document.getElementById('fPrice').value=car.price||'';
+  document.getElementById('fBodyType').value=car.body_type||'';
+  document.getElementById('fTrans').value=car.transmission||'';
+  document.getElementById('fDrive').value=car.drivetrain||'';
+  document.getElementById('fFuel').value=car.fuel_type||'';
   document.getElementById('fCondition').value=car.condition||'Good';
-  document.getElementById('fStatus').value  = car.status||'available';
+  document.getElementById('fStatus').value=car.status||'available';
   document.getElementById('fFeatured').checked=car.featured||false;
-  const onSale = car.sale_price && car.sale_price < car.price;
-  document.getElementById('fOnSale').checked = onSale;
-  document.getElementById('fSalePrice').value = onSale ? car.sale_price : '';
+  const s=car.sale_price&&car.sale_price<car.price;
+  document.getElementById('fOnSale').checked=s;
+  document.getElementById('fSalePrice').value=s?car.sale_price:'';
   toggleSaleField();
   renderPhotoPreviews();
-  document.getElementById('formTitle').textContent = 'Edit Vehicle';
+  renderCarfaxSection();
+  document.getElementById('formTitle').textContent='Edit Vehicle';
   document.getElementById('formModalOv').classList.add('open');
   document.body.style.overflow='hidden';
 }
 
-function clearForm() {
-  ['fYear','fMake','fModel','fTrim','fColor','fVin','fMileage','fEngine','fDesc','fPrice','fSalePrice'].forEach(id=>{
-    document.getElementById(id).value='';
-  });
-  ['fBodyType','fTrans','fDrive','fFuel'].forEach(id=>{
-    document.getElementById(id).selectedIndex=0;
-  });
+function clearForm(){
+  ['fYear','fMake','fModel','fTrim','fColor','fVin','fMileage','fEngine','fDesc','fPrice','fSalePrice'].forEach(id=>document.getElementById(id).value='');
+  ['fBodyType','fTrans','fDrive','fFuel'].forEach(id=>document.getElementById(id).selectedIndex=0);
   document.getElementById('fCondition').value='Good';
   document.getElementById('fStatus').value='available';
   document.getElementById('fFeatured').checked=false;
@@ -564,220 +493,121 @@ function clearForm() {
   document.getElementById('uploadProgress').textContent='';
   document.getElementById('progressWrap').style.display='none';
   document.getElementById('photoInput').value='';
+  document.getElementById('carfaxInput').value='';
+  document.getElementById('carfaxPreview').style.display='none';
+  document.getElementById('carfaxPreview').innerHTML='';
+  document.getElementById('carfaxExisting').style.display='none';
+  document.getElementById('carfaxExisting').innerHTML='';
 }
 
-function closeForm() {
-  document.getElementById('formModalOv').classList.remove('open');
-  document.body.style.overflow='';
-  editingCarId = null; pendingPhotos = []; existingPhotos = [];
-}
+function closeForm(){document.getElementById('formModalOv').classList.remove('open');document.body.style.overflow='';editingCarId=null;pendingPhotos=[];existingPhotos=[];pendingCarfax=null;existingCarfaxUrl=null;}
+function handleFormBg(e){if(e.target===document.getElementById('formModalOv'))closeForm();}
+function toggleSaleField(){document.getElementById('saleReveal').classList.toggle('show',document.getElementById('fOnSale').checked);}
 
-function handleFormBg(e) {
-  if(e.target===document.getElementById('formModalOv')) closeForm();
-}
-
-function toggleSaleField() {
-  const on = document.getElementById('fOnSale').checked;
-  document.getElementById('saleReveal').classList.toggle('show',on);
-}
-
-// ═══════════════════════════════════════════
-//  PHOTO HANDLING
-// ═══════════════════════════════════════════
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('photoDrop').classList.remove('dragover');
-  handlePhotoSelect(e.dataTransfer.files);
-}
-
-async function handlePhotoSelect(files) {
-  const arr = Array.from(files).filter(f=>f.type.startsWith('image/'));
-  if (!arr.length) return;
-  const progress = document.getElementById('uploadProgress');
-  progress.textContent = `Compressing ${arr.length} photo${arr.length>1?'s':''}…`;
-  for (const file of arr) {
-    const compressed = await compressImage(file);
-    const previewUrl = URL.createObjectURL(compressed);
-    const name = `${Date.now()}-${Math.random().toString(36).substr(2,6)}.jpg`;
-    pendingPhotos.push({file,blob:compressed,previewUrl,name});
+/* PHOTO HANDLING */
+function handleDrop(e){e.preventDefault();document.getElementById('photoDrop').classList.remove('dragover');handlePhotoSelect(e.dataTransfer.files);}
+async function handlePhotoSelect(files){
+  const arr=Array.from(files).filter(f=>f.type.startsWith('image/'));
+  if(!arr.length)return;
+  document.getElementById('uploadProgress').textContent=`Compressing ${arr.length} photo${arr.length>1?'s':''}…`;
+  for(const file of arr){
+    const blob=await compressImage(file);
+    pendingPhotos.push({blob,previewUrl:URL.createObjectURL(blob),name:`${Date.now()}-${Math.random().toString(36).substr(2,6)}.jpg`});
   }
-  progress.textContent = `${pendingPhotos.length} photo${pendingPhotos.length>1?'s':''} ready to upload`;
+  document.getElementById('uploadProgress').textContent=`${pendingPhotos.length+existingPhotos.length} photo${(pendingPhotos.length+existingPhotos.length)>1?'s':''} ready`;
   renderPhotoPreviews();
 }
-
-async function compressImage(file, maxW=1200, q=0.82) {
-  return new Promise(resolve => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      let {width:w,height:h} = img;
-      if (w > maxW) { h = Math.round(h*maxW/w); w=maxW; }
-      const c = document.createElement('canvas');
-      c.width=w; c.height=h;
-      c.getContext('2d').drawImage(img,0,0,w,h);
-      URL.revokeObjectURL(url);
-      c.toBlob(resolve,'image/jpeg',q);
-    };
-    img.onerror = () => resolve(file);
-    img.src = url;
+async function compressImage(file,maxW=1200,q=0.82){
+  return new Promise(res=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{let{width:w,height:h}=img;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);c.toBlob(res,'image/jpeg',q);};
+    img.onerror=()=>res(file);img.src=url;
   });
 }
-
-function renderPhotoPreviews() {
-  const wrap = document.getElementById('photoPreviews');
-  const all = [
-    ...existingPhotos.map((url,i) => ({url, type:'existing', idx:i})),
-    ...pendingPhotos.map((p,i)   => ({url:p.previewUrl, type:'pending', idx:i}))
-  ];
-  wrap.innerHTML = all.map(({url,type,idx},i) => `
-    <div class="photo-prev-item${i===0?' cover':''}">
-      <img src="${url}" alt="Photo ${i+1}" loading="lazy">
-      <span class="photo-rem" onclick="removePhoto('${type}',${idx})">✕</span>
-      ${i!==0 ? `<span class="set-cover-btn" onclick="makeCover('${type}',${idx})">★ Cover</span>` : ''}
-    </div>
-  `).join('');
+function renderPhotoPreviews(){
+  const wrap=document.getElementById('photoPreviews');
+  const all=[...existingPhotos.map((url,i)=>({url,type:'existing',idx:i})),...pendingPhotos.map((p,i)=>({url:p.previewUrl,type:'pending',idx:i}))];
+  wrap.innerHTML=all.map(({url,type,idx},i)=>`<div class="photo-prev-item${i===0?' cover':''}"><img src="${url}" alt="" loading="lazy"><span class="photo-rem" onclick="removePhoto('${type}',${idx})">✕</span>${i!==0?`<span class="set-cover-btn" onclick="makeCover('${type}',${idx})">★ Cover</span>`:''}</div>`).join('');
 }
+function removePhoto(type,idx){if(type==='existing')existingPhotos.splice(idx,1);else pendingPhotos.splice(idx,1);renderPhotoPreviews();}
+function makeCover(type,idx){if(type==='existing'){const[i]=existingPhotos.splice(idx,1);existingPhotos.unshift(i);}else{const[i]=pendingPhotos.splice(idx,1);pendingPhotos.unshift(i);}renderPhotoPreviews();}
 
-function removePhoto(type, idx) {
-  if (type==='existing') existingPhotos.splice(idx,1);
-  else pendingPhotos.splice(idx,1);
-  renderPhotoPreviews();
+/* CARFAX HANDLING */
+function handleCarfaxDrop(e){e.preventDefault();document.getElementById('carfaxDrop').classList.remove('dragover');handleCarfaxSelect(e.dataTransfer.files);}
+function handleCarfaxSelect(files){
+  const file=Array.from(files).find(f=>f.type==='application/pdf'||f.name.endsWith('.pdf'));
+  if(!file)return;
+  pendingCarfax={file,name:`carfax-${Date.now()}.pdf`};
+  renderCarfaxSection();
 }
-
-function makeCover(type, idx) {
-  // Move selected to front
-  if (type==='existing') {
-    if (existingPhotos.length===0) return;
-    const [item] = existingPhotos.splice(idx,1);
-    existingPhotos.unshift(item);
-  } else {
-    // Move pending photo to front of pending, and existing to second
-    const [item] = pendingPhotos.splice(idx,1);
-    pendingPhotos.unshift(item);
-  }
-  renderPhotoPreviews();
+function renderCarfaxSection(){
+  const prev=document.getElementById('carfaxPreview'),exist=document.getElementById('carfaxExisting');
+  if(pendingCarfax){
+    const sz=(pendingCarfax.file.size/1024).toFixed(0);
+    prev.style.display='block';
+    prev.innerHTML=`<div class="carfax-preview"><span class="carfax-preview-ic">📄</span><div><div class="carfax-preview-name">${pendingCarfax.file.name}</div><div class="carfax-preview-size">${sz} KB — will upload on save</div></div><button class="carfax-rem" onclick="clearCarfax()">Remove</button></div>`;
+  }else{prev.style.display='none';prev.innerHTML='';}
+  if(existingCarfaxUrl&&!pendingCarfax){
+    exist.style.display='flex';
+    exist.className='carfax-existing';
+    exist.innerHTML=`📄 <a href="${existingCarfaxUrl}" target="_blank">View current Carfax PDF</a><button onclick="clearExistingCarfax()">Remove</button>`;
+  }else{exist.style.display='none';exist.innerHTML='';}
 }
+function clearCarfax(){pendingCarfax=null;document.getElementById('carfaxInput').value='';renderCarfaxSection();}
+function clearExistingCarfax(){existingCarfaxUrl=null;renderCarfaxSection();}
 
-// ═══════════════════════════════════════════
-//  SAVE CAR
-// ═══════════════════════════════════════════
-async function saveCar() {
-  // Validate required fields
-  const year  = +document.getElementById('fYear').value;
-  const make  = document.getElementById('fMake').value.trim();
-  const model = document.getElementById('fModel').value.trim();
-  const price = +document.getElementById('fPrice').value;
-  if (!year||!make||!model||!price) {
-    showToast('Please fill in Year, Make, Model, and Price','err'); return;
-  }
-  const btn = document.getElementById('btnSave');
-  btn.disabled=true; btn.textContent='Saving…';
-
-  try {
-    // Upload pending photos
-    let newPhotoUrls = [];
-    if (pendingPhotos.length) {
-      const progress = document.getElementById('uploadProgress');
-      const bar = document.getElementById('progressBar');
-      const wrap = document.getElementById('progressWrap');
+/* SAVE */
+async function saveCar(){
+  const year=+document.getElementById('fYear').value,make=document.getElementById('fMake').value.trim(),model=document.getElementById('fModel').value.trim(),price=+document.getElementById('fPrice').value;
+  if(!year||!make||!model||!price){showToast('Fill in Year, Make, Model, and Price','err');return;}
+  const btn=document.getElementById('btnSave');btn.disabled=true;btn.textContent='Saving…';
+  try{
+    // Upload photos
+    let newPhotoUrls=[];
+    if(pendingPhotos.length){
+      const prog=document.getElementById('uploadProgress'),bar=document.getElementById('progressBar'),wrap=document.getElementById('progressWrap');
       wrap.style.display='block';
-      for (let i=0;i<pendingPhotos.length;i++) {
-        const {blob,name} = pendingPhotos[i];
-        const path = `cars/${name}`;
-        progress.textContent = `Uploading photo ${i+1} of ${pendingPhotos.length}…`;
-        bar.style.width = `${Math.round(((i)/pendingPhotos.length)*100)}%`;
-        const {error} = await db.storage.from('car-photos').upload(path, blob, {contentType:'image/jpeg',upsert:true});
-        if (!error) {
-          const {data:{publicUrl}} = db.storage.from('car-photos').getPublicUrl(path);
-          newPhotoUrls.push(publicUrl);
-        }
+      for(let i=0;i<pendingPhotos.length;i++){
+        const{blob,name}=pendingPhotos[i];
+        prog.textContent=`Uploading photo ${i+1} of ${pendingPhotos.length}…`;
+        bar.style.width=`${Math.round((i/pendingPhotos.length)*100)}%`;
+        const path=`cars/${name}`;
+        const{error}=await db.storage.from('car-photos').upload(path,blob,{contentType:'image/jpeg',upsert:true});
+        if(!error){const{data:{publicUrl}}=db.storage.from('car-photos').getPublicUrl(path);newPhotoUrls.push(publicUrl);}
       }
-      bar.style.width='100%';
-      wrap.style.display='none';
+      bar.style.width='100%';wrap.style.display='none';
     }
 
-    const allPhotos = [...existingPhotos, ...newPhotoUrls];
+    // Upload Carfax PDF
+    let carfaxUrl=existingCarfaxUrl;
+    if(pendingCarfax){
+      document.getElementById('uploadProgress').textContent='Uploading Carfax PDF…';
+      const path=`carfax/${pendingCarfax.name}`;
+      const{error}=await db.storage.from('car-photos').upload(path,pendingCarfax.file,{contentType:'application/pdf',upsert:true});
+      if(!error){const{data:{publicUrl}}=db.storage.from('car-photos').getPublicUrl(path);carfaxUrl=publicUrl;}
+    }
 
-    const onSale = document.getElementById('fOnSale').checked;
-    const salePrice = onSale ? +document.getElementById('fSalePrice').value : null;
-
-    const carData = {
-      year, make, model,
-      trim:         document.getElementById('fTrim').value.trim()||null,
-      color:        document.getElementById('fColor').value.trim()||null,
-      vin:          document.getElementById('fVin').value.trim()||null,
-      mileage:      +document.getElementById('fMileage').value||null,
-      engine:       document.getElementById('fEngine').value.trim()||null,
-      description:  document.getElementById('fDesc').value.trim()||null,
-      price,
-      sale_price:   salePrice&&salePrice>0?salePrice:null,
-      body_type:    document.getElementById('fBodyType').value||null,
-      transmission: document.getElementById('fTrans').value||null,
-      drivetrain:   document.getElementById('fDrive').value||null,
-      fuel_type:    document.getElementById('fFuel').value||null,
-      condition:    document.getElementById('fCondition').value,
-      status:       document.getElementById('fStatus').value,
-      featured:     document.getElementById('fFeatured').checked,
-      photos:       allPhotos,
-    };
+    const s=document.getElementById('fOnSale').checked,sp=+document.getElementById('fSalePrice').value;
+    const carData={year,make,model,trim:document.getElementById('fTrim').value.trim()||null,color:document.getElementById('fColor').value.trim()||null,vin:document.getElementById('fVin').value.trim()||null,mileage:+document.getElementById('fMileage').value||null,engine:document.getElementById('fEngine').value.trim()||null,description:document.getElementById('fDesc').value.trim()||null,price,sale_price:s&&sp>0?sp:null,body_type:document.getElementById('fBodyType').value||null,transmission:document.getElementById('fTrans').value||null,drivetrain:document.getElementById('fDrive').value||null,fuel_type:document.getElementById('fFuel').value||null,condition:document.getElementById('fCondition').value,status:document.getElementById('fStatus').value,featured:document.getElementById('fFeatured').checked,photos:[...existingPhotos,...newPhotoUrls],carfax_url:carfaxUrl||null};
 
     let error;
-    if (editingCarId) {
-      ({error} = await db.from('cars').update(carData).eq('id',editingCarId));
-    } else {
-      ({error} = await db.from('cars').insert(carData));
-    }
-
-    if (error) throw error;
-    showToast(editingCarId ? '✓ Vehicle updated!' : '✓ Vehicle added!', 'ok');
-    closeForm();
-    await loadInventory();
-  } catch (err) {
-    showToast('Error: ' + (err.message||'Something went wrong'), 'err');
-  } finally {
-    btn.disabled=false; btn.textContent='Save Vehicle';
-  }
+    if(editingCarId){({error}=await db.from('cars').update(carData).eq('id',editingCarId));}
+    else{({error}=await db.from('cars').insert(carData));}
+    if(error)throw error;
+    showToast(editingCarId?'✓ Vehicle updated!':'✓ Vehicle added!','ok');
+    closeForm();await loadInventory();
+  }catch(err){showToast('Error: '+(err.message||'Something went wrong'),'err');}
+  finally{btn.disabled=false;btn.textContent='Save Vehicle';document.getElementById('uploadProgress').textContent='';}
 }
 
-// ═══════════════════════════════════════════
-//  DELETE
-// ═══════════════════════════════════════════
-let deleteTargetId = null;
+/* DELETE */
+let deleteTargetId=null;
+function confirmDelete(id){const car=allCars.find(c=>c.id===id);deleteTargetId=id;document.getElementById('confirmMsg').textContent=`Delete ${car?.year||''} ${car?.make||''} ${car?.model||''}? This cannot be undone.`;document.getElementById('confirmDelBtn').onclick=doDelete;document.getElementById('confirmOv').classList.add('open');}
+async function doDelete(){if(!deleteTargetId)return;const{error}=await db.from('cars').delete().eq('id',deleteTargetId);closeConfirm();if(error){showToast('Delete failed: '+error.message,'err');return;}showToast('✓ Vehicle deleted','ok');await loadInventory();}
+function closeConfirm(){document.getElementById('confirmOv').classList.remove('open');deleteTargetId=null;}
 
-function confirmDelete(id) {
-  const car = allCars.find(c=>c.id===id);
-  deleteTargetId = id;
-  document.getElementById('confirmMsg').textContent = `Delete ${car?.year||''} ${car?.make||''} ${car?.model||''}? This cannot be undone.`;
-  document.getElementById('confirmDelBtn').onclick = doDelete;
-  document.getElementById('confirmOv').classList.add('open');
-}
-
-async function doDelete() {
-  if (!deleteTargetId) return;
-  const {error} = await db.from('cars').delete().eq('id',deleteTargetId);
-  closeConfirm();
-  if (error) { showToast('Delete failed: '+error.message,'err'); return; }
-  showToast('✓ Vehicle deleted','ok');
-  await loadInventory();
-}
-
-function closeConfirm() {
-  document.getElementById('confirmOv').classList.remove('open');
-  deleteTargetId = null;
-}
-
-// ═══════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════
-function showToast(msg, type='ok') {
-  document.querySelectorAll('.toast').forEach(t=>t.remove());
-  const t = document.createElement('div');
-  t.className = `toast toast-${type}`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  requestAnimationFrame(()=>{ requestAnimationFrame(()=>t.classList.add('show')); });
-  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),350); },3500);
-}
+/* TOAST */
+function showToast(msg,type='ok'){document.querySelectorAll('.toast').forEach(t=>t.remove());const t=document.createElement('div');t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),350);},3500);}
 </script>
 </body>
 </html>
