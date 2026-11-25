@@ -16,4 +16,4 @@ HTML, CSS and JavaScript (no framework) · Supabase · Vercel
 
 ---
 
-Built by **Abdul Rahman Rahimi**, [Rahimi Tech Solution](https://github.com/rahimiabdulrahmanab).
+Built by **Abdul Rahman Rahimi**, [Rahimi Tech Solution](https://github.com/AbdulRahmanRahimi).
